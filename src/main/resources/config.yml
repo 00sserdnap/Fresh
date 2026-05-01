@@ -8,7 +8,7 @@ modules:
   # show-players: Muestra la barra al apuntar a jugadores.
   # show-mobs: Muestra la barra al apuntar a animales/monstruos.
   mobboard:
-    enabled: true
+    enabled: false
     distance: 6.0
     show-players: true
     show-mobs: true
