@@ -43,12 +43,12 @@ public class QuestManager {
     public void reloadConfig() {
         if (questFile == null) questFile = new File(plugin.getDataFolder(), "modules/quests/config.yml");
         if (!questFile.exists()) plugin.saveResource("modules/quests/config.yml", false);
-        
+
         questConfig = YamlConfiguration.loadConfiguration(questFile);
-        
+
         if (dataFile != null) dataConfig = YamlConfiguration.loadConfiguration(dataFile);
         if (userFile != null) userConfig = YamlConfiguration.loadConfiguration(userFile);
-        
+
         plugin.log("&a[Fresh] Configuración y datos de misiones recargados.");
     }
 
@@ -61,7 +61,7 @@ public class QuestManager {
             } catch (IOException e) { e.printStackTrace(); }
         }
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
-        checkDailyReset(); 
+        checkDailyReset();
     }
 
     private void setupUserFile() {
@@ -74,7 +74,7 @@ public class QuestManager {
     }
 
     private void checkDailyReset() {
-        String today = LocalDate.now(ZoneId.of("GMT-4")).toString(); 
+        String today = LocalDate.now(ZoneId.of("GMT-4")).toString();
         String lastReset = dataConfig.getString("last-reset", "");
 
         if (!today.equals(lastReset)) {
@@ -87,7 +87,7 @@ public class QuestManager {
 
     private void rotateDailyQuests(String date) {
         if (questConfig.getConfigurationSection("quest-pool") == null) return;
-        
+
         List<String> pool = new ArrayList<>(questConfig.getConfigurationSection("quest-pool").getKeys(false));
         Collections.shuffle(pool);
         int amountToPick = Math.min(questConfig.getInt("settings.quests-per-day", 10), pool.size());
@@ -101,7 +101,7 @@ public class QuestManager {
         questProgress.clear();
         userConfig.set("players", null);
         saveUserFile();
-        
+
         plugin.log("&a[Fresh] Misiones rotadas y progreso reiniciado (GMT-4).");
     }
 
@@ -131,35 +131,35 @@ public class QuestManager {
 
     public String getActiveQuestKey(int level) {
         if (level > currentActiveQuests.size() || level < 1) return null;
-        return currentActiveQuests.get(level - 1); 
+        return currentActiveQuests.get(level - 1);
     }
 
     public FileConfiguration getConfig() { return questConfig; }
     public int getPlayerDailyLevel(UUID uuid) { return dailyLevel.getOrDefault(uuid, 1); }
     public void setPlayerDailyLevel(UUID uuid, int level) { dailyLevel.put(uuid, level); }
     public int getProgress(UUID uuid) { return questProgress.getOrDefault(uuid, 0); }
-    
-    public int getGlobalCompleted(UUID uuid) { 
-        return globalMilestones.getOrDefault(uuid, 0); 
+
+    public int getGlobalCompleted(UUID uuid) {
+        return globalMilestones.getOrDefault(uuid, 0);
     }
-    
+
     // MÉTODO NUEVO: Obtiene el Top 10 global
     public List<Map.Entry<UUID, Integer>> getTop10GlobalMissions() {
         List<Map.Entry<UUID, Integer>> list = new ArrayList<>(globalMilestones.entrySet());
         list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue())); // Orden descendente
-        
+
         if (list.size() > 10) {
             return list.subList(0, 10);
         }
         return list;
     }
-    
-    public void addProgress(UUID uuid, int amount) { 
+
+    public void addProgress(UUID uuid, int amount) {
         questProgress.put(uuid, getProgress(uuid) + amount);
-        saveUserData(uuid); 
+        saveUserData(uuid);
     }
-    
-    public void resetProgress(UUID uuid) { 
+
+    public void resetProgress(UUID uuid) {
         questProgress.put(uuid, 0);
         saveUserData(uuid);
     }

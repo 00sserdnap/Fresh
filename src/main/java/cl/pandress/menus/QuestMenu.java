@@ -26,10 +26,10 @@ public class QuestMenu {
         int currentLevel = manager.getPlayerDailyLevel(player.getUniqueId());
 
         // Slot 11: Misión Actual (Lado Izquierdo)
-        inv.setItem(11, getQuestItem(currentLevel, player, manager));
+        inv.setItem(12, getQuestItem(currentLevel, player, manager));
 
         // Slot 15: Top / Global (Lado Derecho)
-        inv.setItem(15, getStatsItem(player, manager));
+        inv.setItem(14, getStatsItem(player, manager));
 
         // Rellenar el resto con paneles de cristal gris (la cama fue removida)
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);

@@ -2,44 +2,52 @@ package cl.pandress.menus;
 
 import cl.pandress.Fresh;
 import cl.pandress.modules.quests.QuestManager;
-import cl.pandress.utils.ChatUtils;
-import org.bukkit.Sound;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class QuestMenuListener implements Listener {
 
+    private final Fresh plugin = Fresh.getInstance();
+
     @EventHandler
-    public void onClick(InventoryClickEvent event) {
-        if (event.getView().getTitle().equals(ChatUtils.colorize("&8Misiones Diarias"))) {
-            event.setCancelled(true);
+    public void onInventoryClick(InventoryClickEvent event) {
+        // 1. Validar que el inventario sea el de misiones según el título de la imagen[cite: 1]
+        if (event.getView().getTitle() == null || !event.getView().getTitle().contains("Misiones Diarias")) {
+            return;
+        }
 
-            if (event.getCurrentItem() == null) return;
-            if (!(event.getWhoClicked() instanceof Player player)) return;
+        // Cancelar para que no puedan sacar el ítem del menú
+        event.setCancelled(true);
 
-            // Detectar clic SOLAMENTE en el slot de la misión (Slot 11)
-            if (event.getRawSlot() == 11) {
-                QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
-                int currentLevel = manager.getPlayerDailyLevel(player.getUniqueId());
-                if (currentLevel > 10) return;
+        if (!(event.getWhoClicked() instanceof Player player)) return;
+        
+        ItemStack clickedItem = event.getCurrentItem();
+        if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
 
-                String questKey = manager.getActiveQuestKey(currentLevel);
-                if (questKey == null) return;
+        QuestManager manager = plugin.getManagerHandler().getQuestManager();
+        int level = manager.getPlayerDailyLevel(player.getUniqueId());
+        
+        // 2. Si el nivel es > 10, ya terminó todo
+        if (level > 10) return;
 
-                int progress = manager.getProgress(player.getUniqueId());
-                int required = manager.getConfig().getInt("quest-pool." + questKey + ".action-amount");
+        String questKey = manager.getActiveQuestKey(level);
+        if (questKey == null) return;
 
-                if (progress >= required) {
-                    manager.completeQuest(player, currentLevel);
-                    QuestMenu.open(player); 
-                } else {
-                    player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
-                    player.sendMessage(ChatUtils.colorize("&c&lERROR &8» &7Aún no completas el objetivo."));
-                    player.closeInventory();
-                }
-            }
+        // 3. Verificar progreso
+        int currentProgress = manager.getProgress(player.getUniqueId());
+        int requiredAmount = manager.getConfig().getInt("quest-pool." + questKey + ".action-amount");
+
+        // 4. Lógica de reclamo al hacer clic en el ítem (Ender Pearl en la imagen)[cite: 1]
+        if (currentProgress >= requiredAmount) {
+            // Llamamos al método que ya tienes en QuestManager que entrega recompensas
+            manager.completeQuest(player, level);
+            player.closeInventory(); 
+        } else {
+            player.sendMessage("§c¡Aún no has completado el objetivo!");
         }
     }
 }
