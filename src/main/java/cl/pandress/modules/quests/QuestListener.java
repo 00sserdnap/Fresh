@@ -9,14 +9,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent; // NUEVO IMPORT
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.metadata.FixedMetadataValue; // NUEVO IMPORT
 
 public class QuestListener implements Listener {
 
     private final Fresh plugin = Fresh.getInstance();
+    
+    // Identificador único para los bloques puestos por jugadores
+    private final String PLACED_BLOCK_META = "quest_placed_block";
 
     /**
      * Verifica si el jugador ha alcanzado el objetivo de la misión actual
@@ -29,22 +34,26 @@ public class QuestListener implements Listener {
         int required = manager.getConfig().getInt("quest-pool." + questKey + ".action-amount");
         int current = manager.getProgress(player.getUniqueId());
 
-        // Si el progreso alcanzó el requisito justo con esta acción
         if (current >= required && (current - added) < required) {
-            // Notificación visual en pantalla (Title)
             player.sendTitle(ChatUtils.colorize("&e&lOBJETIVO COMPLETADO"), 
                            ChatUtils.colorize("&fUsa &b/misiones &fpara reclamar"), 10, 40, 10);
-            
-            // Sonido de aviso mientras juega
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.5f);
-            
-            // Mensaje informativo en el chat
             player.sendMessage(ChatUtils.colorize("&b&lMISIONES &8» &fHas terminado el objetivo. ¡Reclama tu premio en el menú!"));
         }
     }
 
+    // NUEVO EVENTO: Registramos cuando un jugador pone un bloque
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        // Le añadimos la metadata al bloque para saber que no es natural
+        event.getBlock().setMetadata(PLACED_BLOCK_META, new FixedMetadataValue(plugin, true));
+    }
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        // SOLUCIÓN: Si el bloque tiene la metadata de haber sido puesto por un jugador, no cuenta
+        if (event.getBlock().hasMetadata(PLACED_BLOCK_META)) return;
+
         Player player = event.getPlayer();
         QuestManager manager = plugin.getManagerHandler().getQuestManager();
         if (manager == null) return;
@@ -57,7 +66,8 @@ public class QuestListener implements Listener {
 
         String path = "quest-pool." + questKey;
         if ("MINE".equalsIgnoreCase(manager.getConfig().getString(path + ".action-type"))) {
-            if (event.getBlock().getType().name().equalsIgnoreCase(manager.getConfig().getString(path + ".action-target"))) {
+            String target = manager.getConfig().getString(path + ".action-target").toUpperCase();
+            if (event.getBlock().getType().name().endsWith(target)) {
                 manager.addProgress(player.getUniqueId(), 1);
                 checkAndNotify(player, manager, level, 1);
             }
@@ -80,12 +90,14 @@ public class QuestListener implements Listener {
 
         String path = "quest-pool." + questKey;
         if ("MINE".equalsIgnoreCase(manager.getConfig().getString(path + ".action-type"))) {
-            String target = manager.getConfig().getString(path + ".action-target");
+            String target = manager.getConfig().getString(path + ".action-target").toUpperCase();
             int validCount = 0;
 
-            // Escaneamos los bloques extra proporcionados por la API de aCore
             for (Block block : event.getExtraBlocks()) {
-                if (block.getType().name().equalsIgnoreCase(target)) {
+                // SOLUCIÓN: Verificamos la metadata en cada bloque del área 3x3
+                if (block.hasMetadata(PLACED_BLOCK_META)) continue;
+
+                if (block.getType().name().endsWith(target)) {
                     validCount++;
                 }
             }
@@ -169,7 +181,6 @@ public class QuestListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         QuestManager manager = plugin.getManagerHandler().getQuestManager();
         if (manager != null) {
-            // Aseguramos que los datos se guarden físicamente al salir el jugador
             manager.saveUserData(event.getPlayer().getUniqueId());
         }
     }

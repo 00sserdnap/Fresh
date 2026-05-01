@@ -3,7 +3,6 @@ package cl.pandress.menus;
 import cl.pandress.Fresh;
 import cl.pandress.modules.quests.QuestManager;
 import cl.pandress.utils.ChatUtils;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,13 +19,8 @@ public class QuestMenuListener implements Listener {
             if (event.getCurrentItem() == null) return;
             if (!(event.getWhoClicked() instanceof Player player)) return;
 
-            if (event.getCurrentItem().getType() == Material.RED_BED) {
-                player.playSound(player.getLocation(), Sound.BLOCK_CHEST_CLOSE, 0.8f, 1.2f);
-                player.closeInventory();
-                return;
-            }
-
-            if (event.getRawSlot() == 1) {
+            // Detectar clic SOLAMENTE en el slot de la misión (Slot 11)
+            if (event.getRawSlot() == 11) {
                 QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
                 int currentLevel = manager.getPlayerDailyLevel(player.getUniqueId());
                 if (currentLevel > 10) return;
@@ -38,7 +32,6 @@ public class QuestMenuListener implements Listener {
                 int required = manager.getConfig().getInt("quest-pool." + questKey + ".action-amount");
 
                 if (progress >= required) {
-                    // Reclamar (Sonido Level up está dentro de completeQuest)
                     manager.completeQuest(player, currentLevel);
                     QuestMenu.open(player); 
                 } else {

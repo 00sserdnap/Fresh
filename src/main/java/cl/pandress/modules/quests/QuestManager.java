@@ -37,13 +37,9 @@ public class QuestManager {
         reloadConfig();
         setupDataFile();
         setupUserFile();
-        // Comprobación de rotación cada 5 minutos
         Bukkit.getScheduler().runTaskTimer(plugin, this::checkDailyReset, 20L * 60 * 5, 20L * 60 * 5);
     }
 
-    /**
-     * Recarga los archivos de configuración y datos del módulo
-     */
     public void reloadConfig() {
         if (questFile == null) questFile = new File(plugin.getDataFolder(), "modules/quests/config.yml");
         if (!questFile.exists()) plugin.saveResource("modules/quests/config.yml", false);
@@ -77,9 +73,6 @@ public class QuestManager {
         loadAllUserData();
     }
 
-    /**
-     * Verifica si el día ha cambiado en GMT-4 para rotar misiones
-     */
     private void checkDailyReset() {
         String today = LocalDate.now(ZoneId.of("GMT-4")).toString(); 
         String lastReset = dataConfig.getString("last-reset", "");
@@ -104,7 +97,6 @@ public class QuestManager {
         dataConfig.set("active-quests", currentActiveQuests);
         try { dataConfig.save(dataFile); } catch (IOException e) { e.printStackTrace(); }
 
-        // Limpieza de progreso al rotar el día
         dailyLevel.clear();
         questProgress.clear();
         userConfig.set("players", null);
@@ -113,9 +105,6 @@ public class QuestManager {
         plugin.log("&a[Fresh] Misiones rotadas y progreso reiniciado (GMT-4).");
     }
 
-    /**
-     * Guarda el progreso individual de un jugador en userdata.yml
-     */
     public void saveUserData(UUID uuid) {
         String path = "players." + uuid.toString();
         userConfig.set(path + ".level", getPlayerDailyLevel(uuid));
@@ -150,6 +139,21 @@ public class QuestManager {
     public void setPlayerDailyLevel(UUID uuid, int level) { dailyLevel.put(uuid, level); }
     public int getProgress(UUID uuid) { return questProgress.getOrDefault(uuid, 0); }
     
+    public int getGlobalCompleted(UUID uuid) { 
+        return globalMilestones.getOrDefault(uuid, 0); 
+    }
+    
+    // MÉTODO NUEVO: Obtiene el Top 10 global
+    public List<Map.Entry<UUID, Integer>> getTop10GlobalMissions() {
+        List<Map.Entry<UUID, Integer>> list = new ArrayList<>(globalMilestones.entrySet());
+        list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue())); // Orden descendente
+        
+        if (list.size() > 10) {
+            return list.subList(0, 10);
+        }
+        return list;
+    }
+    
     public void addProgress(UUID uuid, int amount) { 
         questProgress.put(uuid, getProgress(uuid) + amount);
         saveUserData(uuid); 
@@ -160,9 +164,6 @@ public class QuestManager {
         saveUserData(uuid);
     }
 
-    /**
-     * Finaliza la misión, entrega premios y reproduce sonidos de éxito
-     */
     public void completeQuest(Player player, int level) {
         String questKey = getActiveQuestKey(level);
         if (questKey == null) return;
@@ -172,9 +173,10 @@ public class QuestManager {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", player.getName()));
         }
 
-        // Sonido de reclamo exitoso
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
         player.sendMessage(ChatUtils.colorize("&b&lMISIONES &8» &a¡Has reclamado tus recompensas!"));
+
+        globalMilestones.put(player.getUniqueId(), getGlobalCompleted(player.getUniqueId()) + 1);
 
         int nextLevel = level + 1;
         setPlayerDailyLevel(player.getUniqueId(), nextLevel);

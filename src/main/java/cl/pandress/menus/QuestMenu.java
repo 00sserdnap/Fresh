@@ -8,42 +8,80 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class QuestMenu {
 
     public static void open(Player player) {
-        Inventory inv = Bukkit.createInventory(null, InventoryType.HOPPER, ChatUtils.colorize("&8Misiones Diarias"));
+        // Inventario de 3 filas (27 slots)
+        Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.colorize("&8Misiones Diarias"));
         QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
         int currentLevel = manager.getPlayerDailyLevel(player.getUniqueId());
 
-        inv.setItem(1, getQuestItem(currentLevel, player, manager));
+        // Slot 11: Misión Actual (Lado Izquierdo)
+        inv.setItem(11, getQuestItem(currentLevel, player, manager));
 
+        // Slot 15: Top / Global (Lado Derecho)
+        inv.setItem(15, getStatsItem(player, manager));
+
+        // Rellenar el resto con paneles de cristal gris (la cama fue removida)
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta glassMeta = glass.getItemMeta();
         if (glassMeta != null) {
             glassMeta.setDisplayName(" ");
             glass.setItemMeta(glassMeta);
         }
-        inv.setItem(3, glass);
-
-        ItemStack bed = new ItemStack(Material.RED_BED);
-        ItemMeta bedMeta = bed.getItemMeta();
-        if (bedMeta != null) {
-            bedMeta.setDisplayName(ChatUtils.colorize("&c&lSalir"));
-            bed.setItemMeta(bedMeta);
+        for (int i = 0; i < inv.getSize(); i++) {
+            if (inv.getItem(i) == null) {
+                inv.setItem(i, glass);
+            }
         }
-        inv.setItem(4, bed);
 
-        // --- EFECTO DE SONIDO AL ABRIR ---
         player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 0.8f, 1.2f);
         player.openInventory(inv);
+    }
+
+    private static ItemStack getStatsItem(Player player, QuestManager manager) {
+        ItemStack item = new ItemStack(Material.BELL);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(ChatUtils.colorize("&e&lTop Misiones & Estadísticas"));
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatUtils.colorize("&7Total global de misiones completadas."));
+            lore.add("");
+            lore.add(ChatUtils.colorize("&6&lTOP 10 GLOBAL:"));
+            
+            // Obtener el Top 10 y agregarlo al Lore
+            List<Map.Entry<UUID, Integer>> top10 = manager.getTop10GlobalMissions();
+            if (top10.isEmpty()) {
+                lore.add(ChatUtils.colorize("&cNo hay misiones completadas aún."));
+            } else {
+                int rank = 1;
+                for (Map.Entry<UUID, Integer> entry : top10) {
+                    String playerName = Bukkit.getOfflinePlayer(entry.getKey()).getName();
+                    if (playerName == null) playerName = "Desconocido"; // Por si el jugador no existe
+                    
+                    lore.add(ChatUtils.colorize("&e" + rank + ". &f" + playerName + " &8- &a" + entry.getValue()));
+                    rank++;
+                }
+            }
+            
+            lore.add("");
+            lore.add(ChatUtils.colorize("&e&lTUS ESTADÍSTICAS:"));
+            int totalCompleted = manager.getGlobalCompleted(player.getUniqueId());
+            lore.add(ChatUtils.colorize("&fCompletadas: &a" + totalCompleted));
+            
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+        }
+        return item;
     }
 
     private static ItemStack getQuestItem(int level, Player player, QuestManager manager) {
