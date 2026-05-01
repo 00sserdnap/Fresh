@@ -1,0 +1,25 @@
+name: Fresh
+version: 1.0
+main: cl.pandress.Fresh
+api-version: '1.21'
+softdepend: [aCore, PlaceholderAPI, Vault]
+
+commands:
+  fresh:
+    description: Comando administrativo de Fresh
+    permission: fresh.admin
+    usage: /fresh reload <module>
+  misiones:
+    description: Abre el menú de misiones diarias
+    aliases: [ quests, m, racha ]
+  rankup:
+    description: Abre el menú de RankUp
+    aliases: [rango, ranks, rankup]
+    permission: fresh.admin
+permissions:
+  fresh.admin:
+    description: Permite recargar los módulos del plugin
+    default: op
+  fresh.player:
+    description: Permisos básicos para jugadores.
+    default: true

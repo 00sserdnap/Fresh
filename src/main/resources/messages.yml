@@ -1,0 +1,11 @@
+# +-----------------------------------------------------------------------+
+# |                         FRESH CORE MESSAGES                           |
+# |                      Developed by: pandress                           |
+# +-----------------------------------------------------------------------+
+
+general:
+  prefix: "&b&lFresh &8» &f"
+  no-permission: "&cNo tienes permisos para ejecutar esta acción."
+  reload: "&aConfiguración y mensajes recargados correctamente."
+
+modules:
