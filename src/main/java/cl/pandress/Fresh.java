@@ -1,6 +1,7 @@
 package cl.pandress;
 
 import cl.pandress.command.admin.FreshCommand;
+import cl.pandress.command.admin.QuestAdminCommand; // <-- NUEVO IMPORT
 import cl.pandress.command.player.QuestCommand;
 import cl.pandress.command.player.RankupCommand;
 import cl.pandress.menus.QuestMenuListener;
@@ -37,6 +38,13 @@ public class Fresh extends JavaPlugin {
         // Comandos de jugadores
         getCommand("rankup").setExecutor(new RankupCommand());
         getCommand("quests").setExecutor(new QuestCommand());
+
+        // <-- NUEVO: Registro del comando para testear las misiones -->
+        if (getCommand("misionesadmin") != null) {
+            getCommand("misionesadmin").setExecutor(new QuestAdminCommand());
+        } else {
+            log("&cADVERTENCIA: Comando /misionesadmin no encontrado en plugin.yml");
+        }
 
         // 3. Registro de Eventos (Listeners)
         registerEvents();

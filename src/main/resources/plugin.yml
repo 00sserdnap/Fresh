@@ -5,6 +5,10 @@ api-version: '1.21'
 softdepend: [aCore, PlaceholderAPI, Vault]
 
 commands:
+  misionesadmin:
+    description: Comando administrativo para testear el sistema de misiones.
+    permission: fresh.admin
+    permission-message: §cNo tienes permiso para usar este comando.
   fresh:
     description: Comando administrativo de Fresh
     permission: fresh.admin

@@ -34,11 +34,21 @@ public class QuestMenuListener implements Listener {
         int slot = event.getSlot();
         QuestManager manager = plugin.getManagerHandler().getQuestManager();
 
-        // 1. Clic en la Misión (Slot 12)
+        // 1. Clic en la Misión o en el Bonus (Slot 12)
         if (slot == 12) {
             int level = manager.getPlayerDailyLevel(player.getUniqueId());
-            if (level > 10) return;
+            
+            // Si ya terminó el bonus (Nivel 12), no hacer nada
+            if (level >= 12) return;
 
+            // Lógica si el clic es para reclamar el BONUS (Nivel 11)
+            if (level == 11) {
+                manager.claimDailyBonus(player);
+                player.closeInventory();
+                return;
+            }
+
+            // Lógica si el clic es en una misión normal (Nivel 1 a 10)
             String questKey = manager.getActiveQuestKey(level);
             if (questKey == null) return;
 
@@ -59,7 +69,6 @@ public class QuestMenuListener implements Listener {
                 List<String> lore = meta.getLore();
                 int currentPage = 1;
                 
-                // Buscar la página actual en el lore oculto que pusimos en QuestMenu
                 for (String line : lore) {
                     String uncolored = ChatColor.stripColor(line);
                     if (uncolored.startsWith("PAGE:")) {
@@ -72,16 +81,13 @@ public class QuestMenuListener implements Listener {
 
                 int newPage = currentPage;
                 
-                // Clic Izquierdo -> Avanzar
                 if (event.isLeftClick()) {
                     newPage++;
                 } 
-                // Clic Derecho -> Retroceder
                 else if (event.isRightClick()) {
                     newPage--;
                 }
 
-                // Solo actualizar si la página cambió
                 if (newPage != currentPage) {
                     player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.8f, 1f);
                     QuestMenu.open(player, newPage);

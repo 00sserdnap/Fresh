@@ -9,12 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent; // NUEVO IMPORT
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.metadata.FixedMetadataValue; // NUEVO IMPORT
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class QuestListener implements Listener {
 
@@ -42,16 +43,29 @@ public class QuestListener implements Listener {
         }
     }
 
-    // NUEVO EVENTO: Registramos cuando un jugador pone un bloque
+    // NUEVO EVENTO: Verifica si el jugador aún tiene Fly temporal al conectarse
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        QuestManager manager = plugin.getManagerHandler().getQuestManager();
+        if (manager != null) {
+            long expiry = manager.getFlyExpiry(player.getUniqueId());
+            // Si el tiempo guardado es mayor al tiempo actual, aún tiene Fly
+            if (expiry > System.currentTimeMillis()) {
+                player.setAllowFlight(true);
+                player.sendMessage(ChatUtils.colorize("&aTu Fly temporal de las misiones sigue activo."));
+            }
+        }
+    }
+
+    // Registramos cuando un jugador pone un bloque para que no haga trampa
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        // Le añadimos la metadata al bloque para saber que no es natural
         event.getBlock().setMetadata(PLACED_BLOCK_META, new FixedMetadataValue(plugin, true));
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        // SOLUCIÓN: Si el bloque tiene la metadata de haber sido puesto por un jugador, no cuenta
         if (event.getBlock().hasMetadata(PLACED_BLOCK_META)) return;
 
         Player player = event.getPlayer();
@@ -94,7 +108,6 @@ public class QuestListener implements Listener {
             int validCount = 0;
 
             for (Block block : event.getExtraBlocks()) {
-                // SOLUCIÓN: Verificamos la metadata en cada bloque del área 3x3
                 if (block.hasMetadata(PLACED_BLOCK_META)) continue;
 
                 if (block.getType().name().endsWith(target)) {

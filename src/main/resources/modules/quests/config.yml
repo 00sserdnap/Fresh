@@ -5,7 +5,19 @@
 
 settings:
   quests-per-day: 10
-
+bonus:
+  default:
+    fly-hours: 2
+    messages:
+      - "&d&lBONUS &8» &a¡Has reclamado tu Fly temporal por 2 horas!"
+    commands: [] # Deja esto vacío si no quieres dar comandos extra a los normales
+  ranked:
+    permission: "quest.rank.rewards"
+    messages:
+      - "&d&lBONUS VIP &8» &a¡Has reclamado tu recompensa exclusiva de rango!"
+    commands:
+      - "eco give %player% 50000"
+      - "give %player% diamond_block 5"
 quest-pool:
   # ==========================================
   # MISIONES DE PICAR (MINE) - 25 Misiones

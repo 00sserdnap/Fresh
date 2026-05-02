@@ -19,7 +19,6 @@ import java.util.UUID;
 
 public class QuestMenu {
 
-    // Método por defecto abre la página 1
     public static void open(Player player) {
         open(player, 1);
     }
@@ -29,13 +28,12 @@ public class QuestMenu {
         QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
         int currentLevel = manager.getPlayerDailyLevel(player.getUniqueId());
 
-        // Slot 12: Misión Actual (Lado Izquierdo)
+        // Slot 12: Misión Actual / Bonus (Lado Izquierdo)
         inv.setItem(12, getQuestItem(currentLevel, player, manager));
 
         // Slot 14: Top / Global (Lado Derecho)
         inv.setItem(14, getStatsItem(player, manager, page));
 
-        // Rellenar el resto con paneles de cristal gris
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta glassMeta = glass.getItemMeta();
         if (glassMeta != null) {
@@ -61,13 +59,11 @@ public class QuestMenu {
             lore.add(ChatUtils.colorize("&7Total global de misiones completadas."));
             lore.add("");
             
-            // Obtener el Top completo y limitar a 30
             List<Map.Entry<UUID, Integer>> allTop = manager.getTopGlobalMissions();
             if (allTop.size() > 30) {
                 allTop = allTop.subList(0, 30);
             }
 
-            // Calcular páginas
             int maxPages = (int) Math.ceil(allTop.size() / 10.0);
             if (maxPages == 0) maxPages = 1;
             if (page > maxPages) page = maxPages;
@@ -98,7 +94,6 @@ public class QuestMenu {
             lore.add(ChatUtils.colorize("&7Click Izquierdo &8» &fAvanzar Pág"));
             lore.add(ChatUtils.colorize("&7Click Derecho &8» &fRetroceder Pág"));
             
-            // Metadata oculta para leer la página en el Listener
             lore.add(ChatUtils.colorize("&0PAGE:" + page));
             
             meta.setLore(lore);
@@ -112,7 +107,27 @@ public class QuestMenu {
         ItemStack item;
         ItemMeta meta;
 
-        if (level > 10) {
+        // ESTADO BONUS: Nivel 11 (Misterioso/Neutro)
+        if (level == 11) {
+            item = new ItemStack(Material.NETHER_STAR);
+            meta = item.getItemMeta();
+            if (meta != null) {
+                meta.setDisplayName(ChatUtils.colorize("&d&l¡Recompensa Bonus!"));
+                List<String> lore = new ArrayList<>();
+                lore.add(ChatUtils.colorize("&7Has completado todas las misiones de hoy."));
+                lore.add("");
+                lore.add(ChatUtils.colorize("&fRecompensa:"));
+                lore.add(ChatUtils.colorize("&d★ &7¡Reclama para saber qué ganaste!"));
+                lore.add("");
+                lore.add(ChatUtils.colorize("&a¡Click para reclamar!"));
+                meta.setLore(lore);
+                item.setItemMeta(meta);
+            }
+            return item;
+        }
+
+        // ESTADO FINALIZADO: Nivel 12+
+        if (level >= 12) {
             item = new ItemStack(Material.EMERALD);
             meta = item.getItemMeta();
             if (meta != null) {
@@ -125,6 +140,7 @@ public class QuestMenu {
             return item;
         }
 
+        // ESTADO NORMAL: Niveles 1 al 10
         String questKey = manager.getActiveQuestKey(level);
         if (questKey == null) return new ItemStack(Material.PAPER);
 
