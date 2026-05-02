@@ -19,19 +19,23 @@ import java.util.UUID;
 
 public class QuestMenu {
 
+    // Método por defecto abre la página 1
     public static void open(Player player) {
-        // Inventario de 3 filas (27 slots)
+        open(player, 1);
+    }
+
+    public static void open(Player player, int page) {
         Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.colorize("&8Misiones Diarias"));
         QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
         int currentLevel = manager.getPlayerDailyLevel(player.getUniqueId());
 
-        // Slot 11: Misión Actual (Lado Izquierdo)
+        // Slot 12: Misión Actual (Lado Izquierdo)
         inv.setItem(12, getQuestItem(currentLevel, player, manager));
 
-        // Slot 15: Top / Global (Lado Derecho)
-        inv.setItem(14, getStatsItem(player, manager));
+        // Slot 14: Top / Global (Lado Derecho)
+        inv.setItem(14, getStatsItem(player, manager, page));
 
-        // Rellenar el resto con paneles de cristal gris (la cama fue removida)
+        // Rellenar el resto con paneles de cristal gris
         ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta glassMeta = glass.getItemMeta();
         if (glassMeta != null) {
@@ -48,7 +52,7 @@ public class QuestMenu {
         player.openInventory(inv);
     }
 
-    private static ItemStack getStatsItem(Player player, QuestManager manager) {
+    private static ItemStack getStatsItem(Player player, QuestManager manager, int page) {
         ItemStack item = new ItemStack(Material.BELL);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
@@ -56,20 +60,33 @@ public class QuestMenu {
             List<String> lore = new ArrayList<>();
             lore.add(ChatUtils.colorize("&7Total global de misiones completadas."));
             lore.add("");
-            lore.add(ChatUtils.colorize("&6&lTOP 10 GLOBAL:"));
             
-            // Obtener el Top 10 y agregarlo al Lore
-            List<Map.Entry<UUID, Integer>> top10 = manager.getTop10GlobalMissions();
-            if (top10.isEmpty()) {
+            // Obtener el Top completo y limitar a 30
+            List<Map.Entry<UUID, Integer>> allTop = manager.getTopGlobalMissions();
+            if (allTop.size() > 30) {
+                allTop = allTop.subList(0, 30);
+            }
+
+            // Calcular páginas
+            int maxPages = (int) Math.ceil(allTop.size() / 10.0);
+            if (maxPages == 0) maxPages = 1;
+            if (page > maxPages) page = maxPages;
+            if (page < 1) page = 1;
+
+            lore.add(ChatUtils.colorize("&6&lTOP GLOBAL (Pág " + page + "/" + maxPages + "):"));
+            
+            if (allTop.isEmpty()) {
                 lore.add(ChatUtils.colorize("&cNo hay misiones completadas aún."));
             } else {
-                int rank = 1;
-                for (Map.Entry<UUID, Integer> entry : top10) {
+                int startIndex = (page - 1) * 10;
+                int endIndex = Math.min(startIndex + 10, allTop.size());
+                
+                for (int i = startIndex; i < endIndex; i++) {
+                    Map.Entry<UUID, Integer> entry = allTop.get(i);
                     String playerName = Bukkit.getOfflinePlayer(entry.getKey()).getName();
-                    if (playerName == null) playerName = "Desconocido"; // Por si el jugador no existe
+                    if (playerName == null) playerName = "Desconocido"; 
                     
-                    lore.add(ChatUtils.colorize("&e" + rank + ". &f" + playerName + " &8- &a" + entry.getValue()));
-                    rank++;
+                    lore.add(ChatUtils.colorize("&e" + (i + 1) + ". &f" + playerName + " &8- &a" + entry.getValue()));
                 }
             }
             
@@ -77,6 +94,12 @@ public class QuestMenu {
             lore.add(ChatUtils.colorize("&e&lTUS ESTADÍSTICAS:"));
             int totalCompleted = manager.getGlobalCompleted(player.getUniqueId());
             lore.add(ChatUtils.colorize("&fCompletadas: &a" + totalCompleted));
+            lore.add("");
+            lore.add(ChatUtils.colorize("&7Click Izquierdo &8» &fAvanzar Pág"));
+            lore.add(ChatUtils.colorize("&7Click Derecho &8» &fRetroceder Pág"));
+            
+            // Metadata oculta para leer la página en el Listener
+            lore.add(ChatUtils.colorize("&0PAGE:" + page));
             
             meta.setLore(lore);
             item.setItemMeta(meta);

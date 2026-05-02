@@ -2,12 +2,17 @@ package cl.pandress.menus;
 
 import cl.pandress.Fresh;
 import cl.pandress.modules.quests.QuestManager;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 public class QuestMenuListener implements Listener {
 
@@ -15,12 +20,10 @@ public class QuestMenuListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        // 1. Validar que el inventario sea el de misiones según el título de la imagen[cite: 1]
         if (event.getView().getTitle() == null || !event.getView().getTitle().contains("Misiones Diarias")) {
             return;
         }
 
-        // Cancelar para que no puedan sacar el ítem del menú
         event.setCancelled(true);
 
         if (!(event.getWhoClicked() instanceof Player player)) return;
@@ -28,26 +31,62 @@ public class QuestMenuListener implements Listener {
         ItemStack clickedItem = event.getCurrentItem();
         if (clickedItem == null || clickedItem.getType() == Material.AIR) return;
 
+        int slot = event.getSlot();
         QuestManager manager = plugin.getManagerHandler().getQuestManager();
-        int level = manager.getPlayerDailyLevel(player.getUniqueId());
-        
-        // 2. Si el nivel es > 10, ya terminó todo
-        if (level > 10) return;
 
-        String questKey = manager.getActiveQuestKey(level);
-        if (questKey == null) return;
+        // 1. Clic en la Misión (Slot 12)
+        if (slot == 12) {
+            int level = manager.getPlayerDailyLevel(player.getUniqueId());
+            if (level > 10) return;
 
-        // 3. Verificar progreso
-        int currentProgress = manager.getProgress(player.getUniqueId());
-        int requiredAmount = manager.getConfig().getInt("quest-pool." + questKey + ".action-amount");
+            String questKey = manager.getActiveQuestKey(level);
+            if (questKey == null) return;
 
-        // 4. Lógica de reclamo al hacer clic en el ítem (Ender Pearl en la imagen)[cite: 1]
-        if (currentProgress >= requiredAmount) {
-            // Llamamos al método que ya tienes en QuestManager que entrega recompensas
-            manager.completeQuest(player, level);
-            player.closeInventory(); 
-        } else {
-            player.sendMessage("§c¡Aún no has completado el objetivo!");
+            int currentProgress = manager.getProgress(player.getUniqueId());
+            int requiredAmount = manager.getConfig().getInt("quest-pool." + questKey + ".action-amount");
+
+            if (currentProgress >= requiredAmount) {
+                manager.completeQuest(player, level);
+                player.closeInventory(); 
+            } else {
+                player.sendMessage("§c¡Aún no has completado el objetivo!");
+            }
+        }
+        // 2. Clic en el Top (Slot 14 - La Campana)
+        else if (slot == 14 && clickedItem.getType() == Material.BELL) {
+            ItemMeta meta = clickedItem.getItemMeta();
+            if (meta != null && meta.hasLore()) {
+                List<String> lore = meta.getLore();
+                int currentPage = 1;
+                
+                // Buscar la página actual en el lore oculto que pusimos en QuestMenu
+                for (String line : lore) {
+                    String uncolored = ChatColor.stripColor(line);
+                    if (uncolored.startsWith("PAGE:")) {
+                        try {
+                            currentPage = Integer.parseInt(uncolored.replace("PAGE:", ""));
+                        } catch (NumberFormatException ignored) {}
+                        break;
+                    }
+                }
+
+                int newPage = currentPage;
+                
+                // Clic Izquierdo -> Avanzar
+                if (event.isLeftClick()) {
+                    newPage++;
+                } 
+                // Clic Derecho -> Retroceder
+                else if (event.isRightClick()) {
+                    newPage--;
+                }
+
+                // Solo actualizar si la página cambió
+                if (newPage != currentPage) {
+                    player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.8f, 1f);
+                    QuestMenu.open(player, newPage);
+                }
+            }
         }
     }
 }

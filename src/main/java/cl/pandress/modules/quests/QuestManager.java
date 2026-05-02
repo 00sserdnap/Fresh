@@ -143,14 +143,10 @@ public class QuestManager {
         return globalMilestones.getOrDefault(uuid, 0);
     }
 
-    // MÉTODO NUEVO: Obtiene el Top 10 global
-    public List<Map.Entry<UUID, Integer>> getTop10GlobalMissions() {
+    // MODIFICADO: Ahora obtiene todo el top global para poder paginar
+    public List<Map.Entry<UUID, Integer>> getTopGlobalMissions() {
         List<Map.Entry<UUID, Integer>> list = new ArrayList<>(globalMilestones.entrySet());
         list.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue())); // Orden descendente
-
-        if (list.size() > 10) {
-            return list.subList(0, 10);
-        }
         return list;
     }
 
