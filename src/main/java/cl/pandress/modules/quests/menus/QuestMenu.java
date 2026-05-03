@@ -1,4 +1,4 @@
-package cl.pandress.menus;
+package cl.pandress.modules.quests.menus;
 
 import cl.pandress.Fresh;
 import cl.pandress.modules.quests.QuestManager;

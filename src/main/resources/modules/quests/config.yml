@@ -5,12 +5,15 @@
 
 settings:
   quests-per-day: 10
+webhook:
+  enabled: true
+  url: "https://discord.com/api/webhooks/1500256049557536828/12wuViM53GuHbgx06YiTeCLp-pLe3eKyhQlyCX5mQmD51A1E7LNVzmd0RrMXSIdAi2us"
 bonus:
   default:
-    fly-hours: 2
     messages:
       - "&d&lBONUS &8» &a¡Has reclamado tu Fly temporal por 2 horas!"
-    commands: [] # Deja esto vacío si no quieres dar comandos extra a los normales
+    commands:
+      - "tempfly %player% 2h"
   ranked:
     permission: "quest.rank.rewards"
     messages:

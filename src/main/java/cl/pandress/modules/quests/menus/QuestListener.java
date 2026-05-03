@@ -1,6 +1,7 @@
-package cl.pandress.modules.quests;
+package cl.pandress.modules.quests.menus;
 
 import cl.pandress.Fresh;
+import cl.pandress.modules.quests.QuestManager;
 import cl.pandress.utils.ChatUtils;
 import net.almamc.acore.api.BlockBreak3x3Event; 
 import org.bukkit.Material;
@@ -41,6 +42,12 @@ public class QuestListener implements Listener {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1.5f);
             player.sendMessage(ChatUtils.colorize("&b&lMISIONES &8» &fHas terminado el objetivo. ¡Reclama tu premio en el menú!"));
         }
+    }
+
+    // Método auxiliar para identificar cultivos sembrables
+    private boolean isFarmingCrop(Material mat) {
+        String name = mat.name();
+        return name.equals("WHEAT") || name.equals("POTATOES") || name.equals("CARROTS") || name.equals("BEETROOTS") || name.equals("NETHER_WART");
     }
 
     @EventHandler
@@ -94,20 +101,17 @@ public class QuestListener implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         boolean isPlaced = block.hasMetadata(PLACED_BLOCK_META);
-        
-        // Manejo súper estricto para cultivos como Trigo, Papas, Zanahorias, etc.
-        if (block.getBlockData() instanceof Ageable ageable) {
-            // Si el cultivo NO está maduro, NUNCA cuenta (evita que planten y rompan)
-            if (ageable.getAge() != ageable.getMaximumAge()) {
-                return;
-            }
-            // Si ESTÁ maduro (100% crecido por tiempo natural o polvo de hueso), perdonamos la restricción
-            // ya que el jugador está haciendo la cosecha de forma legítima.
-            isPlaced = false; 
-        }
+        boolean isCrop = isFarmingCrop(block.getType());
 
-        // Si después de todo, el bloque sigue marcado como puesto a mano (ej: piedra, madera), lo bloqueamos.
-        if (isPlaced) return;
+        // Si fue puesto por el jugador y NO es un cultivo, cancelamos para evitar el dupe de minería.
+        if (isPlaced && !isCrop) return;
+
+        // Si es un cultivo, obligamos a que esté en su etapa final de crecimiento.
+        if (isCrop && block.getBlockData() instanceof Ageable ageable) {
+            if (ageable.getAge() != ageable.getMaximumAge()) {
+                return; // Si no está maduro al 100%, no cuenta (evita el dupe de plantar y romper inmediatamente).
+            }
+        }
 
         Player player = event.getPlayer();
         QuestManager manager = plugin.getManagerHandler().getQuestManager();
@@ -150,16 +154,15 @@ public class QuestListener implements Listener {
 
             for (Block block : event.getExtraBlocks()) {
                 boolean isPlaced = block.hasMetadata(PLACED_BLOCK_META);
-                
-                // Misma lógica de edad para las herramientas 3x3
-                if (block.getBlockData() instanceof Ageable ageable) {
+                boolean isCrop = isFarmingCrop(block.getType());
+
+                if (isPlaced && !isCrop) continue;
+
+                if (isCrop && block.getBlockData() instanceof Ageable ageable) {
                     if (ageable.getAge() != ageable.getMaximumAge()) {
                         continue; 
                     }
-                    isPlaced = false; 
                 }
-
-                if (isPlaced) continue;
 
                 if (block.getType().name().endsWith(target)) {
                     validCount++;

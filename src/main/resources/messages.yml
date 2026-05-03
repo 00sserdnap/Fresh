@@ -4,8 +4,7 @@
 # +-----------------------------------------------------------------------+
 
 general:
-  prefix: "&b&lFresh &8» &f"
+  prefix: "&7[&c&lⓘ&8] "
   no-permission: "&cNo tienes permisos para ejecutar esta acción."
   reload: "&aConfiguración y mensajes recargados correctamente."
-
 modules:

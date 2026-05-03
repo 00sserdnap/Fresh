@@ -1,0 +1,22 @@
+title: "&8Categorías de Misiones"
+size: 36
+items:
+  facil:
+    slot: 11
+    material: "LIME_DYE"
+    name: "&a&lFácil"
+    lore: ["&7Misiones de completado rápido."]
+  medio:
+    slot: 13
+    material: "ORANGE_DYE"
+    name: "&6&lMedio"
+    lore: ["&7Retos intermedios."]
+  dificil:
+    slot: 15
+    material: "RED_DYE"
+    name: "&c&lDifícil"
+    lore: ["&7Para jugadores experimentados."]
+  volver:
+    slot: 31
+    material: "IRON_DOOR"
+    name: "&cVolver al Menú"

@@ -1,6 +1,7 @@
-package cl.pandress.modules.rankup;
+package cl.pandress.modules.rankup.placeholderapi;
 
 import cl.pandress.Fresh;
+import cl.pandress.modules.rankup.RankManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

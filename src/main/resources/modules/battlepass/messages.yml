@@ -1,0 +1,18 @@
+prefix: "&d&lBATTLEPASS &8» "
+only-players: "&cSolo los jugadores pueden abrir el Pase de Batalla."
+no-premium: "&cNo tienes el Pase Premium. ¡Adquiérelo en la tienda!"
+level-up: "%prefix%&a¡Has subido al nivel &e%level%&a!"
+reward-claimed: "%prefix%&a¡Has reclamado tu recompensa del nivel %level%!"
+
+# --- NUEVO: Títulos en Pantalla ---
+titles:
+  mission-completed:
+    title: "&d&l¡MISIÓN COMPLETADA!"
+    subtitle: "&fHas ganado &d%xp% XP"
+
+# Sonidos (Usa nombres oficiales de Spigot)
+sounds:
+  click: "UI_BUTTON_CLICK"
+  turn-page: "ITEM_BOOK_PAGE_TURN"
+  level-up: "ENTITY_PLAYER_LEVELUP"
+  mission-complete: "UI_TOAST_CHALLENGE_COMPLETE" # Sonido épico de completado

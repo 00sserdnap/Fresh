@@ -1,6 +1,6 @@
 package cl.pandress.command.player;
 
-import cl.pandress.menus.QuestMenu;
+import cl.pandress.modules.quests.menus.QuestMenu;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -17,32 +17,39 @@ public class FreshCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        
-        // Comandos Administrativos base (/fresh ...)
+
+        // Comandos Administrativos base (/fresh ...)[cite: 7]
         if (label.equalsIgnoreCase("fresh")) {
             if (!sender.hasPermission("fresh.admin")) {
-                sender.sendMessage(ChatUtils.colorize("&cNo tienes permiso para usar comandos de administración."));
+                sender.sendMessage(ChatUtils.colorize("&&cⓘ No tienes permiso para usar comandos de administración."));
                 return true;
             }
 
             if (args.length >= 2 && args[0].equalsIgnoreCase("reload")) {
-                
-                // Recargar misiones
+
+                // Recargar misiones[cite: 7]
                 if (args[1].equalsIgnoreCase("quests")) {
                     plugin.getManagerHandler().getQuestManager().reloadConfig();
-                    sender.sendMessage(ChatUtils.colorize("&b&lFRESH &8» &aMódulo de misiones recargado."));
+                    sender.sendMessage(ChatUtils.colorize("&cⓘ &fConfiguración y mensajes recargados correctamente."));
                     return true;
                 }
-                
-                // Recargar rangos
+
+                // Recargar rangos[cite: 7]
                 if (args[1].equalsIgnoreCase("rankup") || args[1].equalsIgnoreCase("ranks")) {
                     plugin.getManagerHandler().getRankManager().reloadConfig();
-                    sender.sendMessage(ChatUtils.colorize("&b&lFRESH &8» &aConfiguración de rangos recargada correctamente."));
+                    sender.sendMessage(ChatUtils.colorize("&cⓘ &fConfiguración y mensajes recargados correctamente."));
+                    return true;
+                }
+
+                // Recargar pase de batalla
+                if (args[1].equalsIgnoreCase("battlepass") || args[1].equalsIgnoreCase("bp")) {
+                    plugin.getManagerHandler().getBattlePassManager().reloadConfig();
+                    sender.sendMessage(ChatUtils.colorize("&cⓘ &fConfiguración y mensajes recargados correctamente."));
                     return true;
                 }
             }
 
-            sender.sendMessage(ChatUtils.colorize("&eUso correcto: &f/fresh reload <quests|ranks>"));
+            sender.sendMessage(ChatUtils.colorize("&eUso correcto: &f/fresh reload <quests|ranks|battlepass>"));
             return true;
         }
 
@@ -58,6 +65,7 @@ public class FreshCommand implements CommandExecutor, TabCompleter {
             } else if (args.length == 2 && args[0].equalsIgnoreCase("reload")) {
                 completions.add("quests");
                 completions.add("ranks");
+                completions.add("battlepass"); // Se añade el autocompletado
             }
         }
         return completions;

@@ -1,4 +1,4 @@
-package cl.pandress.menus;
+package cl.pandress.modules.rankup.menus;
 
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.event.EventHandler;

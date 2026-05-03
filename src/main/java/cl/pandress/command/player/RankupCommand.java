@@ -1,8 +1,8 @@
 package cl.pandress.command.player;
 
 import cl.pandress.Fresh;
-import cl.pandress.menus.RankMenu;
-import cl.pandress.menus.RankTopMenu;
+import cl.pandress.modules.rankup.menus.RankMenu;
+import cl.pandress.modules.rankup.menus.RankTopMenu;
 import cl.pandress.modules.rankup.RankManager;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.Bukkit;

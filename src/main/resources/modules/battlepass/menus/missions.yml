@@ -1,0 +1,23 @@
+title-prefix: "&8Misiones: "
+size: 54
+
+formats:
+  reward-text: "&fRecompensa: &d%xp% XP"
+  progress-text: "&fProgreso: %status%"
+  status-completed: "&a&lCOMPLETADA"
+  status-progress: "&e%current%&8/&e%required%"
+  page-indicator: "&0PAGE:%page%" # ¡NO BORRAR EL "PAGE:"! Se usa internamente
+
+items:
+  volver:
+    slot: 49
+    material: "IRON_DOOR"
+    name: "&cVolver a Categorías"
+  anterior:
+    slot: 45
+    material: "ARROW"
+    name: "&ePágina Anterior"
+  siguiente:
+    slot: 53
+    material: "ARROW"
+    name: "&eSiguiente Página"

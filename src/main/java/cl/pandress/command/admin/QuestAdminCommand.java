@@ -19,16 +19,25 @@ public class QuestAdminCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("test")) {
+        if (args.length > 0) {
             QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
-            // Nivel 11 es el estado para reclamar el bonus
-            manager.setPlayerDailyLevel(player.getUniqueId(), 11);
-            manager.saveUserData(player.getUniqueId());
-            player.sendMessage(ChatUtils.colorize("&aNivel de misión ajustado a 11. Abre el menú para reclamar el bonus."));
-            return true;
+            
+            if (args[0].equalsIgnoreCase("test")) {
+                manager.setPlayerDailyLevel(player.getUniqueId(), 11);
+                manager.saveUserData(player.getUniqueId());
+                player.sendMessage(ChatUtils.colorize("&aNivel de misión ajustado a 11. Abre el menú para reclamar el bonus."));
+                return true;
+            }
+            
+            // Subcomando: /misionesadmin reset (Para desatascar el día de hoy)
+            if (args[0].equalsIgnoreCase("reset")) {
+                manager.forceDailyReset();
+                player.sendMessage(ChatUtils.colorize("&a¡Has forzado la rotación de las misiones diarias manualmente!"));
+                return true;
+            }
         }
 
-        player.sendMessage(ChatUtils.colorize("&cUso: /misionesadmin test"));
+        player.sendMessage(ChatUtils.colorize("&cUso: /misionesadmin <test|reset>"));
         return true;
     }
 }

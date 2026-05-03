@@ -2,7 +2,6 @@ package cl.pandress.modules.rankup;
 
 import cl.pandress.Fresh;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -43,11 +42,11 @@ public class RankManager {
     public Economy getEconomy() { return econ; }
 
     private void setupConfigs() {
-        rankFile = new File(plugin.getDataFolder(), "modules/ranks/config.yml");
-        if (!rankFile.exists()) plugin.saveResource("modules/ranks/config.yml", false);
+        rankFile = new File(plugin.getDataFolder(), "modules/rankup/config.yml");
+        if (!rankFile.exists()) plugin.saveResource("modules/rankup/config.yml", false);
         rankConfig = YamlConfiguration.loadConfiguration(rankFile);
 
-        dataFile = new File(plugin.getDataFolder(), "modules/ranks/rankdata.yml");
+        dataFile = new File(plugin.getDataFolder(), "modules/rankup/rankdata.yml");
         if (!dataFile.exists()) {
             try { dataFile.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
         }
@@ -56,11 +55,11 @@ public class RankManager {
 
     // --- MÉTODO PARA RECARGAR LA CONFIGURACIÓN ---
     public void reloadConfig() {
-        if (rankFile == null) rankFile = new File(plugin.getDataFolder(), "modules/ranks/config.yml");
-        if (!rankFile.exists()) plugin.saveResource("modules/ranks/config.yml", false);
+        if (rankFile == null) rankFile = new File(plugin.getDataFolder(), "modules/rankup/config.yml");
+        if (!rankFile.exists()) plugin.saveResource("modules/rankup/config.yml", false);
         rankConfig = YamlConfiguration.loadConfiguration(rankFile);
 
-        if (dataFile == null) dataFile = new File(plugin.getDataFolder(), "modules/ranks/rankdata.yml");
+        if (dataFile == null) dataFile = new File(plugin.getDataFolder(), "modules/rankup/rankdata.yml");
         if (!dataFile.exists()) {
             try { dataFile.createNewFile(); } catch (IOException e) { e.printStackTrace(); }
         }

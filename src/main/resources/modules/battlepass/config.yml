@@ -1,0 +1,1294 @@
+# +-----------------------------------------------------------------------+
+# |                     FRESH BATTLE PASS (50 NIVELES)                    |
+# |                      Permiso Premium: fresh.battlepass                |
+# +-----------------------------------------------------------------------+
+
+settings:
+  max-level: 54
+  premium-badge: "&8[&e⭐&8]"
+webhook:
+  enabled: true
+  url: "https://discord.com/api/webhooks/1500292253187575888/SWOM-OAKnLZjB1XIp1aExFGWScDkvqin6DzPXMHXj20RaLNijK8PJxKLwsOX8t1qcgcc"
+# ==========================================
+# RECOMPENSAS POR NIVEL (1 - 50)
+# ==========================================
+levels:
+  1:
+    xp-required: 200
+    free:
+      description: "&f16 Lingotes de Hierro y $500"
+      commands: ["give %player% iron_ingot 16", "eco give %player% 500"]
+    premium:
+      description: "&b5 Diamantes y $2000"
+      commands: ["give %player% diamond 5", "eco give %player% 2000"]
+  2:
+    xp-required: 250
+    premium:
+      description: "&e32 Zanahorias Doradas"
+      commands: ["give %player% golden_carrot 32"]
+  3:
+    xp-required: 300
+    free:
+      description: "&f64 Troncos de Roble"
+      commands: ["give %player% oak_log 64"]
+    premium:
+      description: "&b1 Pico de Diamante"
+      commands: ["give %player% diamond_pickaxe 1"]
+  4:
+    xp-required: 350
+    premium:
+      description: "&b2 Bloques de Diamante"
+      commands: ["give %player% diamond_block 2"]
+  5:
+    xp-required: 400
+    free:
+      description: "&a32 Botellas de Experiencia"
+      commands: ["give %player% experience_bottle 32"]
+    premium:
+      description: "&d1 Manzana de Notch"
+      commands: ["give %player% enchanted_golden_apple 1"]
+  6:
+    xp-required: 450
+    premium:
+      description: "&b1 Espada de Diamante"
+      commands: ["give %player% diamond_sword 1"]
+  7:
+    xp-required: 500
+    free:
+      description: "&c5 Bloques de Redstone"
+      commands: ["give %player% redstone_block 5"]
+    premium:
+      description: "&910 Bloques de Lapislázuli"
+      commands: ["give %player% lapis_block 10"]
+  8:
+    xp-required: 550
+    premium:
+      description: "&e64 Flechas Espectrales"
+      commands: ["give %player% spectral_arrow 64"]
+  9:
+    xp-required: 600
+    free:
+      description: "&f64 Huesos"
+      commands: ["give %player% bone 64"]
+    premium:
+      description: "&616 Varas de Blaze"
+      commands: ["give %player% blaze_rod 16"]
+  10:
+    xp-required: 700
+    free:
+      description: "&f1 Pechera de Hierro y $1500"
+      commands: ["give %player% iron_chestplate 1", "eco give %player% 1500"]
+    premium:
+      description: "&81 Fragmento de Netherite y Fly (1h)"
+      commands: ["give %player% netherite_scrap 1", "tempfly %player% 1h"]
+  11:
+    xp-required: 750
+    free:
+      description: "&e16 Lingotes de Oro"
+      commands: ["give %player% gold_ingot 16"]
+    premium:
+      description: "&a5 Bloques de Esmeralda"
+      commands: ["give %player% emerald_block 5"]
+  12:
+    xp-required: 800
+    premium:
+      description: "&632 Crema de Magma"
+      commands: ["give %player% magma_cream 32"]
+  13:
+    xp-required: 850
+    free:
+      description: "&c32 Filetes Cocinados"
+      commands: ["give %player% cooked_beef 32"]
+    premium:
+      description: "&c64 Filetes y $2000"
+      commands: ["give %player% cooked_beef 64", "eco give %player% 2000"]
+  14:
+    xp-required: 900
+    premium:
+      description: "&b1 Hacha de Diamante"
+      commands: ["give %player% diamond_axe 1"]
+  15:
+    xp-required: 950
+    free:
+      description: "&35 Perlas de Ender"
+      commands: ["give %player% ender_pearl 5"]
+    premium:
+      description: "&a10 Ojos de Ender"
+      commands: ["give %player% ender_eye 10"]
+  16:
+    xp-required: 1000
+    premium:
+      description: "&f64 Bloques de Cuarzo"
+      commands: ["give %player% quartz_block 64"]
+  17:
+    xp-required: 1050
+    free:
+      description: "&f64 Cuerda"
+      commands: ["give %player% string 64"]
+    premium:
+      description: "&f16 Telarañas"
+      commands: ["give %player% cobweb 16"]
+  18:
+    xp-required: 1100
+    premium:
+      description: "&e32 Libros y 10 Librerías"
+      commands: ["give %player% book 32", "give %player% bookshelf 10"]
+  19:
+    xp-required: 1150
+    free:
+      description: "&a64 Botellas de Experiencia"
+      commands: ["give %player% experience_bottle 64"]
+    premium:
+      description: "&a128 Botellas de Experiencia"
+      commands: ["give %player% experience_bottle 128"]
+  20:
+    xp-required: 1250
+    free:
+      description: "&b2 Diamantes y $2500"
+      commands: ["give %player% diamond 2", "eco give %player% 2500"]
+    premium:
+      description: "&81 Lingote de Netherite y Fly (2h)"
+      commands: ["give %player% netherite_ingot 1", "tempfly %player% 2h"]
+  21:
+    xp-required: 1300
+    free:
+      description: "&f1 Pantalones de Hierro"
+      commands: ["give %player% iron_leggings 1"]
+    premium:
+      description: "&b1 Pantalones de Diamante"
+      commands: ["give %player% diamond_leggings 1"]
+  22:
+    xp-required: 1350
+    premium:
+      description: "&532 Bloques de Obsidiana"
+      commands: ["give %player% obsidian 32"]
+  23:
+    xp-required: 1400
+    free:
+      description: "&c10 Manzanas"
+      commands: ["give %player% apple 10"]
+    premium:
+      description: "&e5 Manzanas Doradas"
+      commands: ["give %player% golden_apple 5"]
+  24:
+    xp-required: 1450
+    premium:
+      description: "&f10 Membranas de Phantom"
+      commands: ["give %player% phantom_membrane 10"]
+  25:
+    xp-required: 1500
+    free:
+      description: "&e1 Escudo"
+      commands: ["give %player% shield 1"]
+    premium:
+      description: "&61 Tótem de Inmortalidad"
+      commands: ["give %player% totem_of_undying 1"]
+  26:
+    xp-required: 1550
+    premium:
+      description: "&e5 Esponjas"
+      commands: ["give %player% sponge 5"]
+  27:
+    xp-required: 1600
+    free:
+      description: "&c64 Ladrillos"
+      commands: ["give %player% brick 64"]
+    premium:
+      description: "&c64 Bloques de Ladrillos"
+      commands: ["give %player% bricks 64"]
+  28:
+    xp-required: 1650
+    premium:
+      description: "&e32 Bloques de Piedra Luminosa"
+      commands: ["give %player% glowstone 32"]
+  29:
+    xp-required: 1700
+    free:
+      description: "&f1 Lágrima de Ghast"
+      commands: ["give %player% ghast_tear 1"]
+    premium:
+      description: "&f5 Lágrimas de Ghast"
+      commands: ["give %player% ghast_tear 5"]
+  30:
+    xp-required: 1800
+    free:
+      description: "&b1 Pico de Diamante y $3000"
+      commands: ["give %player% diamond_pickaxe 1", "eco give %player% 3000"]
+    premium:
+      description: "&81 Pico de Netherite y Fly (3h)"
+      commands: ["give %player% netherite_pickaxe 1", "tempfly %player% 3h"]
+  31:
+    xp-required: 1850
+    free:
+      description: "&f1 Botas de Hierro"
+      commands: ["give %player% iron_boots 1"]
+    premium:
+      description: "&b1 Botas de Diamante"
+      commands: ["give %player% diamond_boots 1"]
+  32:
+    xp-required: 1900
+    premium:
+      description: "&316 Perlas de Ender"
+      commands: ["give %player% ender_pearl 16"]
+  33:
+    xp-required: 1950
+    free:
+      description: "&a32 Sandías"
+      commands: ["give %player% melon 32"]
+    premium:
+      description: "&e16 Sandías Relucientes"
+      commands: ["give %player% glistering_melon_slice 16"]
+  34:
+    xp-required: 2000
+    premium:
+      description: "&f128 Papel"
+      commands: ["give %player% paper 128"]
+  35:
+    xp-required: 2050
+    free:
+      description: "&f1 Casco de Hierro"
+      commands: ["give %player% iron_helmet 1"]
+    premium:
+      description: "&b1 Casco de Diamante"
+      commands: ["give %player% diamond_helmet 1"]
+  36:
+    xp-required: 2100
+    premium:
+      description: "&f3 Etiquetas y 2 Riendas"
+      commands: ["give %player% name_tag 3", "give %player% lead 2"]
+  37:
+    xp-required: 2150
+    free:
+      description: "&61 Montura"
+      commands: ["give %player% saddle 1"]
+    premium:
+      description: "&b1 Armadura de Caballo de Diamante"
+      commands: ["give %player% diamond_horse_armor 1"]
+  38:
+    xp-required: 2200
+    premium:
+      description: "&c16 TNT"
+      commands: ["give %player% tnt 16"]
+  39:
+    xp-required: 2250
+    free:
+      description: "&d16 Fragmentos de Amatista"
+      commands: ["give %player% amethyst_shard 16"]
+    premium:
+      description: "&d32 Bloques de Amatista"
+      commands: ["give %player% amethyst_block 32"]
+  40:
+    xp-required: 2400
+    free:
+      description: "&b1 Espada de Diamante y $4000"
+      commands: ["give %player% diamond_sword 1", "eco give %player% 4000"]
+    premium:
+      description: "&81 Espada de Netherite y Fly (4h)"
+      commands: ["give %player% netherite_sword 1", "tempfly %player% 4h"]
+  41:
+    xp-required: 2450
+    free:
+      description: "&664 Lingotes de Cobre"
+      commands: ["give %player% copper_ingot 64"]
+    premium:
+      description: "&632 Bloques de Cobre"
+      commands: ["give %player% copper_block 32"]
+  42:
+    xp-required: 2500
+    premium:
+      description: "&864 Cristal Tintado"
+      commands: ["give %player% tinted_glass 64"]
+  43:
+    xp-required: 2550
+    free:
+      description: "&a1 Caparazón de Tortuga"
+      commands: ["give %player% turtle_helmet 1"]
+    premium:
+      description: "&a5 Escamas de Tortuga"
+      commands: ["give %player% scute 5"]
+  44:
+    xp-required: 2600
+    premium:
+      description: "&610 Bloques de Miel"
+      commands: ["give %player% honey_block 10"]
+  45:
+    xp-required: 2650
+    free:
+      description: "&51 Cofre de Ender"
+      commands: ["give %player% ender_chest 1"]
+    premium:
+      description: "&d1 Shulker Box"
+      commands: ["give %player% shulker_box 1"]
+  46:
+    xp-required: 2700
+    premium:
+      description: "&a256 Botellas de Experiencia"
+      commands: ["give %player% experience_bottle 256"]
+  47:
+    xp-required: 2750
+    free:
+      description: "&e5 Manzanas Doradas"
+      commands: ["give %player% golden_apple 5"]
+    premium:
+      description: "&d2 Manzanas de Notch"
+      commands: ["give %player% enchanted_golden_apple 2"]
+  48:
+    xp-required: 2800
+    premium:
+      description: "&b10 Bloques de Diamante"
+      commands: ["give %player% diamond_block 10"]
+  49:
+    xp-required: 2850
+    free:
+      description: "&81 Fragmento de Netherite"
+      commands: ["give %player% netherite_scrap 1"]
+    premium:
+      description: "&82 Lingotes de Netherite"
+      commands: ["give %player% netherite_ingot 2"]
+  50:
+    xp-required: 2900
+    free:
+      description: "&e10 Bloques de Oro y $5000"
+      commands: ["give %player% gold_block 10", "eco give %player% 5000"]
+    premium:
+      description: "&81 Bloque de Netherite y Fly (6h)"
+      commands: ["give %player% netherite_block 1", "tempfly %player% 6h"]
+  51:
+    xp-required: 2950
+    free:
+      description: "&f32 Bloques de Hierro"
+      commands: ["give %player% iron_block 32"]
+    premium:
+      description: "&b15 Bloques de Diamante"
+      commands: ["give %player% diamond_block 15"]
+  52:
+    xp-required: 3000
+    premium:
+      description: "&88 Escombros Antiguos"
+      commands: ["give %player% ancient_debris 8"]
+  53:
+    xp-required: 3050
+    free:
+      description: "&a128 Botellas de Experiencia"
+      commands: ["give %player% experience_bottle 128"]
+    premium:
+      description: "&a512 Botellas de Experiencia"
+      commands: ["give %player% experience_bottle 512"]
+  54:
+    xp-required: 4000
+    free:
+      description: "&b1 Faro Mágico y $10000"
+      commands: ["give %player% beacon 1", "eco give %player% 10000", "broadcast &e¡%player% ha completado el Pase de Batalla!"]
+    premium:
+      description: "&d1 Elytra, Cohetes y Fly (24h)"
+      commands: ["give %player% elytra 1", "give %player% firework_rocket 64", "tempfly %player% 24h", "eco give %player% 30000", "broadcast &d&l¡%player% ha completado el Pase PREMIUM al máximo!"]
+# ==========================================
+# POOL DE MISIONES ESTATICAS (100 MISIONES)
+# ==========================================
+missions-pool:
+
+  # --- MISIONES FÁCILES (1-34) ---
+  bp_facil_1:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "STONE"
+    action-amount: 250
+    xp-reward: 150
+    material: "STONE"
+    name: "&aMisión: Piedra Básica"
+    lore: "&7Pica 250 bloques de Piedra."
+  bp_facil_2:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "COBBLESTONE"
+    action-amount: 250
+    xp-reward: 150
+    material: "COBBLESTONE"
+    name: "&aMisión: Picapedrero"
+    lore: "&7Pica 250 de Cobblestone."
+  bp_facil_3:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "DIRT"
+    action-amount: 300
+    xp-reward: 120
+    material: "DIRT"
+    name: "&aMisión: Excavador"
+    lore: "&7Excava 300 de Tierra."
+  bp_facil_4:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "OAK_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "OAK_LOG"
+    name: "&aMisión: Leñador Clásico"
+    lore: "&7Tala 100 troncos de Roble."
+  bp_facil_5:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "BIRCH_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "BIRCH_LOG"
+    name: "&aMisión: Leñador Claro"
+    lore: "&7Tala 100 troncos de Abedul."
+  bp_facil_6:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "SPRUCE_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "SPRUCE_LOG"
+    name: "&aMisión: Leñador Frío"
+    lore: "&7Tala 100 troncos de Abeto."
+  bp_facil_7:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "SAND"
+    action-amount: 200
+    xp-reward: 150
+    material: "SAND"
+    name: "&aMisión: Arenero"
+    lore: "&7Excava 200 bloques de Arena."
+  bp_facil_8:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "GRAVEL"
+    action-amount: 150
+    xp-reward: 150
+    material: "GRAVEL"
+    name: "&aMisión: Buscador de Pedernal"
+    lore: "&7Excava 150 de Grava."
+  bp_facil_9:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "COAL_ORE"
+    action-amount: 50
+    xp-reward: 200
+    material: "COAL_ORE"
+    name: "&aMisión: Carbonero"
+    lore: "&7Pica 50 menas de Carbón."
+  bp_facil_10:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "IRON_ORE"
+    action-amount: 30
+    xp-reward: 200
+    material: "IRON_ORE"
+    name: "&aMisión: Herrero Novato"
+    lore: "&7Pica 30 menas de Hierro."
+  bp_facil_11:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "COPPER_ORE"
+    action-amount: 60
+    xp-reward: 150
+    material: "COPPER_ORE"
+    name: "&aMisión: Minero de Cobre"
+    lore: "&7Pica 60 menas de Cobre."
+  bp_facil_12:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "WHEAT"
+    action-amount: 100
+    xp-reward: 150
+    material: "WHEAT"
+    name: "&aMisión: Granjero de Trigo"
+    lore: "&7Cosecha 100 de Trigo."
+  bp_facil_13:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "POTATOES"
+    action-amount: 100
+    xp-reward: 150
+    material: "POTATO"
+    name: "&aMisión: Granjero de Papas"
+    lore: "&7Cosecha 100 Papas."
+  bp_facil_14:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "CARROTS"
+    action-amount: 100
+    xp-reward: 150
+    material: "CARROT"
+    name: "&aMisión: Granjero de Zanahorias"
+    lore: "&7Cosecha 100 Zanahorias."
+  bp_facil_15:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "BEETROOTS"
+    action-amount: 100
+    xp-reward: 150
+    material: "BEETROOT"
+    name: "&aMisión: Granjero de Remolachas"
+    lore: "&7Cosecha 100 Remolachas."
+  bp_facil_16:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "SUGAR_CANE"
+    action-amount: 100
+    xp-reward: 150
+    material: "SUGAR_CANE"
+    name: "&aMisión: Recolector Dulce"
+    lore: "&7Rompe 100 Cañas de Azúcar."
+  bp_facil_17:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "BAMBOO"
+    action-amount: 200
+    xp-reward: 150
+    material: "BAMBOO"
+    name: "&aMisión: Cortador de Bambú"
+    lore: "&7Rompe 200 de Bambú."
+  bp_facil_18:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "KELP"
+    action-amount: 200
+    xp-reward: 150
+    material: "KELP"
+    name: "&aMisión: Buzo Recolector"
+    lore: "&7Rompe 200 Algas."
+  bp_facil_19:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "PUMPKIN"
+    action-amount: 50
+    xp-reward: 150
+    material: "PUMPKIN"
+    name: "&aMisión: Cosecha Calabazas"
+    lore: "&7Rompe 50 Calabazas."
+  bp_facil_20:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "MELON"
+    action-amount: 50
+    xp-reward: 150
+    material: "MELON"
+    name: "&aMisión: Cosecha Sandías"
+    lore: "&7Rompe 50 Sandías."
+  bp_facil_21:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "ZOMBIE"
+    action-amount: 30
+    xp-reward: 200
+    material: "ZOMBIE_HEAD"
+    name: "&aMisión: Exterminio Zombie"
+    lore: "&7Asesina 30 Zombies."
+  bp_facil_22:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "SKELETON"
+    action-amount: 25
+    xp-reward: 200
+    material: "BONE"
+    name: "&aMisión: Rompehuesos"
+    lore: "&7Asesina 25 Esqueletos."
+  bp_facil_23:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "SPIDER"
+    action-amount: 20
+    xp-reward: 200
+    material: "SPIDER_EYE"
+    name: "&aMisión: Fumigador"
+    lore: "&7Asesina 20 Arañas."
+  bp_facil_24:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "COW"
+    action-amount: 20
+    xp-reward: 150
+    material: "BEEF"
+    name: "&aMisión: Carnicero de Vacas"
+    lore: "&7Asesina 20 Vacas."
+  bp_facil_25:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "PIG"
+    action-amount: 20
+    xp-reward: 150
+    material: "PORKCHOP"
+    name: "&aMisión: Carnicero de Cerdos"
+    lore: "&7Asesina 20 Cerdos."
+  bp_facil_26:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "SHEEP"
+    action-amount: 20
+    xp-reward: 150
+    material: "MUTTON"
+    name: "&aMisión: Pastor Peligroso"
+    lore: "&7Asesina 20 Ovejas."
+  bp_facil_27:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "CHICKEN"
+    action-amount: 25
+    xp-reward: 150
+    material: "FEATHER"
+    name: "&aMisión: Cazador de Pollos"
+    lore: "&7Asesina 25 Pollos."
+  bp_facil_28:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "RABBIT"
+    action-amount: 10
+    xp-reward: 150
+    material: "RABBIT_HIDE"
+    name: "&aMisión: Cazador Ágil"
+    lore: "&7Asesina 10 Conejos."
+  bp_facil_29:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "JUNGLE_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "JUNGLE_LOG"
+    name: "&aMisión: Leñador Tropical"
+    lore: "&7Tala 100 troncos de Jungla."
+  bp_facil_30:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "ACACIA_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "ACACIA_LOG"
+    name: "&aMisión: Leñador de Sabana"
+    lore: "&7Tala 100 troncos de Acacia."
+  bp_facil_31:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "DARK_OAK_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "DARK_OAK_LOG"
+    name: "&aMisión: Leñador Oscuro"
+    lore: "&7Tala 100 troncos de Roble Oscuro."
+  bp_facil_32:
+    difficulty: "facil"
+    action-type: "MINE"
+    action-target: "MANGROVE_LOG"
+    action-amount: 100
+    xp-reward: 150
+    material: "MANGROVE_LOG"
+    name: "&aMisión: Leñador de Manglar"
+    lore: "&7Tala 100 troncos de Manglar."
+  bp_facil_33:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "SQUID"
+    action-amount: 15
+    xp-reward: 150
+    material: "INK_SAC"
+    name: "&aMisión: Pescador de Calamares"
+    lore: "&7Asesina 15 Calamares."
+  bp_facil_34:
+    difficulty: "facil"
+    action-type: "KILL"
+    action-target: "SALMON"
+    action-amount: 20
+    xp-reward: 150
+    material: "SALMON"
+    name: "&aMisión: Pescador de Salmón"
+    lore: "&7Asesina 20 Salmones."
+
+  # --- MISIONES MEDIAS (35-67) ---
+  bp_medio_35:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "STONE"
+    action-amount: 1000
+    xp-reward: 400
+    material: "STONE"
+    name: "&6Misión: Minero Experto"
+    lore: "&7Pica 1000 de Piedra."
+  bp_medio_36:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "DEEPSLATE"
+    action-amount: 800
+    xp-reward: 400
+    material: "DEEPSLATE"
+    name: "&6Misión: Profundidades"
+    lore: "&7Pica 800 de Deepslate."
+  bp_medio_37:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "GOLD_ORE"
+    action-amount: 50
+    xp-reward: 450
+    material: "GOLD_ORE"
+    name: "&6Misión: Fiebre del Oro"
+    lore: "&7Pica 50 menas de Oro."
+  bp_medio_38:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "LAPIS_ORE"
+    action-amount: 60
+    xp-reward: 400
+    material: "LAPIS_ORE"
+    name: "&6Misión: Hechicero"
+    lore: "&7Pica 60 menas de Lapislázuli."
+  bp_medio_39:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "REDSTONE_ORE"
+    action-amount: 80
+    xp-reward: 400
+    material: "REDSTONE_ORE"
+    name: "&6Misión: Ingeniero"
+    lore: "&7Pica 80 menas de Redstone."
+  bp_medio_40:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "DIAMOND_ORE"
+    action-amount: 15
+    xp-reward: 500
+    material: "DIAMOND_ORE"
+    name: "&6Misión: Buscador de Diamantes"
+    lore: "&7Pica 15 menas de Diamante."
+  bp_medio_41:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "NETHERRACK"
+    action-amount: 1000
+    xp-reward: 350
+    material: "NETHERRACK"
+    name: "&6Misión: Viajero del Nether"
+    lore: "&7Pica 1000 de Netherrack."
+  bp_medio_42:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "NETHER_QUARTZ_ORE"
+    action-amount: 150
+    xp-reward: 450
+    material: "QUARTZ"
+    name: "&6Misión: Decorador"
+    lore: "&7Pica 150 menas de Cuarzo."
+  bp_medio_43:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "NETHER_GOLD_ORE"
+    action-amount: 80
+    xp-reward: 450
+    material: "GOLD_NUGGET"
+    name: "&6Misión: Oro del Infierno"
+    lore: "&7Pica 80 menas de Oro del Nether."
+  bp_medio_44:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "CREEPER"
+    action-amount: 30
+    xp-reward: 400
+    material: "GUNPOWDER"
+    name: "&6Misión: Artificiero"
+    lore: "&7Asesina 30 Creepers."
+  bp_medio_45:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "ENDERMAN"
+    action-amount: 20
+    xp-reward: 500
+    material: "ENDER_PEARL"
+    name: "&6Misión: Cazador del Vacío"
+    lore: "&7Asesina 20 Endermans."
+  bp_medio_46:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "SLIME"
+    action-amount: 25
+    xp-reward: 400
+    material: "SLIME_BALL"
+    name: "&6Misión: Cazador Pegajoso"
+    lore: "&7Asesina 25 Slimes."
+  bp_medio_47:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "MAGMA_CUBE"
+    action-amount: 25
+    xp-reward: 450
+    material: "MAGMA_CREAM"
+    name: "&6Misión: Limpiador de Lava"
+    lore: "&7Asesina 25 Cubos de Magma."
+  bp_medio_48:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "BLAZE"
+    action-amount: 30
+    xp-reward: 500
+    material: "BLAZE_ROD"
+    name: "&6Misión: Bombero del Nether"
+    lore: "&7Asesina 30 Blazes."
+  bp_medio_49:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "PIGLIN"
+    action-amount: 40
+    xp-reward: 450
+    material: "GOLD_SWORD"
+    name: "&6Misión: Guerra Porcina"
+    lore: "&7Asesina 40 Piglins."
+  bp_medio_50:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "ZOMBIFIED_PIGLIN"
+    action-amount: 50
+    xp-reward: 450
+    material: "GOLD_NUGGET"
+    name: "&6Misión: Limpieza Zombificada"
+    lore: "&7Asesina 50 Piglins Zombificados."
+  bp_medio_51:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "CAVE_SPIDER"
+    action-amount: 20
+    xp-reward: 400
+    material: "COBWEB"
+    name: "&6Misión: Veneno Subterráneo"
+    lore: "&7Asesina 20 Arañas de Cueva."
+  bp_medio_52:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "WITCH"
+    action-amount: 10
+    xp-reward: 450
+    material: "GLASS_BOTTLE"
+    name: "&6Misión: Cazador de Brujas"
+    lore: "&7Asesina 10 Brujas."
+  bp_medio_53:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "DROWNED"
+    action-amount: 30
+    xp-reward: 400
+    material: "TRIDENT"
+    name: "&6Misión: Buceador de Combate"
+    lore: "&7Asesina 30 Ahogados."
+  bp_medio_54:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "HUSK"
+    action-amount: 30
+    xp-reward: 400
+    material: "SAND"
+    name: "&6Misión: Sed del Desierto"
+    lore: "&7Asesina 30 Husks."
+  bp_medio_55:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "STRAY"
+    action-amount: 30
+    xp-reward: 400
+    material: "ICE"
+    name: "&6Misión: Frío Mortal"
+    lore: "&7Asesina 30 Strays."
+  bp_medio_56:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "OAK_LOG"
+    action-amount: 500
+    xp-reward: 400
+    material: "OAK_LOG"
+    name: "&6Misión: Deforestación"
+    lore: "&7Tala 500 troncos de Roble."
+  bp_medio_57:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "DIRT"
+    action-amount: 1500
+    xp-reward: 350
+    material: "DIRT"
+    name: "&6Misión: Máquina Excavadora"
+    lore: "&7Excava 1500 de Tierra."
+  bp_medio_58:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "SAND"
+    action-amount: 1000
+    xp-reward: 350
+    material: "SAND"
+    name: "&6Misión: Desierto Vacío"
+    lore: "&7Excava 1000 de Arena."
+  bp_medio_59:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "GRAVEL"
+    action-amount: 800
+    xp-reward: 400
+    material: "GRAVEL"
+    name: "&6Misión: Pala de Hierro"
+    lore: "&7Excava 800 de Grava."
+  bp_medio_60:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "WHEAT"
+    action-amount: 500
+    xp-reward: 400
+    material: "WHEAT"
+    name: "&6Misión: Maestro Granjero"
+    lore: "&7Cosecha 500 de Trigo."
+  bp_medio_61:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "ZOMBIE"
+    action-amount: 150
+    xp-reward: 400
+    material: "ZOMBIE_HEAD"
+    name: "&6Misión: Horda Zombie"
+    lore: "&7Asesina 150 Zombies."
+  bp_medio_62:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "SKELETON"
+    action-amount: 150
+    xp-reward: 400
+    material: "BONE"
+    name: "&6Misión: Cementerio"
+    lore: "&7Asesina 150 Esqueletos."
+  bp_medio_63:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "SPIDER"
+    action-amount: 100
+    xp-reward: 400
+    material: "SPIDER_EYE"
+    name: "&6Misión: Nido de Arañas"
+    lore: "&7Asesina 100 Arañas."
+  bp_medio_64:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "IRON_ORE"
+    action-amount: 150
+    xp-reward: 500
+    material: "IRON_ORE"
+    name: "&6Misión: Herrero Experto"
+    lore: "&7Pica 150 menas de Hierro."
+  bp_medio_65:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "COAL_ORE"
+    action-amount: 250
+    xp-reward: 400
+    material: "COAL_ORE"
+    name: "&6Misión: Mina de Carbón"
+    lore: "&7Pica 250 menas de Carbón."
+  bp_medio_66:
+    difficulty: "medio"
+    action-type: "MINE"
+    action-target: "COBBLESTONE"
+    action-amount: 1500
+    xp-reward: 350
+    material: "COBBLESTONE"
+    name: "&6Misión: Rompepiedras"
+    lore: "&7Pica 1500 de Cobblestone."
+  bp_medio_67:
+    difficulty: "medio"
+    action-type: "KILL"
+    action-target: "PHANTOM"
+    action-amount: 15
+    xp-reward: 500
+    material: "PHANTOM_MEMBRANE"
+    name: "&6Misión: Insomnio Mortal"
+    lore: "&7Asesina 15 Phantoms."
+
+  # --- MISIONES DIFÍCILES (68-100) ---
+  bp_dificil_68:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "DIAMOND_ORE"
+    action-amount: 64
+    xp-reward: 1000
+    material: "DIAMOND_ORE"
+    name: "&cMisión: Rey de los Diamantes"
+    lore: "&7Pica 64 menas de Diamante."
+  bp_dificil_69:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "EMERALD_ORE"
+    action-amount: 32
+    xp-reward: 1200
+    material: "EMERALD_ORE"
+    name: "&cMisión: Amigo del Aldeano"
+    lore: "&7Pica 32 menas de Esmeralda."
+  bp_dificil_70:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "ANCIENT_DEBRIS"
+    action-amount: 15
+    xp-reward: 1500
+    material: "ANCIENT_DEBRIS"
+    name: "&cMisión: Restos Antiguos"
+    lore: "&7Pica 15 Escombros Antiguos."
+  bp_dificil_71:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "OBSIDIAN"
+    action-amount: 250
+    xp-reward: 1000
+    material: "OBSIDIAN"
+    name: "&cMisión: Paciencia Extrema"
+    lore: "&7Pica 250 bloques de Obsidiana."
+  bp_dificil_72:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "STONE"
+    action-amount: 5000
+    xp-reward: 800
+    material: "STONE"
+    name: "&cMisión: Titán Minero"
+    lore: "&7Pica 5000 de Piedra."
+  bp_dificil_73:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "DEEPSLATE"
+    action-amount: 5000
+    xp-reward: 900
+    material: "DEEPSLATE"
+    name: "&cMisión: Rey de la Profundidad"
+    lore: "&7Pica 5000 de Deepslate."
+  bp_dificil_74:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "NETHERRACK"
+    action-amount: 10000
+    xp-reward: 1000
+    material: "NETHERRACK"
+    name: "&cMisión: Destrucción Infernal"
+    lore: "&7Pica 10000 de Netherrack."
+  bp_dificil_75:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "END_STONE"
+    action-amount: 2000
+    xp-reward: 1000
+    material: "END_STONE"
+    name: "&cMisión: Vacío Destruido"
+    lore: "&7Pica 2000 de Piedra del End."
+  bp_dificil_76:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "WITHER_SKELETON"
+    action-amount: 50
+    xp-reward: 1200
+    material: "WITHER_SKELETON_SKULL"
+    name: "&cMisión: Cazador de Cabezas"
+    lore: "&7Asesina 50 Esqueletos Wither."
+  bp_dificil_77:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "GHAST"
+    action-amount: 25
+    xp-reward: 1000
+    material: "GHAST_TEAR"
+    name: "&cMisión: Cazafantasmas"
+    lore: "&7Asesina 25 Ghasts."
+  bp_dificil_78:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "WITHER"
+    action-amount: 1
+    xp-reward: 2000
+    material: "NETHER_STAR"
+    name: "&cMisión: Derrota al Wither"
+    lore: "&7Asesina a 1 Wither Boss."
+  bp_dificil_79:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "ENDER_DRAGON"
+    action-amount: 1
+    xp-reward: 2500
+    material: "DRAGON_EGG"
+    name: "&cMisión: Matadragones"
+    lore: "&7Asesina al Ender Dragon."
+  bp_dificil_80:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "WARDEN"
+    action-amount: 1
+    xp-reward: 3000
+    material: "SCULK_SHRIEKER"
+    name: "&cMisión: Silencia al Guardián"
+    lore: "&7Asesina al Warden."
+  bp_dificil_81:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "RAVAGER"
+    action-amount: 5
+    xp-reward: 1200
+    material: "SADDLE"
+    name: "&cMisión: Héroe de la Aldea"
+    lore: "&7Asesina 5 Devastadores."
+  bp_dificil_82:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "EVOKER"
+    action-amount: 10
+    xp-reward: 1000
+    material: "TOTEM_OF_UNDYING"
+    name: "&cMisión: Cazador de Magia"
+    lore: "&7Asesina 10 Invocadores."
+  bp_dificil_83:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "VINDICATOR"
+    action-amount: 50
+    xp-reward: 1000
+    material: "IRON_AXE"
+    name: "&cMisión: Sin Piedad"
+    lore: "&7Asesina 50 Vindicadores."
+  bp_dificil_84:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "PILLAGER"
+    action-amount: 100
+    xp-reward: 1000
+    material: "CROSSBOW"
+    name: "&cMisión: Fin del Saqueo"
+    lore: "&7Asesina 100 Saqueadores."
+  bp_dificil_85:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "ZOMBIE"
+    action-amount: 1000
+    xp-reward: 1500
+    material: "ROTTEN_FLESH"
+    name: "&cMisión: Apocalipsis Zombie"
+    lore: "&7Asesina 1000 Zombies."
+  bp_dificil_86:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "SKELETON"
+    action-amount: 1000
+    xp-reward: 1500
+    material: "BONE_BLOCK"
+    name: "&cMisión: Rey de los Huesos"
+    lore: "&7Asesina 1000 Esqueletos."
+  bp_dificil_87:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "CREEPER"
+    action-amount: 500
+    xp-reward: 1500
+    material: "TNT"
+    name: "&cMisión: Campo Minado"
+    lore: "&7Asesina 500 Creepers."
+  bp_dificil_88:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "ENDERMAN"
+    action-amount: 250
+    xp-reward: 1500
+    material: "ENDER_EYE"
+    name: "&cMisión: Ojos del Vacío"
+    lore: "&7Asesina 250 Endermans."
+  bp_dificil_89:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "IRON_ORE"
+    action-amount: 1000
+    xp-reward: 1200
+    material: "IRON_BLOCK"
+    name: "&cMisión: Magnate de Hierro"
+    lore: "&7Pica 1000 menas de Hierro."
+  bp_dificil_90:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "GOLD_ORE"
+    action-amount: 500
+    xp-reward: 1200
+    material: "GOLD_BLOCK"
+    name: "&cMisión: Magnate de Oro"
+    lore: "&7Pica 500 menas de Oro."
+  bp_dificil_91:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "LAPIS_ORE"
+    action-amount: 500
+    xp-reward: 1000
+    material: "LAPIS_BLOCK"
+    name: "&cMisión: Poder Mágico"
+    lore: "&7Pica 500 menas de Lapislázuli."
+  bp_dificil_92:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "REDSTONE_ORE"
+    action-amount: 1000
+    xp-reward: 1000
+    material: "REDSTONE_BLOCK"
+    name: "&cMisión: Mente Maestra"
+    lore: "&7Pica 1000 menas de Redstone."
+  bp_dificil_93:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "NETHER_QUARTZ_ORE"
+    action-amount: 2000
+    xp-reward: 1500
+    material: "QUARTZ_PILLAR"
+    name: "&cMisión: Palacio de Cuarzo"
+    lore: "&7Pica 2000 menas de Cuarzo."
+  bp_dificil_94:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "OAK_LOG"
+    action-amount: 5000
+    xp-reward: 1200
+    material: "OAK_WOOD"
+    name: "&cMisión: Dios de la Madera"
+    lore: "&7Tala 5000 troncos de Roble."
+  bp_dificil_95:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "BLAZE"
+    action-amount: 300
+    xp-reward: 1500
+    material: "BLAZE_POWDER"
+    name: "&cMisión: Fuego Inextinguible"
+    lore: "&7Asesina 300 Blazes."
+  bp_dificil_96:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "MAGMA_CUBE"
+    action-amount: 250
+    xp-reward: 1200
+    material: "MAGMA_BLOCK"
+    name: "&cMisión: Baño de Lava"
+    lore: "&7Asesina 250 Cubos de Magma."
+  bp_dificil_97:
+    difficulty: "dificil"
+    action-type: "KILL"
+    action-target: "SLIME"
+    action-amount: 250
+    xp-reward: 1000
+    material: "SLIME_BLOCK"
+    name: "&cMisión: Rebote Mortal"
+    lore: "&7Asesina 250 Slimes."
+  bp_dificil_98:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "WHEAT"
+    action-amount: 5000
+    xp-reward: 1000
+    material: "HAY_BLOCK"
+    name: "&cMisión: Señor de la Cosecha"
+    lore: "&7Cosecha 5000 de Trigo."
+  bp_dificil_99:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "POTATOES"
+    action-amount: 5000
+    xp-reward: 1000
+    material: "BAKED_POTATO"
+    name: "&cMisión: Monopolio de Papas"
+    lore: "&7Cosecha 5000 Papas."
+  bp_dificil_100:
+    difficulty: "dificil"
+    action-type: "MINE"
+    action-target: "CARROTS"
+    action-amount: 5000
+    xp-reward: 1000
+    material: "GOLDEN_CARROT"
+    name: "&cMisión: Visión Perfecta"
+    lore: "&7Cosecha 5000 Zanahorias."

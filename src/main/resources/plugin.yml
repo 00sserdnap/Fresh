@@ -20,6 +20,14 @@ commands:
     description: Abre el menú de RankUp
     aliases: [rango, ranks, rankup]
     permission: fresh.admin
+  tempfly:
+    description: Otorga fly temporal a un jugador.
+    permission: fresh.admin.tempfly
+    permission-message: §cNo tienes permiso.
+  battlepass:
+    description: Abre el Pase de Batalla.
+    aliases: [pase, bp]
+    permission: fresh.battlepass
 permissions:
   fresh.admin:
     description: Permite recargar los módulos del plugin
