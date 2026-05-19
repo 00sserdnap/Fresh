@@ -1,6 +1,6 @@
 package cl.pandress.modules.quests.menus;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
 import cl.pandress.modules.quests.QuestManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class QuestMenuListener implements Listener {
 
-    private final Fresh plugin = Fresh.getInstance();
+    private final Etherium plugin = Etherium.getInstance();
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {

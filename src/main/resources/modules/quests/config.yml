@@ -1,446 +1,957 @@
-# +-----------------------------------------------------------------------+
-# |                         FRESH DAILY QUESTS                            |
-# |                      Developed by: pandress                           |
-# +-----------------------------------------------------------------------+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃       FRESH DAILY QUESTS       ┃
+# ┃     Developed by: pandress     ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 settings:
+  enabled: false
   quests-per-day: 10
 webhook:
-  enabled: true
-  url: "https://discord.com/api/webhooks/1500256049557536828/12wuViM53GuHbgx06YiTeCLp-pLe3eKyhQlyCX5mQmD51A1E7LNVzmd0RrMXSIdAi2us"
+  enabled: false
+  url: ""
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃       POOL DE MISIONES         ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 bonus:
   default:
     messages:
-      - "&d&lBONUS &8» &a¡Has reclamado tu Fly temporal por 2 horas!"
+      - "&8[&c&l🪓&8] &f¡Has reclamado tu &e&nFly&f temporal por &e1 hora&f disfrutalo!"
     commands:
-      - "tempfly %player% 2h"
+      - "tempfly %player% 1h"
   ranked:
     permission: "quest.rank.rewards"
     messages:
-      - "&d&lBONUS VIP &8» &a¡Has reclamado tu recompensa exclusiva de rango!"
+      - "&8[&c&l🪓&8] &f¡Has reclamado tu &e&nrecompensa&f exclusiva de rango!"
     commands:
       - "eco give %player% 50000"
-      - "give %player% diamond_block 5"
+      - "crate key give %player% comun 3"
+      - "crate key give %player% especial 1"
 quest-pool:
-  # ==========================================
-  # MISIONES DE PICAR (MINE) - 25 Misiones
-  # ==========================================
+  # ═══════════════════════════════
+  # MISIONES DE PICAR (MINE)
+  # ═══════════════════════════════
   mine_stone:
     action-type: "MINE"
     action-target: "STONE"
     action-amount: 128
     material: "STONE"
-    name: "&a&lMisión: &fMinero Básico"
-    lore: ["&7Pica 128 bloques de Piedra."]
-    rewards: ["give %player% iron_ingot 3"]
+    name: "&6★ &fMisión &eMinero Básico"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a128 &7bloques de Piedra.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$5,000'
+      - ' &e⭐ &f3x Lingotes de Hierro'
+      - ''
+    rewards: ["eco give %player% 5000", "give %player% iron_ingot 3"]
+
   mine_cobble:
     action-type: "MINE"
     action-target: "COBBLESTONE"
     action-amount: 128
     material: "COBBLESTONE"
-    name: "&a&lMisión: &fPicapedrero"
-    lore: ["&7Pica 128 bloques de Cobblestone."]
-    rewards: ["give %player% coal 10"]
+    name: "&6★ &fMisión &ePicapedrero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a128 &7bloques de Cobblestone.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$5,000'
+      - ' &e⭐ &f10x Carbón'
+      - ''
+    rewards: ["eco give %player% 5000", "give %player% coal 10"]
+
   mine_dirt:
     action-type: "MINE"
     action-target: "DIRT"
     action-amount: 128
     material: "DIRT"
-    name: "&a&lMisión: &fExcavador"
-    lore: ["&7Excava 128 bloques de Tierra."]
-    rewards: ["give %player% bone_meal 15"]
+    name: "&6★ &fMisión &eExcavador"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Excavar &a128 &7bloques de Tierra.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$5,000'
+      - ' &e⭐ &f15x Polvo de Hueso'
+      - ''
+    rewards: ["eco give %player% 5000", "give %player% bone_meal 15"]
+
   mine_sand:
     action-type: "MINE"
     action-target: "SAND"
     action-amount: 64
     material: "SAND"
-    name: "&a&lMisión: &fCristalero"
-    lore: ["&7Excava 64 bloques de Arena."]
-    rewards: ["give %player% glass 32"]
+    name: "&6★ &fMisión &eCristalero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Excavar &a64 &7bloques de Arena.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f32x Cristal'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% glass 32"]
+
   mine_gravel:
     action-type: "MINE"
     action-target: "GRAVEL"
     action-amount: 64
     material: "GRAVEL"
-    name: "&a&lMisión: &fBuscador de Pedernal"
-    lore: ["&7Excava 64 bloques de Grava."]
-    rewards: ["give %player% flint 10"]
+    name: "&6★ &fMisión &eBuscador de Pedernal"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Excavar &a64 &7bloques de Grava.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f10x Pedernal'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% flint 10"]
+
   mine_coal:
     action-type: "MINE"
     action-target: "COAL_ORE"
     action-amount: 32
     material: "COAL_ORE"
-    name: "&a&lMisión: &fCarbonero"
-    lore: ["&7Pica 32 menas de Carbón."]
-    rewards: ["give %player% experience_bottle 5"]
+    name: "&6★ &fMisión &eCarbonero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a32 &7menas de Carbón.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,000'
+      - ' &e⭐ &f5x Botellas de Experiencia'
+      - ''
+    rewards: ["eco give %player% 8000", "give %player% experience_bottle 5"]
+
   mine_iron:
     action-type: "MINE"
     action-target: "IRON_ORE"
     action-amount: 16
     material: "IRON_ORE"
-    name: "&a&lMisión: &fHerrero Novato"
-    lore: ["&7Pica 16 menas de Hierro."]
-    rewards: ["give %player% iron_block 1"]
+    name: "&6★ &fMisión &eHerrero Novato"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a16 &7menas de Hierro.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$10,000'
+      - ' &e⭐ &f1x Bloque de Hierro'
+      - ''
+    rewards: ["eco give %player% 10000", "give %player% iron_block 1"]
+
   mine_gold:
     action-type: "MINE"
     action-target: "GOLD_ORE"
     action-amount: 8
     material: "GOLD_ORE"
-    name: "&a&lMisión: &fFiebre del Oro"
-    lore: ["&7Pica 8 menas de Oro."]
-    rewards: ["give %player% golden_apple 1"]
+    name: "&6★ &fMisión &eFiebre del Oro"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a8 &7menas de Oro.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$12,000'
+      - ' &e⭐ &f1x Manzana Dorada'
+      - ''
+    rewards: ["eco give %player% 12000", "give %player% golden_apple 1"]
+
   mine_diamond:
     action-type: "MINE"
     action-target: "DIAMOND_ORE"
     action-amount: 3
     material: "DIAMOND_ORE"
-    name: "&a&lMisión: &fBuscador de Tesoros"
-    lore: ["&7Encuentra y pica 3 Diamantes."]
-    rewards: ["give %player% emerald 5"]
+    name: "&b★ &fMisión &bBuscador de Tesoros"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a3 &7Diamantes.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$20,000'
+      - ' &e⭐ &f5x Esmeraldas'
+      - ''
+    rewards: ["eco give %player% 20000", "give %player% emerald 5"]
+
   mine_emerald:
     action-type: "MINE"
     action-target: "EMERALD_ORE"
     action-amount: 2
     material: "EMERALD_ORE"
-    name: "&a&lMisión: &fAmigo del Aldeano"
-    lore: ["&7Pica 2 menas de Esmeralda."]
-    rewards: ["eco give %player% 1000"]
+    name: "&a★ &fMisión &aAmigo del Aldeano"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a2 &7menas de Esmeralda.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$25,000'
+      - ''
+    rewards: ["eco give %player% 25000"]
+
   mine_redstone:
     action-type: "MINE"
     action-target: "REDSTONE_ORE"
     action-amount: 16
     material: "REDSTONE_ORE"
-    name: "&a&lMisión: &fIngeniero"
-    lore: ["&7Pica 16 menas de Redstone."]
-    rewards: ["give %player% repeater 2", "give %player% comparator 2"]
+    name: "&c★ &fMisión &cIngeniero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a16 &7menas de Redstone.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$9,000'
+      - ' &e⭐ &f2x Repetidores y Comparadores'
+      - ''
+    rewards: ["eco give %player% 9000", "give %player% repeater 2", "give %player% comparator 2"]
+
   mine_lapis:
     action-type: "MINE"
     action-target: "LAPIS_ORE"
     action-amount: 10
     material: "LAPIS_ORE"
-    name: "&a&lMisión: &fHechicero"
-    lore: ["&7Pica 10 menas de Lapislázuli."]
-    rewards: ["give %player% book 5"]
+    name: "&9★ &fMisión &9Hechicero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a10 &7menas de Lapislázuli.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$11,000'
+      - ' &e⭐ &f5x Libros'
+      - ''
+    rewards: ["eco give %player% 11000", "give %player% book 5"]
+
   mine_netherrack:
     action-type: "MINE"
     action-target: "NETHERRACK"
     action-amount: 128
     material: "NETHERRACK"
-    name: "&a&lMisión: &fViajero del Nether"
-    lore: ["&7Pica 128 bloques de Netherrack."]
-    rewards: ["give %player% quartz 16"]
+    name: "&4★ &fMisión &cViajero del Nether"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a128 &7bloques de Netherrack.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,000'
+      - ' &e⭐ &f16x Cuarzo'
+      - ''
+    rewards: ["eco give %player% 7000", "give %player% quartz 16"]
+
   mine_quartz:
     action-type: "MINE"
     action-target: "NETHER_QUARTZ_ORE"
     action-amount: 32
     material: "NETHER_QUARTZ_ORE"
-    name: "&a&lMisión: &fDecorador"
-    lore: ["&7Pica 32 menas de Cuarzo."]
-    rewards: ["give %player% experience_bottle 10"]
+    name: "&f★ &fMisión &7Decorador"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a32 &7menas de Cuarzo.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$12,000'
+      - ' &e⭐ &f10x Botellas de Experiencia'
+      - ''
+    rewards: ["eco give %player% 12000", "give %player% experience_bottle 10"]
+
   mine_obsidian:
     action-type: "MINE"
     action-target: "OBSIDIAN"
     action-amount: 5
     material: "OBSIDIAN"
-    name: "&a&lMisión: &fPaciencia Extrema"
-    lore: ["&7Pica 5 bloques de Obsidiana."]
-    rewards: ["give %player% diamond 1"]
+    name: "&5★ &fMisión &5Paciencia Extrema"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Picar &a5 &7bloques de Obsidiana.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$15,000'
+      - ' &e⭐ &f1x Diamante'
+      - ''
+    rewards: ["eco give %player% 15000", "give %player% diamond 1"]
+
   mine_oak:
     action-type: "MINE"
     action-target: "OAK_LOG"
     action-amount: 64
     material: "OAK_LOG"
-    name: "&a&lMisión: &fLeñador Clásico"
-    lore: ["&7Tala 64 troncos de Roble."]
-    rewards: ["give %player% apple 5"]
+    name: "&6★ &fMisión &eLeñador Clásico"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Talar &a64 &7troncos de Roble.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,000'
+      - ' &e⭐ &f5x Manzanas'
+      - ''
+    rewards: ["eco give %player% 7000", "give %player% apple 5"]
+
   mine_birch:
     action-type: "MINE"
     action-target: "BIRCH_LOG"
     action-amount: 64
     material: "BIRCH_LOG"
-    name: "&a&lMisión: &fLeñador Claro"
-    lore: ["&7Tala 64 troncos de Abedul."]
-    rewards: ["give %player% stick 32"]
+    name: "&6★ &fMisión &eLeñador Claro"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Talar &a64 &7troncos de Abedul.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,000'
+      - ' &e⭐ &f32x Palos'
+      - ''
+    rewards: ["eco give %player% 7000", "give %player% stick 32"]
+
   mine_spruce:
     action-type: "MINE"
     action-target: "SPRUCE_LOG"
     action-amount: 64
     material: "SPRUCE_LOG"
-    name: "&a&lMisión: &fLeñador Frío"
-    lore: ["&7Tala 64 troncos de Abeto."]
-    rewards: ["give %player% sweet_berries 16"]
+    name: "&6★ &fMisión &eLeñador Frío"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Talar &a64 &7troncos de Abeto.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,000'
+      - ' &e⭐ &f16x Bayas Dulces'
+      - ''
+    rewards: ["eco give %player% 7000", "give %player% sweet_berries 16"]
+
   mine_jungle:
     action-type: "MINE"
     action-target: "JUNGLE_LOG"
     action-amount: 64
     material: "JUNGLE_LOG"
-    name: "&a&lMisión: &fLeñador Tropical"
-    lore: ["&7Tala 64 troncos de Jungla."]
-    rewards: ["give %player% cocoa_beans 10"]
+    name: "&6★ &fMisión &eLeñador Tropical"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Talar &a64 &7troncos de Jungla.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,500'
+      - ' &e⭐ &f10x Granos de Cacao'
+      - ''
+    rewards: ["eco give %player% 7500", "give %player% cocoa_beans 10"]
+
   mine_acacia:
     action-type: "MINE"
     action-target: "ACACIA_LOG"
     action-amount: 64
     material: "ACACIA_LOG"
-    name: "&a&lMisión: &fLeñador de Sabana"
-    lore: ["&7Tala 64 troncos de Acacia."]
-    rewards: ["give %player% iron_ingot 2"]
+    name: "&6★ &fMisión &eLeñador de Sabana"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Talar &a64 &7troncos de Acacia.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,500'
+      - ' &e⭐ &f2x Lingotes de Hierro'
+      - ''
+    rewards: ["eco give %player% 7500", "give %player% iron_ingot 2"]
+
   mine_darkoak:
     action-type: "MINE"
     action-target: "DARK_OAK_LOG"
     action-amount: 64
     material: "DARK_OAK_LOG"
-    name: "&a&lMisión: &fLeñador Oscuro"
-    lore: ["&7Tala 64 troncos de Roble Oscuro."]
-    rewards: ["give %player% experience_bottle 5"]
+    name: "&6★ &fMisión &eLeñador Oscuro"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴍɪɴᴇʀɪᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Talar &a64 &7troncos de Roble Oscuro.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,000'
+      - ' &e⭐ &f5x Botellas de Experiencia'
+      - ''
+    rewards: ["eco give %player% 8000", "give %player% experience_bottle 5"]
+  # ═════════════════════════════════════════════════════════════════════════════════════════════
+  #                             MISIONES DE AGRICULTOR
+  # ═════════════════════════════════════════════════════════════════════════════════════════════
   mine_wheat:
     action-type: "MINE"
     action-target: "WHEAT"
     action-amount: 64
     material: "WHEAT"
-    name: "&a&lMisión: &fPanadero"
-    lore: ["&7Cosecha 64 bloques de Trigo."]
-    rewards: ["give %player% bread 10"]
+    name: "&e★ &fMisión &ePanadero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴀɢʀɪᴄᴜʟᴛᴜʀᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Cosechar &a64 &7bloques de Trigo.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f10x Pan'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% bread 10"]
+
   mine_potato:
     action-type: "MINE"
     action-target: "POTATOES"
     action-amount: 64
     material: "POTATO"
-    name: "&a&lMisión: &fAgricultor de Papas"
-    lore: ["&7Cosecha 64 Papas."]
-    rewards: ["give %player% baked_potato 16"]
+    name: "&e★ &fMisión &eAgricultor de Papas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴀɢʀɪᴄᴜʟᴛᴜʀᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Cosechar &a64 &7Papas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f16x Papas Horneadas'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% baked_potato 16"]
+
   mine_carrot:
     action-type: "MINE"
     action-target: "CARROTS"
     action-amount: 64
     material: "CARROT"
-    name: "&a&lMisión: &fAgricultor de Zanahorias"
-    lore: ["&7Cosecha 64 Zanahorias."]
-    rewards: ["give %player% golden_carrot 2"]
+    name: "&6★ &fMisión &eAgricultor de Zanahorias"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴀɢʀɪᴄᴜʟᴛᴜʀᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Cosechar &a64 &7Zanahorias.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,500'
+      - ' &e⭐ &f2x Zanahorias Doradas'
+      - ''
+    rewards: ["eco give %player% 6500", "give %player% golden_carrot 2"]
+
   mine_melon:
     action-type: "MINE"
     action-target: "MELON"
     action-amount: 16
     material: "MELON"
-    name: "&a&lMisión: &fFrutero"
-    lore: ["&7Rompe 16 bloques de Sandía."]
-    rewards: ["give %player% emerald 1"]
+    name: "&a★ &fMisión &aFrutero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴀɢʀɪᴄᴜʟᴛᴜʀᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Romper &a16 &7bloques de Sandía.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,000'
+      - ' &e⭐ &f1x Esmeralda'
+      - ''
+    rewards: ["eco give %player% 8000", "give %player% emerald 1"]
 
-  # ==========================================
-  # MISIONES DE MATAR (KILL) - 15 Misiones
-  # ==========================================
+  # ═══════════════════════════════
+  # MISIONES DE MATAR (KILL)
+  # ═══════════════════════════════
   kill_zombie:
     action-type: "KILL"
     action-target: "ZOMBIE"
     action-amount: 15
     material: "ZOMBIE_HEAD"
-    name: "&a&lMisión: &fCazador Nocturno"
-    lore: ["&7Asesina a 15 Zombies."]
-    rewards: ["give %player% iron_ingot 2"]
+    name: "&c★ &fMisión &cCazador Nocturno"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a15 &7Zombies.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,000'
+      - ' &e⭐ &f2x Lingotes de Hierro'
+      - ''
+    rewards: ["eco give %player% 8000", "give %player% iron_ingot 2"]
+
   kill_skeleton:
     action-type: "KILL"
     action-target: "SKELETON"
     action-amount: 15
     material: "BONE"
-    name: "&a&lMisión: &fRompehuesos"
-    lore: ["&7Asesina a 15 Esqueletos."]
-    rewards: ["give %player% arrow 32"]
+    name: "&c★ &fMisión &cRompehuesos"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a15 &7Esqueletos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$9,000'
+      - ' &e⭐ &f32x Flechas'
+      - ''
+    rewards: ["eco give %player% 9000", "give %player% arrow 32"]
+
   kill_spider:
     action-type: "KILL"
     action-target: "SPIDER"
     action-amount: 10
     material: "SPIDER_EYE"
-    name: "&a&lMisión: &fExterminador"
-    lore: ["&7Asesina a 10 Arañas."]
-    rewards: ["give %player% string 16"]
+    name: "&c★ &fMisión &cExterminador"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a10 &7Arañas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,500'
+      - ' &e⭐ &f16x Hilo'
+      - ''
+    rewards: ["eco give %player% 8500", "give %player% string 16"]
+
   kill_creeper:
     action-type: "KILL"
     action-target: "CREEPER"
     action-amount: 5
     material: "GUNPOWDER"
-    name: "&a&lMisión: &fArtificiero"
-    lore: ["&7Asesina a 5 Creepers sin que exploten."]
-    rewards: ["give %player% tnt 2"]
+    name: "&c★ &fMisión &cArtificiero"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a5 &7Creepers.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$12,000'
+      - ' &e⭐ &f2x TNT'
+      - ''
+    rewards: ["eco give %player% 12000", "give %player% tnt 2"]
+
   kill_enderman:
     action-type: "KILL"
     action-target: "ENDERMAN"
     action-amount: 3
     material: "ENDER_PEARL"
-    name: "&a&lMisión: &fCazador del Vacío"
-    lore: ["&7Asesina a 3 Endermans."]
-    rewards: ["give %player% diamond 1"]
+    name: "&5★ &fMisión &5Cazador del Vacío"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a3 &7Endermans.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$15,000'
+      - ' &e⭐ &f1x Diamante'
+      - ''
+    rewards: ["eco give %player% 15000", "give %player% diamond 1"]
+
   kill_witch:
     action-type: "KILL"
     action-target: "WITCH"
     action-amount: 2
     material: "GLASS_BOTTLE"
-    name: "&a&lMisión: &fCazador de Brujas"
-    lore: ["&7Asesina a 2 Brujas."]
-    rewards: ["give %player% potion 1"]
+    name: "&d★ &fMisión &dCazador de Brujas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a2 &7Brujas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$14,000'
+      - ' &e⭐ &f1x Poción'
+      - ''
+    rewards: ["eco give %player% 14000", "give %player% potion 1"]
+
   kill_slime:
     action-type: "KILL"
     action-target: "SLIME"
     action-amount: 5
     material: "SLIME_BALL"
-    name: "&a&lMisión: &fCazador Pegajoso"
-    lore: ["&7Asesina a 5 Slimes grandes o medianos."]
-    rewards: ["give %player% emerald 2"]
+    name: "&a★ &fMisión &aCazador Pegajoso"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a5 &7Slimes.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$11,000'
+      - ' &e⭐ &f2x Esmeraldas'
+      - ''
+    rewards: ["eco give %player% 11000", "give %player% emerald 2"]
+
   kill_blaze:
     action-type: "KILL"
     action-target: "BLAZE"
     action-amount: 10
     material: "BLAZE_ROD"
-    name: "&a&lMisión: &fBombero del Nether"
-    lore: ["&7Asesina a 10 Blazes."]
-    rewards: ["give %player% gold_ingot 5"]
+    name: "&6★ &fMisión &6Bombero del Nether"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a10 &7Blazes.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$18,000'
+      - ' &e⭐ &f5x Lingotes de Oro'
+      - ''
+    rewards: ["eco give %player% 18000", "give %player% gold_ingot 5"]
+
   kill_ghast:
     action-type: "KILL"
     action-target: "GHAST"
     action-amount: 1
     material: "GHAST_TEAR"
-    name: "&a&lMisión: &fCazafantasmas"
-    lore: ["&7Asesina a 1 Ghast."]
-    rewards: ["eco give %player% 500"]
+    name: "&f★ &fMisión &fCazafantasmas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a1 &7Ghast.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$20,000'
+      - ''
+    rewards: ["eco give %player% 20000"]
+
   kill_magma:
     action-type: "KILL"
     action-target: "MAGMA_CUBE"
     action-amount: 5
     material: "MAGMA_CREAM"
-    name: "&a&lMisión: &fLimpiador de Lava"
-    lore: ["&7Asesina a 5 Cubos de Magma."]
-    rewards: ["give %player% iron_ingot 3"]
+    name: "&c★ &fMisión &cLimpiador de Lava"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a5 &7Cubos de Magma.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$14,000'
+      - ' &e⭐ &f3x Lingotes de Hierro'
+      - ''
+    rewards: ["eco give %player% 14000", "give %player% iron_ingot 3"]
+
   kill_cow:
     action-type: "KILL"
     action-target: "COW"
     action-amount: 10
     material: "BEEF"
-    name: "&a&lMisión: &fCarnicero de Vacas"
-    lore: ["&7Asesina a 10 Vacas."]
-    rewards: ["give %player% leather 5"]
+    name: "&6★ &fMisión &eCarnicero de Vacas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ / Caza'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a10 &7Vacas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f5x Cuero'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% leather 5"]
+
   kill_pig:
     action-type: "KILL"
     action-target: "PIG"
     action-amount: 10
     material: "PORKCHOP"
-    name: "&a&lMisión: &fCarnicero de Cerdos"
-    lore: ["&7Asesina a 10 Cerdos."]
-    rewards: ["give %player% cooked_porkchop 5"]
+    name: "&6★ &fMisión &eCarnicero de Cerdos"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ / Caza'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a10 &7Cerdos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f5x Cerdo Cocinado'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% cooked_porkchop 5"]
+
   kill_sheep:
     action-type: "KILL"
     action-target: "SHEEP"
     action-amount: 10
     material: "MUTTON"
-    name: "&a&lMisión: &fCarnicero de Ovejas"
-    lore: ["&7Asesina a 10 Ovejas."]
-    rewards: ["give %player% white_wool 10"]
+    name: "&6★ &fMisión &eCarnicero de Ovejas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ / Caza'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a10 &7Ovejas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f10x Lana Blanca'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% white_wool 10"]
+
   kill_chicken:
     action-type: "KILL"
     action-target: "CHICKEN"
     action-amount: 10
     material: "FEATHER"
-    name: "&a&lMisión: &fCarnicero de Pollos"
-    lore: ["&7Asesina a 10 Pollos."]
-    rewards: ["give %player% arrow 16"]
+    name: "&6★ &fMisión &eCarnicero de Pollos"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ / Caza'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a10 &7Pollos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$5,500'
+      - ' &e⭐ &f16x Flechas'
+      - ''
+    rewards: ["eco give %player% 5500", "give %player% arrow 16"]
+
   kill_rabbit:
     action-type: "KILL"
     action-target: "RABBIT"
     action-amount: 5
     material: "RABBIT_HIDE"
-    name: "&a&lMisión: &fCazador Rápido"
-    lore: ["&7Asesina a 5 Conejos."]
-    rewards: ["give %player% emerald 2"]
+    name: "&6★ &fMisión &eCazador Rápido"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄᴏᴍʙᴀᴛᴇ / Caza'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Asesinar &a5 &7Conejos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$9,000'
+      - ' &e⭐ &f2x Esmeraldas'
+      - ''
+    rewards: ["eco give %player% 9000", "give %player% emerald 2"]
 
-  # ==========================================
-  # MISIONES DE RECOGER (PICKUP) - 5 Misiones
-  # ==========================================
+  # ═══════════════════════════════
+  # MISIONES DE RECOGER (PICKUP)
+  # ═══════════════════════════════
   pickup_sugar:
     action-type: "PICKUP"
     action-target: "SUGAR_CANE"
     action-amount: 32
     material: "SUGAR_CANE"
-    name: "&a&lMisión: &fRecolector Dulce"
-    lore: ["&7Recoge 32 Cañas de Azúcar del suelo."]
-    rewards: ["give %player% paper 16"]
+    name: "&b★ &fMisión &bRecolector Dulce"
+    lore:
+      - '&8ᴛɪᴘᴏ ʀᴇᴄᴏʟᴇᴄᴄɪ́ᴏɴ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Recoger &a32 &7Cañas de Azúcar.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$5,500'
+      - ' &e⭐ &f16x Papel'
+      - ''
+    rewards: ["eco give %player% 5500", "give %player% paper 16"]
+
   pickup_kelp:
     action-type: "PICKUP"
     action-target: "KELP"
     action-amount: 64
     material: "KELP"
-    name: "&a&lMisión: &fBuzo Recolector"
-    lore: ["&7Recoge 64 Algas del agua."]
-    rewards: ["give %player% dried_kelp_block 2"]
+    name: "&b★ &fMisión &bBuzo Recolector"
+    lore:
+      - '&8ᴛɪᴘᴏ ʀᴇᴄᴏʟᴇᴄᴄɪ́ᴏɴ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Recoger &a64 &7Algas del agua.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f2x Bloques de Algas'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% dried_kelp_block 2"]
+
   pickup_apple:
     action-type: "PICKUP"
     action-target: "APPLE"
     action-amount: 5
     material: "APPLE"
-    name: "&a&lMisión: &fRecolector de Manzanas"
-    lore: ["&7Recoge 5 Manzanas del suelo."]
-    rewards: ["give %player% golden_apple 1"]
+    name: "&b★ &fMisión &bRecolector de Manzanas"
+    lore:
+      - '&8ᴛɪᴘᴏ ʀᴇᴄᴏʟᴇᴄᴄɪ́ᴏɴ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Recoger &a5 &7Manzanas del suelo.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,000'
+      - ' &e⭐ &f1x Manzana Dorada'
+      - ''
+    rewards: ["eco give %player% 7000", "give %player% golden_apple 1"]
+
   pickup_egg:
     action-type: "PICKUP"
     action-target: "EGG"
     action-amount: 16
     material: "EGG"
-    name: "&a&lMisión: &fGranjero Matutino"
-    lore: ["&7Recoge 16 Huevos."]
-    rewards: ["eco give %player% 250"]
+    name: "&b★ &fMisión &bGranjero Matutino"
+    lore:
+      - '&8ᴛɪᴘᴏ ʀᴇᴄᴏʟᴇᴄᴄɪ́ᴏɴ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Recoger &a16 &7Huevos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$5,000'
+      - ''
+    rewards: ["eco give %player% 5000"]
+
   pickup_flesh:
     action-type: "PICKUP"
     action-target: "ROTTEN_FLESH"
     action-amount: 32
     material: "ROTTEN_FLESH"
-    name: "&a&lMisión: &fLimpiador de Restos"
-    lore: ["&7Recoge 32 de Carne Podrida."]
-    rewards: ["give %player% emerald 1"]
+    name: "&b★ &fMisión &bLimpiador de Restos"
+    lore:
+      - '&8ᴛɪᴘᴏ ʀᴇᴄᴏʟᴇᴄᴄɪ́ᴏɴ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Recoger &a32 &7de Carne Podrida.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$6,000'
+      - ' &e⭐ &f1x Esmeralda'
+      - ''
+    rewards: ["eco give %player% 6000", "give %player% emerald 1"]
 
-  # ==========================================
-  # MISIONES DE CRIAR (BREED) - 5 Misiones
-  # ==========================================
+  # ═══════════════════════════════
+  # MISIONES DE CRIAR (BREED)
+  # ═══════════════════════════════
   breed_cow:
     action-type: "BREED"
     action-target: "COW"
     action-amount: 5
     material: "WHEAT"
-    name: "&a&lMisión: &fGanadero de Vacas"
-    lore: ["&7Alimenta y cría 5 Vacas."]
-    rewards: ["give %player% milk_bucket 1", "eco give %player% 300"]
+    name: "&d★ &fMisión &dGanadero de Vacas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄʀɪᴀɴᴢᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Alimentar y criar &a5 &7Vacas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,000'
+      - ' &e⭐ &f1x Cubo de Leche'
+      - ''
+    rewards: ["eco give %player% 8000", "give %player% milk_bucket 1"]
+
   breed_pig:
     action-type: "BREED"
     action-target: "PIG"
     action-amount: 5
     material: "CARROT"
-    name: "&a&lMisión: &fGanadero de Cerdos"
-    lore: ["&7Alimenta y cría 5 Cerdos."]
-    rewards: ["give %player% emerald 2"]
+    name: "&d★ &fMisión &dGanadero de Cerdos"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄʀɪᴀɴᴢᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Alimentar y criar &a5 &7Cerdos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,000'
+      - ' &e⭐ &f2x Esmeraldas'
+      - ''
+    rewards: ["eco give %player% 8000", "give %player% emerald 2"]
+
   breed_sheep:
     action-type: "BREED"
     action-target: "SHEEP"
     action-amount: 5
     material: "WHEAT"
-    name: "&a&lMisión: &fPastor de Ovejas"
-    lore: ["&7Alimenta y cría 5 Ovejas."]
-    rewards: ["give %player% shears 1"]
+    name: "&d★ &fMisión &dPastor de Ovejas"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄʀɪᴀɴᴢᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Alimentar y criar &a5 &7Ovejas.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$8,500'
+      - ' &e⭐ &f1x Tijeras'
+    rewards: ["eco give %player% 8500", "give %player% shears 1"]
+
   breed_chicken:
     action-type: "BREED"
     action-target: "CHICKEN"
     action-amount: 5
     material: "WHEAT_SEEDS"
-    name: "&a&lMisión: &fCriador de Aves"
-    lore: ["&7Alimenta y cría 5 Pollos."]
-    rewards: ["give %player% experience_bottle 3"]
+    name: "&d★ &fMisión &dCriador de Aves"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄʀɪᴀɴᴢᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Alimentar y criar &a5 &7Pollos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$7,000'
+      - ' &e⭐ &f3x Botellas de Experiencia'
+    rewards: ["eco give %player% 7000", "give %player% experience_bottle 3"]
+
   breed_rabbit:
     action-type: "BREED"
     action-target: "RABBIT"
     action-amount: 3
     material: "DANDELION"
-    name: "&a&lMisión: &fCriador Ágil"
-    lore: ["&7Alimenta y cría 3 Conejos."]
-    rewards: ["give %player% golden_carrot 3"]
+    name: "&d★ &fMisión &dCriador Ágil"
+    lore:
+      - '&8ᴛɪᴘᴏ ᴄʀɪᴀɴᴢᴀ'
+      - ''
+      - ' &fObjetivo:'
+      - ' &7● Alimentar y criar &a3 &7Conejos.'
+      - ''
+      - ' &fRecompensas:'
+      - ' &e⭐ &a$10,000'
+      - ' &e⭐ &f3x Zanahorias Doradas'
+    rewards: ["eco give %player% 10000", "give %player% golden_carrot 3"]
+
+# ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# ┃     CONFIGURACIÓN DE MENSAJES  ┃
+# ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+# Prefijo global del plugin
+prefix: "&8[&c&l🪓&8] "
 
 messages:
-  completed-all: "&a&l¡Misiones completadas!"
+  # Mensajes de éxito
+  completed-all: "&a✔ Misiones completadas."
+
+  # Lore o texto flotante que aparece al terminar
   completed-lore:
-    - "&7Has completado las 10 misiones de hoy."
-    - "&7Avanzaste en tu progreso de hitos."
-    - "&7Vuelve mañana para continuar."
+    - "&8ᴍɪѕɪᴏɴᴇѕ"
+    - ""
+    - " &a⭐ &fHas completado las &e10 misiones &fde hoy."
+    - "    &fAvanzaste en tu progreso de hitos."
+    - "    &fvuelve por mas mañana."
+    - ""
+    - " &a▸ Vuelve mañana para continuar."

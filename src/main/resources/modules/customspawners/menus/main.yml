@@ -1,0 +1,29 @@
+title: '&8Menú de Spawners'
+size: 27
+
+items:
+  give:
+    slot: 11
+    material: ZOMBIE_SPAWN_EGG
+    name: '&a► Obtener Spawners'
+    lore:
+      - '&7Abre el menú para sacar spawners'
+      - '&7directamente a tu inventario.'
+  stats:
+    slot: 13
+    material: PAPER
+    name: '&e► Estadísticas Globales'
+    lore:
+      - '&7Total Activos: &b{total}'
+      - ''
+      - '&7Sistema optimizado por Etherium'
+  list:
+    slot: 15
+    material: ENDER_EYE
+    name: '&d► Gestionar por Dueño'
+    lore:
+      - '&7Mira la lista de jugadores con spawners'
+      - '&7y gestiona sus ubicaciones.'
+
+background:
+  material: BLACK_STAINED_GLASS_PANE

@@ -1,0 +1,33 @@
+prefix: "&8[&e&l!&8] &f"
+
+selection:
+  hopper-added: "&fTolva añadida a la selección &e(%current% seleccionadas)."
+  hopper-removed: "&fTolva removida de la selección."
+  cleared: "&fSelección limpiada correctamente."
+  already-linked: "&fEsta tolva ya pertenece a otro vínculo."
+  invalid-block: "&fSolo puedes seleccionar Tolvas y Cofres."
+
+linking:
+  success: "&f¡Vínculo creado exitosamente con &e%count% &ftolvas!"
+  limit-reached: "&fHas alcanzado tu límite máximo de tolvas vinculadas &e(%limit%)."
+  max-links-reached: "&fHas alcanzado el límite máximo de cofres vinculados permitidos &e(%limit%)."
+  no-selection: "&fPrimero debes seleccionar al menos una tolva &e(Click derecho)."
+  chest-required: "&fDebes hacer click en un cofre para terminar la vinculación."
+  too-far: "&fUna o más tolvas están muy lejos del cofre. &e(Máximo: %distance% bloques)."
+  different-world: "&cLas tolvas y el cofre deben estar en el mismo mundo."
+
+protection:
+  chest-broken: "&e&l¡ATENCIÓN! &fUno de tus cofres vinculados fue destruido. El vínculo se ha eliminado."
+  hopper-broken: "&fUna de tus tolvas vinculadas fue destruida y ha sido removida del vínculo."
+  place-limit-reached: "&fHas alcanzado el límite máximo de tolvas permitidas en el mundo &e(%limit%)."
+
+menu:
+  showing-particles: "&fMostrando conexión con partículas rojas durante &e10 &fsegundos..."
+  upgraded: "&f¡Varita mejorada al nivel &e%level% &fpor &e$%cost%!"
+  no-money: "&fNo tienes suficiente dinero. Necesitas &e$%cost%."
+  max-level: "&fYa estás al nivel máximo."
+  deleted: "&fVínculo eliminado. Las tolvas volverán a funcionar normal."
+
+errors:
+  no-permission: "&cNo tienes permisos para realizar esta acción."
+  disabled-world: "&fEl sistema de tolvas inalámbricas no está habilitado en este mundo."

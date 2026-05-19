@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cl.pandress</groupId>
-    <artifactId>Fresh</artifactId>
+    <artifactId>Etherium</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -33,7 +33,6 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-
     </repositories>
 
     <dependencies>
@@ -45,34 +44,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>net.dv8tion</groupId>
+            <artifactId>JDA</artifactId>
+            <version>5.0.0-beta.21</version> <!-- Revisa usar una versión actual de JDA 5 -->
+            <scope>compile</scope> <!-- Usa compile para que se exporte dentro de tu .jar -->
+        </dependency>
+        <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!-- MariaDB Driver (MySQL compatible) -->
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>3.3.3</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- MongoDB Java Driver -->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-sync</artifactId>
-            <version>5.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Jedis (Redis) -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>5.1.2</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- Lombok (Opcional, para código más limpio) -->
@@ -86,13 +67,6 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
             <version>4.17.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.almamc</groupId>
-            <artifactId>aCore</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/aCore.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>

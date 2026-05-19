@@ -1,24 +1,39 @@
 package cl.pandress.command.player;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
+import cl.pandress.modules.battlepass.BattlePassManager;
 import cl.pandress.modules.battlepass.menus.PassMainMenu;
-import cl.pandress.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class BattlePassCommand implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) {
-            // Lee el mensaje de error directamente desde messages.yml
-            String msg = Fresh.getInstance().getManagerHandler().getBattlePassManager().getMessages().getString("only-players", "&cSolo los jugadores pueden abrir el Pase de Batalla.");
-            sender.sendMessage(ChatUtils.colorize(msg));
+            sender.sendMessage("Solo los jugadores pueden usar este comando.");
             return true;
         }
 
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
+
+        if (!bp.getConfig().getBoolean("settings.enabled", true)) {
+            player.sendMessage("§cEl Pase de Batalla se encuentra desactivado.");
+            return true;
+        }
+
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("bossbar")) {
+                // Activar/Desactivar el BossBar
+                bp.toggleBossBar(player);
+                return true;
+            }
+        }
+
+        // Si solo escribe /bp, abre el menú principal
         PassMainMenu.open(player);
         return true;
     }

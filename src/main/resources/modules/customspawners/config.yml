@@ -1,0 +1,15 @@
+settings:
+  max-nearby-entities: 10
+  min-delay-seconds: 10
+  max-delay-seconds: 25
+  mobs-per-spawn: 3
+
+item:
+  name: '&eSpawner Custom &7({type})'
+  lore:
+    - '&7¡Funciona con los Cargadores de Chunks!'
+    - '&eColócalo en el suelo para activarlo.'
+
+webhook:
+  enabled: false
+  url: TU_WEBHOOK_AQUI

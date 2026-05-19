@@ -1,0 +1,51 @@
+# ======================================================
+# Etherium Core - Sistema de Descubrimientos
+# Configuración General y Fallbacks
+# ======================================================
+
+settings:
+  # Define si el sistema de descubrimientos está activo
+  enabled: false
+  # Cada cuántos ticks se verificará la ubicación y entorno del jugador (20 ticks = 1 seg)
+  scan-interval-ticks: 40
+
+  # Radio en bloques para detectar entidades (Mobs) a tu alrededor.
+  mob-scan-radius: 6.0
+
+  # ¿Se debe guardar automáticamente el progreso de los jugadores al apagar el servidor?
+  auto-save-on-shutdown: true
+
+# ======================================================
+# CONFIGURACIÓN POR DEFECTO (FALLBACKS)
+# Estos valores se usarán si un descubrimiento NO tiene
+# una entrada específica.
+# ======================================================
+
+categories:
+  BIOME:
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#00FF00¡Bioma Descubierto!"
+    subtitle: "&fHas llegado a: &#00FF00%name%"
+    rewards:
+      - "eco give %player% 100"
+
+  STRUCTURE:
+    sound: "UI_TOAST_CHALLENGE_COMPLETE"
+    title: "&#FFA500¡Estructura Encontrada!"
+    subtitle: "&fExplorando: &#FFA500%name%"
+    rewards:
+      - "eco give %player% 500"
+
+  CAVE:
+    sound: "AMBIENT_CAVE"
+    title: "&#00FFFF¡Cueva Explorada!"
+    subtitle: "&fProfundidades de: &#00FFFF%name%"
+    rewards:
+      - "eco give %player% 250"
+
+  MOB:
+    sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    title: "&#FF5555¡Criatura Avistada!"
+    subtitle: "&fHas registrado a: &#FF5555%name%"
+    rewards:
+      - "eco give %player% 50"

@@ -1,0 +1,23 @@
+title: '&0Spawners de &3{player} &0- Pag {page}'
+size: 54
+
+spawner-format:
+  material: SPAWNER
+  name: '&6Spawner: {type}'
+  lore:
+    - '&7Dueño: &f{player}'
+    - '&7Mundo: {world_color}{world}'
+    - '&7Coordenadas: &f{x}, {y}, {z}'
+    - ''
+    - '&a► Click Izquierdo para TP'
+    - '&c► Click Derecho para Eliminar'
+
+navigation:
+  back:
+    name: '&cVolver a Dueños'
+  prev:
+    name: '&ePágina Anterior ({page})'
+  next:
+    name: '&ePágina Siguiente ({page})'
+    lore:
+      - '&7Restantes: &f{left}'

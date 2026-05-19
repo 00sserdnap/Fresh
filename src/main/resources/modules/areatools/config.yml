@@ -1,0 +1,86 @@
+# ==========================================================
+# Etherium - AreaTools Module Config
+# ==========================================================
+
+settings:
+  max-charge: 10000
+  prefix: "&8[&c&l🪓&8] &f"
+
+# ==========================================================
+# MENÚS
+# ==========================================================
+menu:
+  recharge-title: "&8⚡ Recargar Herramienta"
+  admin-title: "&8🛡 Admin: Panel de Herramientas"
+
+# ==========================================================
+# CONFIGURACIÓN DE LOS CARGADORES (BATERÍAS)
+# ==========================================================
+batteries:
+  basica:
+    material: COAL
+    name: "&8&lCarbón Energizado"
+    recharge-amount: 1000
+    lore:
+      - "&8ʙᴀᴛᴇʀÍᴀ ʙÁѕɪᴄᴀ"
+      - ""
+      - "&7Un fragmento de carbón modificado"
+      - "&7para restaurar un poco de energía."
+      - ""
+      - "&8▪ &fPoder de recarga: &b+1000"
+      - ""
+      - "&eℹ &7Abre el menú de tu herramienta"
+      - "  &7(Clic derecho) y colócalo."
+  normal:
+    material: RAW_GOLD
+    name: "&6&lOro Energizado"
+    recharge-amount: 2500
+    lore:
+      - "&8ʙᴀᴛᴇʀÍᴀ ɴᴏʀᴍᴀʟ"
+      - ""
+      - "&7Un fragmento de Oro modificada"
+      - "&7para restaurar un poco de energía."
+      - ""
+      - "&8▪ &fPoder de recarga: &b+2500"
+      - ""
+      - "&eℹ &7Abre el menú de tu herramienta"
+      - "  &7(Clic derecho) y colócalo."
+
+# ==========================================================
+# CONFIGURACIÓN DE HERRAMIENTAS (DINÁMICO)
+# ==========================================================
+tools:
+  pico_ragnarok_3x3:
+    type: PICKAXE
+    size: 3
+    material: NETHERITE_PICKAXE
+    name: "&6&lPicota Ragnarök &e{size}x{size}"
+    lore:
+      - ""
+      - "&7Un artefacto poderoso forjado para"
+      - "&7arrasar grandes áreas de piedra."
+      - ""
+      - "&8▪ &fÁrea de efecto: &e{size}x{size}"
+      - "&8▪ &fBloques minados: &6{blocks_mined}"
+      - ""
+      - "&f⚡ Energía: &a{charge}&8/&a{max_charge}"
+      - "&c⏳ Estado: {status}"
+      - ""
+      - "&eℹ &7Consíguelo en &e&ntienda.etherium.es"
+  pala_ragnarok_5x5:
+    type: SHOVEL
+    size: 5
+    material: NETHERITE_SHOVEL
+    name: "&b&lPala Ragnarök &3{size}x{size}"
+    lore:
+      - ""
+      - "&7Herramienta pesada diseñada para"
+      - "&7excavar terrenos masivos."
+      - ""
+      - "&8▪ &fÁrea de efecto: &b{size}x{size}"
+      - "&8▪ &fBloques excavados: &3{blocks_mined}"
+      - ""
+      - "&f⚡ Energía: &a{charge}&8/&a{max_charge}"
+      - "&c⏳ Estado: {status}"
+      - ""
+      - "&eℹ &7Consíguelo en &e&ntienda.etherium.es"

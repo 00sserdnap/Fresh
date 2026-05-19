@@ -1,14 +1,16 @@
-prefix: "&d&lBATTLEPASS &8» "
-only-players: "&cSolo los jugadores pueden abrir el Pase de Batalla."
-no-premium: "&cNo tienes el Pase Premium. ¡Adquiérelo en la tienda!"
-level-up: "%prefix%&a¡Has subido al nivel &e%level%&a!"
-reward-claimed: "%prefix%&a¡Has reclamado tu recompensa del nivel %level%!"
+prefix: "&8[&e⭐ Pass&8]"
+only-players: "%prefix% &fSolo los &cjugadores &fpueden abrir el Pase de Batalla."
+no-premium: "%prefix% &fNo tienes el Pase &ePremium &f¡Adquiérelo en nuestra tienda¡ &e&ntienda.etherium.es"
+level-up: "%prefix% &f¡Has subido al nivel &e%level%&a!"
+reward-claimed: "%prefix% &f¡Has reclamado tu recompensa del nivel &e%level%&f!"
+bossbar-enabled: "%prefix% &fHas &aactivado&f la barra de experiencia visual."
+bossbar-disabled: "%prefix% &fHas &cocultado&f la barra de experiencia visual."
 
 # --- NUEVO: Títulos en Pantalla ---
 titles:
   mission-completed:
-    title: "&d&l¡MISIÓN COMPLETADA!"
-    subtitle: "&fHas ganado &d%xp% XP"
+    title: "&e&l¡MISIÓN COMPLETADA!"
+    subtitle: "&fHas ganado &b%xp% XP &fpara el pase de batalla"
 
 # Sonidos (Usa nombres oficiales de Spigot)
 sounds:

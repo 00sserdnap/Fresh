@@ -3,17 +3,17 @@ size: 36
 items:
   facil:
     slot: 11
-    material: "LIME_DYE"
+    material: "SPAWNER"
     name: "&a&lFácil"
     lore: ["&7Misiones de completado rápido."]
   medio:
     slot: 13
-    material: "ORANGE_DYE"
+    material: "TRIAL_SPAWNER"
     name: "&6&lMedio"
     lore: ["&7Retos intermedios."]
   dificil:
     slot: 15
-    material: "RED_DYE"
+    material: "CREAKING_HEART"
     name: "&c&lDifícil"
     lore: ["&7Para jugadores experimentados."]
   volver:

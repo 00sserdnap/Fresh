@@ -1,0 +1,116 @@
+title: "&8&l⚡ &8Panel del Sistema"
+size: 54
+
+# Decoración de Inventario
+border:
+  material: BLACK_STAINED_GLASS_PANE
+  name: " "
+fill:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+reactor-glass:
+  material: PURPLE_STAINED_GLASS_PANE
+  name: "&5&l✦ &dCámara de Inyección &5&l✦"
+
+items:
+  info:
+    slot: 13
+    material: NETHER_STAR
+    name: "&x&3&4&E&B&5&0&lEstadísticas del Sistema"
+    status-active: "&a&l● OPERATIVO"
+    status-inactive: "&c&l● INACTIVO"
+    uptime-format: "&e{hours}h {mins}m"
+    uptime-offline: "&8—"
+    fuel-infinite: "&a&l∞ ENERGÍA INFINITA"
+    lore:
+      - "&8&m                                     "
+      - "&7Propietario: &f{owner}"
+      - "&7Identificador: &e{custom_name}"
+      - "&7Modelo: &b{type_name}"
+      - "&7Cobertura: &f{chunk_size} &7Chunks"
+      - "&8&m                                     "
+      - "&fEstado Actual: {status}"
+      - "&fTiempo en línea: {uptime}"
+      - ""
+      - "&fNiveles de Energía:"
+      - "{fuel_bar} &8({fuel} min)"
+      - "&8&m                                     "
+
+  toggle:
+    slot: 28
+    "on":
+      material: EMERALD_BLOCK
+      name: "&a&lSISTEMA ENCENDIDO"
+      lore:
+        - "&7El motor de carga está &aoperativo&7."
+        - "&7Consumiendo energía regularmente."
+        - ""
+        - "&e▶ Clic para apagar el sistema."
+    "off":
+      material: REDSTONE_BLOCK
+      name: "&c&lSISTEMA APAGADO"
+      lore:
+        - "&7El motor de carga está &cdetenido&7."
+        - "&7No se está forzando la carga de chunks."
+        - ""
+        - "&e▶ Clic para iniciar el sistema."
+
+  # Slot central para poner la batería
+  core_slot:
+    slot: 31
+
+  recharge:
+    slot: 40
+    material: BEACON
+    name: "&b&lINYECCIÓN DE ENERGÍA"
+    lore:
+      - "&7Coloca un &eNúcleo de Energía &7en"
+      - "&7la ranura superior y haz clic aquí."
+      - ""
+      - "&8➭ &fAñadirá &a{recharge_amount} min &fal tanque."
+      - ""
+      - "&e▶ Clic para confirmar inyección."
+
+  particles:
+    slot: 34
+    "on":
+      material: BLAZE_POWDER
+      name: "&6&lHOLOGRAMAS: &aON"
+      lore:
+        - "&7Las partículas indicadoras del área"
+        - "&7están actualmente &aVisibles&7."
+        - ""
+        - "&e▶ Clic para ocultar el holograma."
+    "off":
+      material: GUNPOWDER
+      name: "&6&lHOLOGRAMAS: &8OFF"
+      lore:
+        - "&7Las partículas indicadoras del área"
+        - "&7están actualmente &cOcultas&7."
+        - ""
+        - "&e▶ Clic para mostrar el holograma."
+
+  rename:
+    slot: 20
+    material: NAME_TAG
+    name: "&e&lRE-ETIQUETAR SISTEMA"
+    lore:
+      - "&7Asigna un nombre personalizado"
+      - "&7para identificar este cargador en"
+      - "&7tus paneles de administración."
+      - ""
+      - "&e▶ Clic para renombrar."
+
+  pickup:
+    slot: 24
+    material: BARRIER
+    name: "&c&lDESMANTELAR CARGADOR"
+    lore:
+      - "&7Apaga el sistema, guarda la energía"
+      - "&7y devuelve el ítem a tu inventario."
+      - ""
+      - "&4&l¡ATENCIÓN!"
+      - "&cLos cargadores temporales no"
+      - "&cse pueden desmantelar/recoger."
+      - ""
+      - "&e▶ Clic para desinstalar."

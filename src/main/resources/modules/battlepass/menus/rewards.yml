@@ -8,21 +8,18 @@ formats:
   claimed-material: "HOPPER_MINECART"
 
   # Nombres y Lore según el estado
-  claimed-name: "&a&lNivel %level% (Reclamado)"
-  claimed-lore:
-    - "&7Recompensa:"
-    - " %reward_desc%"
-    - ""
-    - "&7Ya reclamaste esta recompensa."
+  claimed-name: "&a✔ Reclamado"
+  claimed-lore: ""
 
-  blocked-name: "&c&lNivel %level% (Bloqueado)"
+  blocked-name: "&c✘ &cNivel %level% (Bloqueado)"
   blocked-lore:
+    - "&8ʀᴇᴄᴏᴍᴘᴇɴѕᴀ ʙʟᴏǫᴜᴇᴀᴅᴀ"
+    - ""
     - "&7Recompensa:"
     - " %reward_desc%"
+    - " &7Progreso: &b%current%&8/&b%required% XP"
     - ""
-    - "&7Sube de nivel para desbloquear."
-    - "&fProgreso: &b%current%&8/&b%required% XP"
-    - "&c(Faltan %missing% XP)"
+    - " &c► No tienes suficiente EXP   "
 
   # Nuevo estado: Tienen el nivel, pero no el permiso premium
   locked-premium-name: "&c&lNivel %level% (Pase Premium)"
@@ -38,10 +35,10 @@ formats:
     - "&7Recompensa:"
     - " %reward_desc%"
     - ""
-    - "&a¡Haz click para reclamar!"
+    - "&a► ¡Haz click para reclamar!"
 
-  type-premium: "&d[PREMIUM]"
-  type-free: "&7[GRATIS]"
+  type-premium: "&8[&e⭐ Pase Premium&8]"
+  type-free: "&8[&a✔ Pase Gratis&8]"
   page-indicator: "&0PAGE:%page%"
 
 items:

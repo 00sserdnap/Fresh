@@ -1,6 +1,6 @@
 package cl.pandress.modules.battlepass.menus;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
 import cl.pandress.modules.battlepass.BattlePassManager;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public class BattlePassMenus {
 
     public static void openMain(Player player) {
         Inventory inv = Bukkit.createInventory(null, 27, ChatUtils.colorize("&8Menu | BattlePass"));
-        BattlePassManager bp = Fresh.getInstance().getManagerHandler().getBattlePassManager();
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
         UUID uuid = player.getUniqueId();
 
         inv.setItem(11, createItem(Material.NETHER_STAR, "&e&lMisiones del Pase", "&7Ver misiones disponibles", "&7separadas por dificultad."));
@@ -56,7 +56,7 @@ public class BattlePassMenus {
     public static void openCategoryMissions(Player player, String difficulty, int page) {
         String diffName = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1);
         Inventory inv = Bukkit.createInventory(null, 54, ChatUtils.colorize("&8Misiones: " + diffName + " | Pág " + page));
-        BattlePassManager bp = Fresh.getInstance().getManagerHandler().getBattlePassManager();
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
         FileConfiguration cfg = bp.getConfig();
         
         List<String> missions = bp.getMissionsByCategory(difficulty);
@@ -95,7 +95,7 @@ public class BattlePassMenus {
 
     public static void openPass(Player player, int page) {
         Inventory inv = Bukkit.createInventory(null, 54, ChatUtils.colorize("&8Pase de Batalla | Pág " + page));
-        BattlePassManager bp = Fresh.getInstance().getManagerHandler().getBattlePassManager();
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
         FileConfiguration cfg = bp.getConfig();
         UUID uuid = player.getUniqueId();
 

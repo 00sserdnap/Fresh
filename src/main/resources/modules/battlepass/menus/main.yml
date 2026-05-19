@@ -3,30 +3,46 @@ size: 36
 
 # Formatos dinámicos que se inyectan en los ítems
 formats:
-  pass-premium: "&dPremium"
-  pass-free: "&7Gratis"
+  pass-premium: "⭐ Premium"
+  pass-free: "&7✔ Gratis"
 
 items:
   misiones:
     slot: 11
     material: "NETHER_STAR"
-    name: "&e&lMisiones del Pase"
-    lore: ["&7Ver misiones disponibles", "&7separadas por dificultad."]
+    name: "&e&lMisiones del Pase" #[" &f│ ᴍɪѕɪᴏɴᴇѕ"," &7Ver misiones disponibles", " &7separadas por dificultad.", "&e► ¡Haz Clic derecho para interactuar!"]
+    lore:
+      - "&8ᴍɪѕɪᴏɴᴇѕ"
+      - ""
+      - " &f│ ᴍɪѕɪᴏɴᴇѕ"
+      - " &7Ver misiones disponibles"
+      - " &7separadas por dificultad."
+      - ""
+      - "&e► ¡Haz Clic derecho para interactuar!"
   info:
     slot: 13
     material: "BOOK"
     name: "&a&lTu Información"
     lore:
-      - "&fNivel Actual: &e%level%"
-      - "&fExperiencia: &b%xp%&8/&b%req_xp% XP"
-      - "&fTipo de Pase: %pass_type%"
+      - "&8ɪɴꜰᴏʀᴀᴍᴄɪᴏɴ"
+      - ""
+      - " &7Nivel Actual: &e%level%"
+      - " &7Experiencia: &b%xp%&8/&b%req_xp% XP"
+      - " &7Tipo de Pase: %pass_type%"
   pase:
     slot: 15
     material: "FEATHER"
     name: "&d&lVer Pase de Batalla"
-    lore: ["&7Haz clic para reclamar", "&7tus recompensas por nivel."]
+    lore:
+      - "&8ᴘᴀsᴇ ᴅᴇ ʙᴀᴛᴀʟʟᴀ"
+      - ""
+      - " &f│ ɪɴꜰᴏʀᴀᴍᴄɪᴏɴ"
+      - " &7Haz clic para reclamar"
+      - " &7tus recompensas por nivel."
+      - ""
+      - "&d► ¡Haz Clic derecho para interactuar!"
   salir:
     slot: 31
     material: "IRON_DOOR"
-    name: "&cSalir"
-    lore: ["&7Cerrar el menú."]
+    name: "&c&l✘ &cCerrar Menu"
+    lore: []

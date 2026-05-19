@@ -1,0 +1,12 @@
+title: '&8Obtener Spawners'
+size: 54
+
+item-format:
+  name: '&eSpawner de {type}'
+  lore:
+    - '&aClick para darte 1x {type}'
+
+back-button:
+  slot: 49
+  material: BARRIER
+  name: '&cVolver'

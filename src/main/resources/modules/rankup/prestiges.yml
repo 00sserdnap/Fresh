@@ -1,0 +1,22 @@
+# ====================================================================================================
+#                               ETHERIUM CORE - CONFIGURACIÓN DE PRESTIGIOS
+# ====================================================================================================
+prestiges:
+  1:
+    prefix: "&8[&d&lP1&8]"
+    requirements:
+      money: 500000
+    rewards_lore:
+      - "Prefijo Global [P1]"
+      - "Multiplicador Global +0.5"
+    commands:
+      - "lp user %player% parent remove rango5"
+  2:
+    prefix: "&8[&5&lP2&8]"
+    requirements:
+      money: 1500000
+    rewards_lore:
+      - "Prefijo Global [P2]"
+      - "Multiplicador Global +1.0"
+    commands:
+      - "lp user %player% parent remove rango_p1_2"

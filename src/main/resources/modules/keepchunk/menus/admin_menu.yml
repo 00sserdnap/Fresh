@@ -1,0 +1,38 @@
+title: "&8⚙ &0Panel de Administración"
+size: 27
+border:
+  material: GRAY_STAINED_GLASS_PANE
+  name: " "
+
+items:
+  get_loaders:
+    slot: 11
+    material: VILLAGER_SPAWN_EGG
+    name: "&x&E&6&7&E&2&2▶ Dispensador de Cargadores"
+    lore:
+      - "&7Abre el menú para generar ítems"
+      - "&7de cargadores o núcleos de energía."
+      - ""
+      - "&e¡Clic para abrir la bóveda!"
+
+  stats:
+    slot: 13
+    material: PAPER
+    name: "&x&3&4&E&B&5&0▶ Monitor de Rendimiento Global"
+    lore:
+      - "&8&m                                     "
+      - "&7Sistemas en Línea: &b{total}"
+      - "&7Chunks Forzados Reales: &b{chunks}"
+      - "&8&m                                     "
+      - "&7Monitorización automática activa."
+
+  players:
+    slot: 15
+    material: ENDER_EYE
+    name: "&x&C&0&3&9&2&B▶ Radar de Propietarios"
+    lore:
+      - "&7Explora la base de datos de jugadores"
+      - "&7que poseen cargadores activos en el"
+      - "&7mundo."
+      - ""
+      - "&e¡Clic para abrir la lista!"

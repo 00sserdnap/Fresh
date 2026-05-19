@@ -1,6 +1,6 @@
 package cl.pandress.modules.battlepass.placeholderapi;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
 import cl.pandress.modules.battlepass.BattlePassManager;
 import cl.pandress.utils.ChatUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -11,7 +11,7 @@ public class BattlePassPlaceholder extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "freshbp"; // Este será el inicio de todos tus placeholders
+        return "battlepass";
     }
 
     @Override
@@ -26,7 +26,7 @@ public class BattlePassPlaceholder extends PlaceholderExpansion {
 
     @Override
     public boolean persist() {
-        return true; // Mantiene el placeholder activo al recargar PAPI
+        return true; 
     }
 
     @Override
@@ -35,25 +35,30 @@ public class BattlePassPlaceholder extends PlaceholderExpansion {
             return "";
         }
 
-        BattlePassManager bp = Fresh.getInstance().getManagerHandler().getBattlePassManager();
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
 
-        // 1. Placeholder del Distintivo: %freshbp_badge%
+        // --- VERIFICACIÓN DE MÓDULO APAGADO ---
+        if (!bp.getConfig().getBoolean("settings.enabled", true)) {
+            if (params.equalsIgnoreCase("badge")) return ""; 
+            return "Desactivado"; // Devuelve "Desactivado" para nivel/xp
+        }
+
+        // 1. Placeholder del Distintivo: %battlepass_badge%
         if (params.equalsIgnoreCase("badge")) {
             if (bp.hasPremium(player)) {
-                // Lee el diseño desde tu config.yml
                 String badge = bp.getConfig().getString("settings.premium-badge", "&8[&e⭐&8]");
                 return ChatUtils.colorize(badge);
             } else {
-                return ""; // Si no tiene el pase premium, no devuelve absolutamente nada
+                return ""; 
             }
         }
 
-        // 2. Placeholder del Nivel: %freshbp_level%
+        // 2. Placeholder del Nivel: %battlepass_level%
         if (params.equalsIgnoreCase("level")) {
             return String.valueOf(bp.getLevel(player.getUniqueId()));
         }
 
-        // 3. Placeholder de la Experiencia: %freshbp_xp%
+        // 3. Placeholder de la Experiencia: %battlepass_xp%
         if (params.equalsIgnoreCase("xp")) {
             return String.valueOf(bp.getXp(player.getUniqueId()));
         }

@@ -1,0 +1,84 @@
+wand-menu:
+  title: "&7         Panel de la Varita"
+  rows: 3
+  fill-item:
+    material: BLACK_STAINED_GLASS_PANE
+
+  review-item:
+    slot: 11
+    material: HOPPER
+    name: "&c🔍 Revisar Vínculos"
+    lore:
+      - "&8ᴠɪɴᴄᴜʟᴀᴄɪᴏɴᴇѕ"
+      - ""
+      - "&7Mira todos los cofres y tolvas"
+      - "&7que tienes vinculados actualmente."
+      - ""
+      - "&7Vínculos activos: &c%active_links%"
+      - ""
+      - "&c► ¡Click para administrar!"
+
+  upgrade-item:
+    slot: 15
+    material: GOLD_INGOT
+    name: "&e⚡ Mejorar Varita"
+    lore:
+      - "&8ᴍᴇᴊᴏʀᴀ ᴅᴇ ᴠᴀʀɪᴛᴀ"
+      - ""
+      - "&7Aumenta la cantidad de transferencia"
+      - "&7para TODAS tus tolvas conectadas."
+      - ""
+      - "&7Nivel Actual: &e%current_level%"
+      - "&7Siguiente Nivel: &f%next_level%"
+      - "&7Costo de Mejora: &a$%cost%"
+      - ""
+      - "&e► ¡Click para comprar mejora!"
+
+  max-upgrade-item:
+    slot: 15
+    material: NETHER_STAR
+    name: "&4⚡ Tu varita esta al maximo "
+    lore:
+
+list-menu:
+  title: "&7       Tus Vínculos Activos"
+  rows: 6
+  fill-item:
+    material: GRAY_STAINED_GLASS_PANE
+
+action-menu:
+  title: "&7         Gestión de Vínculo"
+  rows: 3
+  fill-item:
+    material: BLACK_STAINED_GLASS_PANE
+
+  info-item:
+    slot: 11
+    material: HOPPER
+    name: "&eInformación del Vínculo"
+    lore:
+      - ""
+      - "&7Tolvas conectadas: &f%count%"
+      - "&7Velocidad actual: &b%speed% ítems/seg"
+
+  particles-item:
+    slot: 13
+    material: REDSTONE
+    name: "&c Conexión (Partículas)"
+    lore:
+      - ""
+      - "&7Muestra una línea láser visual"
+      - "&7hacia los cofres conectados."
+      - ""
+      - "&c► ¡Click para visualizar!"
+
+  delete-item:
+    slot: 15
+    material: BARRIER
+    name: "&4Eliminar Vínculo"
+    lore:
+      - ""
+      - "&7Rompe la conexión y restaura"
+      - "&7el límite de tus tolvas."
+      - ""
+      - "&4► ¡Click para eliminar!"

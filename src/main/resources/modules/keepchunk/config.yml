@@ -1,0 +1,89 @@
+# =======================================================
+#    ETHERIUM KEEPCHUNK - Configuración Principal
+# =======================================================
+
+settings:
+  # Tiempo en milisegundos que un jugador debe estar desconectado
+  # para que sus cargadores se apaguen solos (Ej. 259200000 = 3 días)
+  auto-off-offline-time: 259200000
+  # Frecuencia en ticks para actualizar las partículas (20 ticks = 1 segundo)
+  particle-update-ticks: 40
+  discord:
+    log-channel-id: "ID_AQUI"
+    status-channel-id: "ID_AQUI"
+    status-message-id: "ID_AQUI"
+
+# Límite máximo de cargadores que puede colocar un jugador
+limits:
+  default: 1
+  vip: 3
+  mvp: 5
+
+# =======================================================
+#    TIPOS DE CARGADORES
+# =======================================================
+# Radio de cobertura:
+#   radius: 0  -> 1x1 chunk  (solo el chunk donde está el cargador)
+#   radius: 1  -> 3x3 chunks
+#   radius: 2  -> 5x5 chunks
+#   radius: N  -> (N*2+1) x (N*2+1) chunks
+#
+# permanent: true   -> energía infinita, no consume combustible
+# permanent: false  -> necesita núcleos de energía
+# max-fuel: 0       -> se ignora si permanent: true
+
+loaders:
+
+  # --- Cargador Nano: 1 chunk exacto ---
+  nano:
+    name: "&x&A&A&F&F&A&A&l✦ &a&lCargador Nano &x&A&A&F&F&A&A&l✦"
+    radius: 0
+    permanent: false
+    max-fuel: 1440 # 24 horas en minutos
+    lore:
+      - ""
+      - "&8➭ &7Mantiene cargado exactamente &f1 chunk&7."
+      - "&8➭ &7Ideal para máquinas puntuales."
+      - "&8➭ &7Funciona incluso si no estás conectado."
+      - ""
+      - "&x&A&A&F&F&A&Aℹ &fRequiere &x&A&A&F&F&A&ANúcleos de Energía &fpara funcionar."
+
+  # --- Cargador Básico: 3x3 chunks ---
+  basic:
+    name: "&x&3&4&E&B&5&0&l✦ &3&lCargador Básico &x&3&4&E&B&5&0&l✦"
+    radius: 1
+    permanent: false
+    max-fuel: 1440 # 24 horas en minutos
+    lore:
+      - ""
+      - "&8➭ &7Mantiene cargado un área de &f3x3 chunks&7."
+      - "&8➭ &7Funciona incluso si no estás conectado."
+      - ""
+      - "&x&3&4&E&B&5&0ℹ &fRequiere &x&3&4&E&B&5&0Núcleos de Energía &fpara funcionar."
+
+  # --- Cargador Maestro: 5x5 chunks, energía infinita ---
+  master:
+    name: "&x&F&F&A&A&0&0&l✦ &6&lCargador Maestro &x&F&F&A&A&0&0&l✦"
+    radius: 2
+    permanent: true
+    max-fuel: 0
+    lore:
+      - ""
+      - "&8➭ &7Mantiene cargado un inmenso área de &f5x5 chunks&7."
+      - "&8➭ &7El pináculo de la ingeniería del servidor."
+      - ""
+      - "&x&F&F&A&A&0&0⚡ &e&lENERGÍA INFINITA"
+
+# =======================================================
+#    NÚCLEOS DE COMBUSTIBLE
+# =======================================================
+cores:
+  standard:
+    name: "&x&E&E&F&F&0&0&l⚡ &eNúcleo de Energía &x&E&E&F&F&0&0&l⚡"
+    recharge-amount: 1440 # Cuántos minutos añade por cada núcleo (24h)
+    lore:
+      - ""
+      - "&8➭ &7Combustible de alta densidad."
+      - "&8➭ &7Añade &f24 horas &7de autonomía."
+      - ""
+      - "&eAbre el panel de tu cargador e inserta este núcleo."

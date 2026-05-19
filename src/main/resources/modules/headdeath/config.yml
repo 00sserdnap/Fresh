@@ -1,0 +1,394 @@
+# ========================================================
+#   CONFIGURACIÓN DE MENÚS Y SUB-MENÚS
+# ========================================================
+
+menus:
+  main:
+    title: "&7        &nMenú de Cosméticos"
+    size: 27
+    items:
+      balance:
+        material: GOLD_NUGGET
+        slot: 4
+        name: "&c⛁ Tus D-Coins "
+        lore:
+          - "&8ᴅ-ᴄᴏɪɴѕ"
+          - "&fBalance: &c{coins} ⛁"
+          - ""
+          - "&7Usa estas monedas para comprar"
+          - "&7nuevos cosméticos de muerte."
+      graves_category:
+        material: SOUL_CAMPFIRE
+        slot: 11
+        name: "&c💀 Personalizar Tumba"
+        lore:
+          - "&8ᴘᴇʀѕᴏɴᴀʟɪᴢᴀᴄɪᴏɴ ᴅᴇ ᴍᴜᴇʀᴛᴇ"
+          - ""
+          - "&7Cambia el bloque de tu tumba."
+          - "&7y dale un mejor aspecto cuando mueres"
+          - ""
+          - "&c¡Clic para ver opciones!"
+      effects_category:
+        material: BLAZE_POWDER
+        slot: 15
+        name: "&4&l🎨 &4Efectos de Muerte"
+        lore:
+          - "&8ᴘᴇʀѕᴏɴᴀʟɪᴢᴀᴄɪᴏɴ ᴅᴇ ᴍᴜᴇʀᴛᴇ"
+          - ""
+          - "&7Añade partículas y sonidos"
+          - "&7cuando mueras, sera unico amigo."
+          - ""
+          - "&4¡Clic para ver opciones!"
+
+  # SUB-MENÚS DE CATEGORÍAS
+  graves_category:
+    title: "&8☠ Tumbas > Categorías"
+    size: 27
+    items:
+      unlocked:
+        material: CHEST
+        slot: 11
+        name: "&a&lMis Tumbas"
+        lore: ["&7Tumbas que ya puedes equipar."]
+      coins:
+        material: GOLD_NUGGET
+        slot: 13
+        name: "&6&lTienda de Tumbas"
+        lore: ["&7Compra tumbas con DeathCoins."]
+      vip:
+        material: NETHER_STAR
+        slot: 15
+        name: "&b&lTumbas VIP"
+        lore: ["&7Exclusivo para rangos especiales."]
+      back:
+        material: ARROW
+        slot: 22
+        name: "&cVolver al Menú Principal"
+        lore: []
+
+  effects_category:
+    title: "&8☠ Efectos > Categorías"
+    size: 27
+    items:
+      unlocked:
+        material: CHEST
+        slot: 11
+        name: "&a&lMis Efectos"
+        lore: ["&7Efectos que ya puedes equipar."]
+      coins:
+        material: GOLD_NUGGET
+        slot: 13
+        name: "&6&lTienda de Efectos"
+        lore: ["&7Compra efectos con DeathCoins."]
+      vip:
+        material: NETHER_STAR
+        slot: 15
+        name: "&b&lEfectos VIP"
+        lore: ["&7Exclusivo para rangos especiales."]
+      back:
+        material: ARROW
+        slot: 22
+        name: "&cVolver al Menú Principal"
+        lore: []
+
+  # LISTAS DINÁMICAS (El tamaño debe ser suficientemente grande para los items)
+  lists:
+    size: 45
+    graves_unlocked_title: "&8☠ Tumbas > Mis Tumbas"
+    graves_coins_title: "&8☠ Tumbas > Tienda"
+    graves_vip_title: "&8☠ Tumbas > VIP"
+    effects_unlocked_title: "&8☠ Efectos > Mis Efectos"
+    effects_coins_title: "&8☠ Efectos > Tienda"
+    effects_vip_title: "&8☠ Efectos > VIP"
+    items:
+      back:
+        material: ARROW
+        slot: 40
+        name: "&cVolver a Categorías"
+        lore: []
+
+# ========================================================
+#   FORMATOS DE LORES DINÁMICOS PARA COSMÉTICOS
+# ========================================================
+cosmetic-format:
+  selected:
+    - ""
+    - "&7Estado: &aDesbloqueado"
+    - ""
+    - "&c► ¡Haz clic para equipar! "
+  unlocked:
+    - "&a¡Haz clic para equipar.!"
+  locked-coins:
+    - ""
+    - "&7Estado: &cBloqueado"
+    - "&7Precio: &e{price} &fD-Coins"
+    - ""
+    - "&c► ¡Haz clic para comprar! "
+  locked-permission:
+    - ""
+    - "&7Estado: &cBloqueado"
+    - "&7Requiere un rango o permiso especial."
+
+# ========================================================
+#   TUMBAS DISPONIBLES (Mapeadas en slots del 10 al 34)
+# ========================================================
+graves:
+  SOUL_CAMPFIRE:
+    material: SOUL_CAMPFIRE
+    name: "&bTumba de Almas"
+    price: 0
+    requires-coins: false
+    permission: ""
+    slot: 10
+  CAMPFIRE:
+    material: CAMPFIRE
+    name: "&6Tumba de Fuego"
+    price: 0
+    requires-coins: false
+    permission: ""
+    slot: 11
+  BARREL:
+    material: BARREL
+    name: "&eTumba de Barril"
+    price: 500
+    requires-coins: true
+    permission: ""
+    slot: 12
+  CHEST:
+    material: CHEST
+    name: "&eTumba de Cofre"
+    price: 500
+    requires-coins: true
+    permission: ""
+    slot: 13
+  BONE_BLOCK:
+    material: BONE_BLOCK
+    name: "&fTumba de Huesos"
+    price: 700
+    requires-coins: true
+    permission: ""
+    slot: 14
+  CAULDRON:
+    material: CAULDRON
+    name: "&5Tumba de Brujo"
+    price: 900
+    requires-coins: true
+    permission: ""
+    slot: 15
+  ANVIL:
+    material: ANVIL
+    name: "&8Tumba Pesada"
+    price: 1100
+    requires-coins: true
+    permission: ""
+    slot: 16
+  SKELETON_SKULL:
+    material: SKELETON_SKULL
+    name: "&7Tumba Esquelética"
+    price: 1200
+    requires-coins: true
+    permission: ""
+    slot: 19
+  PLAYER_HEAD:
+    material: PLAYER_HEAD
+    name: "&aTu Propia Cabeza"
+    price: 1500
+    requires-coins: true
+    permission: "etherium.graves.head"
+    slot: 20
+  CRYING_OBSIDIAN:
+    material: CRYING_OBSIDIAN
+    name: "&dObsidiana Llorona"
+    price: 1800
+    requires-coins: true
+    permission: ""
+    slot: 21
+  LODESTONE:
+    material: LODESTONE
+    name: "&3Tumba Magnética"
+    price: 2000
+    requires-coins: true
+    permission: ""
+    slot: 22
+  RESPAWN_ANCHOR:
+    material: RESPAWN_ANCHOR
+    name: "&6Ancla del Nexo"
+    price: 2500
+    requires-coins: true
+    permission: ""
+    slot: 23
+  # -- EXCLUSIVOS VIP --
+  ENDER_CHEST:
+    material: ENDER_CHEST
+    name: "&5Tumba del Fin &b[VIP]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.graves.vip"
+    slot: 28
+  WITHER_SKELETON_SKULL:
+    material: WITHER_SKELETON_SKULL
+    name: "&8Calavera del Wither &b[VIP]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.graves.vip"
+    slot: 29
+  BEACON:
+    material: BEACON
+    name: "&bFaro de Luz &d[VIP+]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.graves.vip_plus"
+    slot: 30
+  VAULT:
+    material: VAULT
+    name: "&6Bóveda Siniestra &d[VIP+]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.graves.vip_plus"
+    slot: 31
+  CONDUIT:
+    material: CONDUIT
+    name: "&3Conducto de Energía &d[VIP+]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.graves.vip_plus"
+    slot: 32
+  DRAGON_EGG:
+    material: DRAGON_EGG
+    name: "&5&lHuevo de Dragón &c[VIP++]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.graves.vip_plus_plus"
+    slot: 33
+
+# ========================================================
+#   EFECTOS DE MUERTE DISPONIBLES (Mapeados en slots 10 al 34)
+# ========================================================
+effects:
+  NONE:
+    material: BARRIER
+    name: "&cSin Efecto"
+    price: 0
+    requires-coins: false
+    permission: ""
+    slot: 10
+  EXPLOSION:
+    material: TNT
+    name: "&cEfecto de Explosión"
+    price: 300
+    requires-coins: true
+    permission: ""
+    slot: 11
+  BLOOD:
+    material: REDSTONE
+    name: "&4Efecto Sangriento"
+    price: 400
+    requires-coins: true
+    permission: ""
+    slot: 12
+  LIGHTNING:
+    material: LIGHTNING_ROD
+    name: "&eEfecto de Rayo"
+    price: 500
+    requires-coins: true
+    permission: ""
+    slot: 13
+  FLAME:
+    material: FIRE_CHARGE
+    name: "&6Efecto Incendiario"
+    price: 600
+    requires-coins: true
+    permission: ""
+    slot: 14
+  SNOWBALL:
+    material: SNOWBALL
+    name: "&fAliento Helado"
+    price: 700
+    requires-coins: true
+    permission: ""
+    slot: 15
+  SLIME:
+    material: SLIME_BALL
+    name: "&aSalpicadura de Fango"
+    price: 800
+    requires-coins: true
+    permission: ""
+    slot: 16
+  VOID:
+    material: END_PORTAL_FRAME
+    name: "&5Tragado por el Vacío"
+    price: 1000
+    requires-coins: true
+    permission: ""
+    slot: 19
+  ENCHANT:
+    material: ENCHANTED_BOOK
+    name: "&dMagia Oscura"
+    price: 1100
+    requires-coins: true
+    permission: ""
+    slot: 20
+  MUSIC:
+    material: NOTE_BLOCK
+    name: "&aDespedida Musical"
+    price: 1200
+    requires-coins: true
+    permission: ""
+    slot: 21
+  FIREWORK:
+    material: FIREWORK_ROCKET
+    name: "&eFuegos Artificiales"
+    price: 1800
+    requires-coins: true
+    permission: ""
+    slot: 22
+  # -- EXCLUSIVOS VIP --
+  SOULS:
+    material: SOUL_SAND
+    name: "&bEscape de Almas &b[VIP]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip"
+    slot: 28
+  TOTEM:
+    material: TOTEM_OF_UNDYING
+    name: "&eAscensión Dorada &b[VIP]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip"
+    slot: 29
+  CHERRY:
+    material: CHERRY_LEAVES
+    name: "&dBrisa de Cerezo &b[VIP]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip"
+    slot: 30
+  LOVE:
+    material: RED_DYE
+    name: "&cÚltimo Suspiro &d[VIP+]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip_plus"
+    slot: 31
+  SCULK:
+    material: SCULK_SHRIEKER
+    name: "&3Ecos del Warden &d[VIP+]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip_plus"
+    slot: 32
+  DRAGON_BREATH:
+    material: DRAGON_BREATH
+    name: "&5Aliento de Dragón &d[VIP+]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip_plus"
+    slot: 33
+  GUST:
+    material: WIND_CHARGE
+    name: "&fRáfaga del Breeze &c[VIP++]"
+    price: 0
+    requires-coins: false
+    permission: "etherium.effects.vip_plus_plus"
+    slot: 34

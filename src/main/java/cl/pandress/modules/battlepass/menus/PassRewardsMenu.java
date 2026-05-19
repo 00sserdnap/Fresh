@@ -1,6 +1,6 @@
 package cl.pandress.modules.battlepass.menus;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
 import cl.pandress.modules.battlepass.BattlePassManager;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class PassRewardsMenu {
 
     public static void open(Player player, int page) {
-        BattlePassManager bp = Fresh.getInstance().getManagerHandler().getBattlePassManager();
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
         FileConfiguration cfg = bp.getMenuRewards();
         FileConfiguration bpCfg = bp.getConfig();
         UUID uuid = player.getUniqueId();

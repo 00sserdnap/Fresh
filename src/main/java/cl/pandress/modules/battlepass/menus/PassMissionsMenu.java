@@ -1,6 +1,6 @@
 package cl.pandress.modules.battlepass.menus;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
 import cl.pandress.modules.battlepass.BattlePassManager;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -17,7 +17,7 @@ import java.util.List;
 public class PassMissionsMenu {
 
     public static void open(Player player, String difficulty, int page) {
-        BattlePassManager bp = Fresh.getInstance().getManagerHandler().getBattlePassManager();
+        BattlePassManager bp = Etherium.getInstance().getManagerHandler().getBattlePassManager();
         FileConfiguration cfg = bp.getMenuMissions();
         String diffName = difficulty.substring(0, 1).toUpperCase() + difficulty.substring(1);
         

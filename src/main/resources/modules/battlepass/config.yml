@@ -4,11 +4,14 @@
 # +-----------------------------------------------------------------------+
 
 settings:
+  enabled: false
   max-level: 54
-  premium-badge: "&8[&e⭐&8]"
+  premium-badge: "&8[&6⭐&8]"
+  bossbar:
+    title: "&b⭐ Pass. &fNivel &e%level% &7(&b%xp%&7/&b%req_xp% XP&7)"
 webhook:
-  enabled: true
-  url: "https://discord.com/api/webhooks/1500292253187575888/SWOM-OAKnLZjB1XIp1aExFGWScDkvqin6DzPXMHXj20RaLNijK8PJxKLwsOX8t1qcgcc"
+  enabled: false
+  url: ""
 # ==========================================
 # RECOMPENSAS POR NIVEL (1 - 50)
 # ==========================================

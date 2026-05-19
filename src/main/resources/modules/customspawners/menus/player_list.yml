@@ -1,0 +1,22 @@
+title: '&8Lista de Dueños - Pag {page}'
+size: 54
+
+head-format:
+  name: '&e► {player}'
+  lore:
+    - '&8UUID: {uuid}'
+    - ''
+    - '&7Spawners Totales: &b{total}'
+    - '&7Chunks Ocupados: &f{chunks}'
+    - ''
+    - '&aClick para ver detalles.'
+
+navigation:
+  back:
+    name: '&cVolver Menú Principal'
+  prev:
+    name: '&ePágina Anterior ({page})'
+  next:
+    name: '&ePágina Siguiente ({page})'
+    lore:
+      - '&7Restantes: &f{left}'

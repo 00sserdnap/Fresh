@@ -1,0 +1,167 @@
+# ======================================================
+# Etherium Core - Descubrimientos: Cuevas y Estructuras (Completo)
+# ======================================================
+discoveries:
+  # --- TIPOS DE CUEVAS ---
+  LUSH_CAVES:
+    icon: GLOW_BERRIES
+    sound: "BLOCK_AZALEA_LEAVES_PLACE"
+    title: "&#55FF55Cuevas Exuberantes"
+    subtitle: "&fNaturaleza en las profundidades."
+    rewards: ["eco give %player% 800"]
+  DRIPSTONE_CAVES:
+    icon: POINTED_DRIPSTONE
+    sound: "BLOCK_DRIPSTONE_BLOCK_PLACE"
+    title: "&#996633Cuevas de Espeleotema"
+    subtitle: "&7Cuidado con las estalactitas."
+    rewards: ["eco give %player% 400"]
+
+  # --- ESTRUCTURAS MAYORES Y DUNGEONS ---
+  TRIAL_CHAMBERS:
+    icon: TRIAL_SPAWNER
+    sound: "BLOCK_TRIAL_SPAWNER_SPAWN_ITEM"
+    title: "&#FFCC00TRIAL CHAMBERS"
+    subtitle: "&6¡Prepárate para el desafío de cobre!"
+    rewards: ["eco give %player% 5000"]
+  ANCIENT_CITY:
+    icon: SCULK_SHRIEKER
+    sound: "BLOCK_SCULK_SHRIEKER_SHRIEK"
+    title: "&#00CCCCCIUDAD ANCESTRAL"
+    subtitle: "&3Ruinas de una civilización olvidada."
+    rewards: ["eco give %player% 20000"]
+  STRONGHOLD:
+    icon: END_PORTAL_FRAME
+    sound: "BLOCK_END_PORTAL_SPAWN"
+    title: "&#55AA55Fortaleza Subterránea"
+    subtitle: "&2El camino hacia el Fin."
+    rewards: ["eco give %player% 10000"]
+  WOODLAND_MANSION:
+    icon: DARK_OAK_DOOR
+    sound: "ENTITY_ILLUSIONER_CAST_SPELL"
+    title: "&#555555Mansión del Bosque"
+    subtitle: "&8El hogar de los maldeanos."
+    rewards: ["eco give %player% 15000"]
+  OCEAN_MONUMENT:
+    icon: PRISMARINE_BRICKS
+    sound: "ENTITY_ELDER_GUARDIAN_CURSE"
+    title: "&#55FFFFMonumento Oceánico"
+    subtitle: "&bEl templo de las profundidades."
+    rewards: ["eco give %player% 12000"]
+  MINESHAFT:
+    icon: RAIL
+    sound: "ENTITY_MINECART_RIDING"
+    title: "&#996633Mina Abandonada"
+    subtitle: "&7Rieles, madera y arañas de cueva."
+    rewards: ["eco give %player% 1000"]
+
+  # --- ESTRUCTURAS DE SUPERFICIE Y TEMPLOS ---
+  DESERT_PYRAMID:
+    icon: CHISELED_SANDSTONE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFF55Pirámide del Desierto"
+    subtitle: "&eCuidado con la trampa de TNT."
+    rewards: ["eco give %player% 1500"]
+  JUNGLE_PYRAMID:
+    icon: MOSSY_COBBLESTONE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#00AA00Templo de la Jungla"
+    subtitle: "&2Rompecabezas y trampas de flechas."
+    rewards: ["eco give %player% 1500"]
+  SWAMP_HUT:
+    icon: CAULDRON
+    sound: "ENTITY_WITCH_CELEBRATE"
+    title: "&#55FF55Cabaña de Bruja"
+    subtitle: "&aHuele a pociones venenosas."
+    rewards: ["eco give %player% 800"]
+  IGLOO:
+    icon: SNOW_BLOCK
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFIglú"
+    subtitle: "&fUn refugio en el hielo. ¿Tendrá sótano?"
+    rewards: ["eco give %player% 500"]
+  PILLAGER_OUTPOST:
+    icon: CROSSBOW
+    sound: "ENTITY_PILLAGER_CELEBRATE"
+    title: "&#555555Puesto de Saqueadores"
+    subtitle: "&8Un nido de ballestas y estandartes."
+    rewards: ["eco give %player% 2000"]
+  RUINED_PORTAL:
+    icon: CRYING_OBSIDIAN
+    sound: "BLOCK_PORTAL_AMBIENT"
+    title: "&#AA00AAPortal en Ruinas"
+    subtitle: "&5Evidencia de antiguos viajeros."
+    rewards: ["eco give %player% 500"]
+
+  # --- ESTRUCTURAS ACUÁTICAS ---
+  SHIPWRECK:
+    icon: OAK_BOAT
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#996633Barco Hundido"
+    subtitle: "&7Busca el mapa del tesoro."
+    rewards: ["eco give %player% 800"]
+  OCEAN_RUIN:
+    icon: MOSSY_STONE_BRICKS
+    sound: "ENTITY_DROWNED_AMBIENT"
+    title: "&#55FFFFRuinas Submarinas"
+    subtitle: "&bCivilizaciones bajo el agua."
+    rewards: ["eco give %player% 600"]
+  BURIED_TREASURE:
+    icon: HEART_OF_THE_SEA
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFAA00Tesoro Enterrado"
+    subtitle: "&6¡X marca el lugar!"
+    rewards: ["eco give %player% 2000"]
+
+  # --- ESTRUCTURAS DEL NETHER ---
+  NETHER_FORTRESS:
+    icon: NETHER_BRICKS
+    sound: "ENTITY_BLAZE_SHOOT"
+    title: "&#AA0000Fortaleza del Nether"
+    subtitle: "&4Ladrillos oscuros y fuego vivo."
+    rewards: ["eco give %player% 5000"]
+  BASTION_REMNANT:
+    icon: POLISHED_BLACKSTONE_BRICKS
+    sound: "ENTITY_PIGLIN_BRUTE_ANGRY"
+    title: "&#555555Restos de Bastión"
+    subtitle: "&8El tesoro de los Piglins."
+    rewards: ["eco give %player% 8000"]
+
+  # --- ESTRUCTURAS DEL END ---
+  END_CITY:
+    icon: PURPUR_PILLAR
+    sound: "ENTITY_SHULKER_TELEPORT"
+    title: "&#AA00AACiudad del End"
+    subtitle: "&5El hogar de las alas Elytra."
+    rewards: ["eco give %player% 15000"]
+
+  # --- TIPOS DE ALDEA ---
+  VILLAGE_PLAINS:
+    icon: BELL
+    sound: "ENTITY_VILLAGER_CELEBRATE"
+    title: "&#55FF55Aldea de Llanura"
+    subtitle: "&aLa aldea más común y próspera."
+    rewards: ["eco give %player% 1000"]
+  VILLAGE_DESERT:
+    icon: SANDSTONE
+    sound: "ENTITY_VILLAGER_CELEBRATE"
+    title: "&#FFFF55Aldea del Desierto"
+    subtitle: "&eCivilización entre la arena."
+    rewards: ["eco give %player% 1200"]
+  VILLAGE_SAVANNA:
+    icon: ACACIA_DOOR
+    sound: "ENTITY_VILLAGER_CELEBRATE"
+    title: "&#FFAA00Aldea de Sabana"
+    subtitle: "&6Construcciones de madera de acacia."
+    rewards: ["eco give %player% 1200"]
+  VILLAGE_TAIGA:
+    icon: SPRUCE_DOOR
+    sound: "ENTITY_VILLAGER_CELEBRATE"
+    title: "&#00AA00Aldea de Taiga"
+    subtitle: "&2Refugio entre abetos."
+    rewards: ["eco give %player% 1200"]
+  VILLAGE_SNOWY:
+    icon: BLUE_ICE
+    sound: "ENTITY_VILLAGER_CELEBRATE"
+    title: "&#FFFFFFAldea Nevada"
+    subtitle: "&fCalidez en el frío extremo."
+    rewards: ["eco give %player% 1500"]

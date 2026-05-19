@@ -1,0 +1,25 @@
+discord:
+  enabled: false
+  token: ""
+  guild-id: "" # Necesario para leer los miembros
+  member-goal: 1000 # La meta para tu holograma
+status-monitor:
+  enabled: false
+  channel-id: ""
+  message-id: ""
+
+  # Detalles del Servidor
+  ip: "etherium.es" # DEBE SER TU IP PÚBLICA (la de BungeeCord)
+  global-players: true # <-- NUEVO: Activa el conteo global
+  restart-time: "06:00"
+
+  title: "ETHERIUM NETWORK"
+  description: ""
+  color-online: "#43b581"
+  color-offline: "#f04747"
+  # Configuración de Botones Interactivos debajo del mensaje
+  buttons:
+    store:
+      enabled: true
+      label: "🛒 Tienda"
+      url: "https://tienda.server.es"

@@ -1,0 +1,345 @@
+# ======================================================
+# Etherium Core - Descubrimientos: Biomas (Completo)
+# ======================================================
+discoveries:
+  # --- BIOMAS RAROS ---
+  MUSHROOM_FIELDS:
+    icon: RED_MUSHROOM_BLOCK
+    sound: "ENTITY_COW_MAMMOOT"
+    title: "&#FF55FFIsla de Setas"
+    subtitle: "&fHas encontrado un bioma legendario."
+    rewards: ["eco give %player% 5000"]
+  CHERRY_GROVE:
+    icon: CHERRY_LEAVES
+    sound: "BLOCK_CHERRY_SAPLING_PLACE"
+    title: "&#FFB7C5Bosque de Cerezos"
+    subtitle: "&fLa paz de los pétalos te acompaña."
+    rewards: ["eco give %player% 500"]
+  ICE_SPIKES:
+    icon: PACKED_ICE
+    sound: "BLOCK_GLASS_BREAK"
+    title: "&#55FFFFPicos de Hielo"
+    subtitle: "&bUn paisaje gélido y afilado."
+    rewards: ["eco give %player% 1500"]
+  DEEP_DARK:
+    icon: SCULK
+    sound: "AMBIENT_CAVE"
+    title: "&#003333EL DEEP DARK"
+    subtitle: "&7El silencio absoluto te rodea..."
+    rewards: ["eco give %player% 1000"]
+
+  # --- OVERWORLD: TEMPLADOS Y CÁLIDOS ---
+  PLAINS:
+    icon: GRASS_BLOCK
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FF55Praderas"
+    subtitle: "&aEl bioma más clásico."
+    rewards: ["eco give %player% 100"]
+  SUNFLOWER_PLAINS:
+    icon: SUNFLOWER
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFF55Praderas de Girasoles"
+    subtitle: "&eSiempre mirando al sol."
+    rewards: ["eco give %player% 250"]
+  FOREST:
+    icon: OAK_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#00AA00Bosque"
+    subtitle: "&2Abundancia de roble y abedul."
+    rewards: ["eco give %player% 100"]
+  FLOWER_FOREST:
+    icon: LILY_OF_THE_VALLEY
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FF55FFBosque Floral"
+    subtitle: "&dUn paraíso de colores."
+    rewards: ["eco give %player% 250"]
+  BIRCH_FOREST:
+    icon: BIRCH_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFBosque de Abedules"
+    subtitle: "&fÁrboles de tronco blanco."
+    rewards: ["eco give %player% 150"]
+  OLD_GROWTH_BIRCH_FOREST:
+    icon: STRIPPED_BIRCH_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFBosque de Abedules Altos"
+    subtitle: "&fÁrboles antiguos y majestuosos."
+    rewards: ["eco give %player% 300"]
+  DARK_FOREST:
+    icon: DARK_OAK_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#005500Bosque Oscuro"
+    subtitle: "&2Cuidado con las sombras."
+    rewards: ["eco give %player% 200"]
+  JUNGLE:
+    icon: JUNGLE_LEAVES
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#00AA00Jungla"
+    subtitle: "&2Vegetación densa y loros."
+    rewards: ["eco give %player% 250"]
+  SPARSE_JUNGLE:
+    icon: JUNGLE_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#00AA00Jungla Dispersa"
+    subtitle: "&2Los límites de la selva."
+    rewards: ["eco give %player% 150"]
+  BAMBOO_JUNGLE:
+    icon: BAMBOO
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FF55Jungla de Bambú"
+    subtitle: "&aEl hogar de los pandas."
+    rewards: ["eco give %player% 400"]
+  SWAMP:
+    icon: LILY_PAD
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#446622Pantano"
+    subtitle: "&2Aguas turbias y nenúfares."
+    rewards: ["eco give %player% 150"]
+  MANGROVE_SWAMP:
+    icon: MANGROVE_PROPAGULE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#AA0000Pantano de Manglares"
+    subtitle: "&4Raíces profundas y barro."
+    rewards: ["eco give %player% 400"]
+  DESERT:
+    icon: SAND
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFF55Desierto"
+    subtitle: "&eCalor inmenso y arena infinita."
+    rewards: ["eco give %player% 100"]
+  SAVANNA:
+    icon: ACACIA_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFAA00Sabana"
+    subtitle: "&6Árboles de acacia y calor seco."
+    rewards: ["eco give %player% 150"]
+  SAVANNA_PLATEAU:
+    icon: ACACIA_PLANKS
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFAA00Meseta de Sabana"
+    subtitle: "&6Elevaciones en el clima seco."
+    rewards: ["eco give %player% 200"]
+  WINDSWEPT_SAVANNA:
+    icon: DIRT_PATH
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFAA00Sabana Escarpada"
+    subtitle: "&6Montañas caóticas."
+    rewards: ["eco give %player% 300"]
+  BADLANDS:
+    icon: TERRACOTTA
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FF5500Eriales (Mesa)"
+    subtitle: "&6Terracota y oro a la vista."
+    rewards: ["eco give %player% 500"]
+  WOODED_BADLANDS:
+    icon: RED_SAND
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FF5500Eriales Boscosos"
+    subtitle: "&6Robles sobre la arcilla."
+    rewards: ["eco give %player% 550"]
+  ERODED_BADLANDS:
+    icon: ORANGE_TERRACOTTA
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FF5500Eriales Erosionados"
+    subtitle: "&6Formaciones rocosas espectaculares."
+    rewards: ["eco give %player% 700"]
+
+  # --- OVERWORLD: FRÍOS Y MONTAÑOSOS ---
+  TAIGA:
+    icon: SPRUCE_LOG
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#00AA00Taiga"
+    subtitle: "&2Bosque de abetos y zorros."
+    rewards: ["eco give %player% 150"]
+  OLD_GROWTH_PINE_TAIGA:
+    icon: PODZOL
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#005500Taiga de Pinos Antiguos"
+    subtitle: "&2Árboles gigantes y musgo."
+    rewards: ["eco give %player% 300"]
+  OLD_GROWTH_SPRUCE_TAIGA:
+    icon: MOSS_BLOCK
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#005500Taiga de Abetos Antiguos"
+    subtitle: "&2El bosque oscuro del norte."
+    rewards: ["eco give %player% 300"]
+  SNOWY_TAIGA:
+    icon: SNOW_BLOCK
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFTaiga Nevada"
+    subtitle: "&fFrío penetrante bajo los abetos."
+    rewards: ["eco give %player% 200"]
+  SNOWY_PLAINS:
+    icon: SNOW
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFLlanuras Nevadas"
+    subtitle: "&fUn horizonte blanco y frío."
+    rewards: ["eco give %player% 200"]
+  SNOWY_SLOPES:
+    icon: POWDER_SNOW_BUCKET
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFLaderas Nevadas"
+    subtitle: "&fNieve en polvo peligrosa."
+    rewards: ["eco give %player% 250"]
+  JAGGED_PEAKS:
+    icon: STONE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFPicos Escarpados"
+    subtitle: "&fCimas de montañas afiladas."
+    rewards: ["eco give %player% 400"]
+  FROZEN_PEAKS:
+    icon: BLUE_ICE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FFFFPicos Helados"
+    subtitle: "&bHielo puro en las alturas."
+    rewards: ["eco give %player% 400"]
+  STONY_PEAKS:
+    icon: CALCITE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#AAAAAAPicos Rocosos"
+    subtitle: "&7Montañas cálidas de piedra."
+    rewards: ["eco give %player% 350"]
+  MEADOW:
+    icon: CORNFLOWER
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FF55Prado"
+    subtitle: "&aValles florecidos en la montaña."
+    rewards: ["eco give %player% 250"]
+  GROVE:
+    icon: DIRT
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFArboleda"
+    subtitle: "&fNieve y abetos en las laderas."
+    rewards: ["eco give %player% 300"]
+
+  # --- OVERWORLD: ACUÁTICOS Y COSTAS ---
+  RIVER:
+    icon: WATER_BUCKET
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#5555FFRío"
+    subtitle: "&9Agua fluyendo por la tierra."
+    rewards: ["eco give %player% 50"]
+  FROZEN_RIVER:
+    icon: ICE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FFFFRío Helado"
+    subtitle: "&bAgua sólida como cristal."
+    rewards: ["eco give %player% 100"]
+  BEACH:
+    icon: SANDSTONE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFF55Playa"
+    subtitle: "&eArena y tortugas."
+    rewards: ["eco give %player% 50"]
+  SNOWY_BEACH:
+    icon: SNOW_BLOCK
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFPlaya Nevada"
+    subtitle: "&fCostas congeladas."
+    rewards: ["eco give %player% 100"]
+  STONY_SHORE:
+    icon: GRAVEL
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#AAAAAACosta Rocosa"
+    subtitle: "&7Piedras al borde del mar."
+    rewards: ["eco give %player% 100"]
+  OCEAN:
+    icon: PRISMARINE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#5555FFOcéano"
+    subtitle: "&9La inmensidad azul."
+    rewards: ["eco give %player% 100"]
+  DEEP_OCEAN:
+    icon: DARK_PRISMARINE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#0000AAOcéano Profundo"
+    subtitle: "&1Hogar de los monumentos."
+    rewards: ["eco give %player% 200"]
+  WARM_OCEAN:
+    icon: BRAIN_CORAL_BLOCK
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FFFFOcéano Cálido"
+    subtitle: "&bArrecifes de coral vivos."
+    rewards: ["eco give %player% 300"]
+  LUKEWARM_OCEAN:
+    icon: KELP
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#55FFFFOcéano Tibio"
+    subtitle: "&bAbundancia de algas y peces."
+    rewards: ["eco give %player% 150"]
+  COLD_OCEAN:
+    icon: PRISMARINE_BRICKS
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#5555FFOcéano Frío"
+    subtitle: "&9Aguas oscuras y templadas."
+    rewards: ["eco give %player% 150"]
+  FROZEN_OCEAN:
+    icon: PACKED_ICE
+    sound: "ENTITY_PLAYER_LEVELUP"
+    title: "&#FFFFFFOcéano Helado"
+    subtitle: "&fIcebergs flotantes."
+    rewards: ["eco give %player% 300"]
+
+  # --- NETHER ---
+  NETHER_WASTES:
+    icon: NETHERRACK
+    sound: "AMBIENT_NETHER_WASTES_MOOD"
+    title: "&#FF5555Desiertos del Nether"
+    subtitle: "&cEl paisaje infernal clásico."
+    rewards: ["eco give %player% 200"]
+  CRIMSON_FOREST:
+    icon: CRIMSON_NYLIUM
+    sound: "AMBIENT_CRIMSON_FOREST_MOOD"
+    title: "&#AA0000Bosque Carmesí"
+    subtitle: "&4Naturaleza sangrienta y agresiva."
+    rewards: ["eco give %player% 300"]
+  WARPED_FOREST:
+    icon: WARPED_NYLIUM
+    sound: "AMBIENT_WARPED_FOREST_MOOD"
+    title: "&#00AAAABosque Distorsionado"
+    subtitle: "&3El único lugar seguro del Nether."
+    rewards: ["eco give %player% 300"]
+  SOUL_SAND_VALLEY:
+    icon: SOUL_SAND
+    sound: "AMBIENT_SOUL_SAND_VALLEY_MOOD"
+    title: "&#555555Valle de Arena de Almas"
+    subtitle: "&8Restos fósiles y fuego azul."
+    rewards: ["eco give %player% 400"]
+  BASALT_DELTAS:
+    icon: BASALT
+    sound: "AMBIENT_BASALT_DELTAS_MOOD"
+    title: "&#AAAAAADeltas de Basalto"
+    subtitle: "&7Piedra volcánica y cenizas."
+    rewards: ["eco give %player% 500"]
+
+  # --- EL END ---
+  THE_END:
+    icon: END_STONE
+    sound: "AMBIENT_CAVE"
+    title: "&#AA00AAEl Fin"
+    subtitle: "&5La isla principal."
+    rewards: ["eco give %player% 1000"]
+  SMALL_END_ISLANDS:
+    icon: END_PORTAL_FRAME
+    sound: "AMBIENT_CAVE"
+    title: "&#AA00AAIslas Pequeñas del End"
+    subtitle: "&5Flotando en el vacío."
+    rewards: ["eco give %player% 500"]
+  END_MIDLANDS:
+    icon: CHORUS_FLOWER
+    sound: "AMBIENT_CAVE"
+    title: "&#AA00AATierras Medias del End"
+    subtitle: "&5Bosques de coros."
+    rewards: ["eco give %player% 700"]
+  END_HIGHLANDS:
+    icon: PURPUR_BLOCK
+    sound: "AMBIENT_CAVE"
+    title: "&#AA00AATierras Altas del End"
+    subtitle: "&5Donde yacen las ciudades."
+    rewards: ["eco give %player% 800"]
+  END_BARRENS:
+    icon: CHORUS_PLANT
+    sound: "AMBIENT_CAVE"
+    title: "&#AA00AAPáramos del End"
+    subtitle: "&5Los límites del archipiélago."
+    rewards: ["eco give %player% 500"]

@@ -1,6 +1,6 @@
 package cl.pandress.command.admin;
 
-import cl.pandress.Fresh;
+import cl.pandress.Etherium;
 import cl.pandress.modules.quests.QuestManager;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.command.Command;
@@ -14,13 +14,13 @@ public class QuestAdminCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return true;
         
-        if (!player.hasPermission("fresh.admin")) {
+        if (!player.hasPermission("eth.admin")) {
             player.sendMessage(ChatUtils.colorize("&cNo tienes permiso."));
             return true;
         }
 
         if (args.length > 0) {
-            QuestManager manager = Fresh.getInstance().getManagerHandler().getQuestManager();
+            QuestManager manager = Etherium.getInstance().getManagerHandler().getQuestManager();
             
             if (args[0].equalsIgnoreCase("test")) {
                 manager.setPlayerDailyLevel(player.getUniqueId(), 11);

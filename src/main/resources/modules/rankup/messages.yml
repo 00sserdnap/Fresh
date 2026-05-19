@@ -1,0 +1,12 @@
+# ====================================================================================================
+#                                 ETHERIUM - RANKUP MESSAGES
+# ====================================================================================================
+prefix: "&b&lFresh &8» "
+no_requirements: "&cNo cumples con todos los requisitos para subir de nivel."
+rankup_success: "&a¡Has subido al Rango #%rank%!"
+prestige_success: "&d&l¡PRESTIGIO! &fAhora eres Prestigio &b%prestige%."
+no_money_prestige: "&cNecesitas más dinero para este prestigio."
+not_max_rank: "&cDebes ser el rango máximo de tu prestigio actual para avanzar."
+max_rank_reached: "&cYa has alcanzado el rango máximo. ¡Es hora de subir de Prestigio!"
+max_prestige_reached: "&cYa eres el nivel de Prestigio máximo global."
+prestige_broadcast: "&d¡El jugador %player% ha alcanzado el prestigio %prestige%!"

@@ -1,0 +1,433 @@
+# ======================================================
+# Etherium Core - Descubrimientos: Mobs (Completo)
+# ======================================================
+discoveries:
+  # --- BOSSES Y MINIBOSSES ---
+  ENDER_DRAGON:
+    icon: DRAGON_HEAD
+    sound: "ENTITY_ENDER_DRAGON_GROWL"
+    title: "&#AA00AA¡DRAGÓN DEL FIN!"
+    subtitle: "&dHas descubierto al gobernante del End."
+    rewards: ["eco give %player% 50000"]
+  WARDEN:
+    icon: WARDEN_SPAWN_EGG
+    sound: "ENTITY_WARDEN_ROAR"
+    title: "&#00AAAA¡EL GUARDIÁN!"
+    subtitle: "&3Has encontrado al Warden en las profundidades."
+    rewards:
+      - "eco give %player% 10000"
+      - "msg %player% &7Has ganado una recompensa legendaria."
+  WITHER:
+    icon: WITHER_SKELETON_SKULL
+    sound: "ENTITY_WITHER_SPAWN"
+    title: "&#555555¡EL WITHER!"
+    subtitle: "&8La tormenta de almas ha sido registrada."
+    rewards: ["eco give %player% 25000"]
+  ELDER_GUARDIAN:
+    icon: ELDER_GUARDIAN_SPAWN_EGG
+    sound: "ENTITY_ELDER_GUARDIAN_CURSE"
+    title: "&#00AAAA¡Guardián Anciano!"
+    subtitle: "&3El terror del monumento oceánico."
+    rewards: ["eco give %player% 5000"]
+  RAVAGER:
+    icon: RAVAGER_SPAWN_EGG
+    sound: "ENTITY_RAVAGER_ROAR"
+    title: "&#555555¡Devastador!"
+    subtitle: "&8La bestia de los saqueadores."
+    rewards: ["eco give %player% 1000"]
+
+  # --- MOBS HOSTILES COMUNES Y NUEVOS ---
+  ZOMBIE:
+    sound: "ENTITY_ZOMBIE_AMBIENT"
+    title: "&#44AA44Zombi"
+    subtitle: "&7Un muerto viviente hambriento."
+    rewards: ["eco give %player% 25"]
+  SKELETON:
+    sound: "ENTITY_SKELETON_AMBIENT"
+    title: "&#AAAAAAEsqueleto"
+    subtitle: "&7Arquero de los huesos."
+    rewards: ["eco give %player% 25"]
+  CREEPER:
+    sound: "ENTITY_CREEPER_PRIMED"
+    title: "&#55FF55Creeper"
+    subtitle: "&a¡Cuidado con la explosión!"
+    rewards: ["eco give %player% 50"]
+  SPIDER:
+    sound: "ENTITY_SPIDER_AMBIENT"
+    title: "&#AA4444Araña"
+    subtitle: "&7Trepadora de la noche."
+    rewards: ["eco give %player% 25"]
+  CAVE_SPIDER:
+    sound: "ENTITY_SPIDER_AMBIENT"
+    title: "&#00AA00Araña de Cueva"
+    subtitle: "&2Venenosa y letal."
+    rewards: ["eco give %player% 50"]
+  ENDERMAN:
+    sound: "ENTITY_ENDERMAN_STARE"
+    title: "&#AA00AAEnderman"
+    subtitle: "&dNo lo mires a los ojos."
+    rewards: ["eco give %player% 100"]
+  WITCH:
+    sound: "ENTITY_WITCH_AMBIENT"
+    title: "&#AA00AABruja"
+    subtitle: "&5Maestra de las pociones."
+    rewards: ["eco give %player% 75"]
+  SLIME:
+    sound: "ENTITY_SLIME_SQUISH"
+    title: "&#55FF55Slime"
+    subtitle: "&aUna masa rebotante."
+    rewards: ["eco give %player% 30"]
+  DROWNED:
+    sound: "ENTITY_DROWNED_AMBIENT"
+    title: "&#55FFFFAhogado"
+    subtitle: "&bEl peligro de las profundidades."
+    rewards: ["eco give %player% 40"]
+  HUSK:
+    sound: "ENTITY_HUSK_AMBIENT"
+    title: "&#FFAA00Zombi Momificado"
+    subtitle: "&6Resistente al sol."
+    rewards: ["eco give %player% 40"]
+  STRAY:
+    sound: "ENTITY_STRAY_AMBIENT"
+    title: "&#AAAAFFEsqueleto Glacial"
+    subtitle: "&7Sus flechas congelan tu alma."
+    rewards: ["eco give %player% 40"]
+  PHANTOM:
+    sound: "ENTITY_PHANTOM_SWOOP"
+    title: "&#0000AAFantasma"
+    subtitle: "&1El castigo por no dormir."
+    rewards: ["eco give %player% 80"]
+  SILVERFISH:
+    sound: "ENTITY_SILVERFISH_AMBIENT"
+    title: "&#AAAAAALepisma"
+    subtitle: "&7Oculto en la piedra."
+    rewards: ["eco give %player% 20"]
+  ENDERMITE:
+    sound: "ENTITY_ENDERMITE_AMBIENT"
+    title: "&#AA00AAEndermite"
+    subtitle: "&5Parásito interdimensional."
+    rewards: ["eco give %player% 50"]
+  GUARDIAN:
+    sound: "ENTITY_GUARDIAN_AMBIENT"
+    title: "&#00AAAAGuardián"
+    subtitle: "&3Protector del templo oceánico."
+    rewards: ["eco give %player% 100"]
+  BOGGED:
+    sound: "ENTITY_SKELETON_AMBIENT"
+    title: "&#005500Esqueleto Pantanoso"
+    subtitle: "&2Dispara flechas venenosas."
+    rewards: ["eco give %player% 50"]
+  BREEZE:
+    sound: "ENTITY_BREEZE_WIND_BURST"
+    title: "&#55FFFFBreeze"
+    subtitle: "&bEl señor de los vientos en las Trial Chambers."
+    rewards: ["eco give %player% 150"]
+
+  # --- ILLAGERS ---
+  PILLAGER:
+    sound: "ENTITY_PILLAGER_AMBIENT"
+    title: "&#555555Saqueador"
+    subtitle: "&8Armado con su ballesta."
+    rewards: ["eco give %player% 50"]
+  VINDICATOR:
+    sound: "ENTITY_VINDICATOR_AMBIENT"
+    title: "&#555555Vindicador"
+    subtitle: "&8¡Cuidado con su hacha!"
+    rewards: ["eco give %player% 75"]
+  EVOKER:
+    sound: "ENTITY_EVOKER_AMBIENT"
+    title: "&#555555Invocador"
+    subtitle: "&8Domina la magia oscura."
+    rewards: ["eco give %player% 150"]
+  ILLUSIONER:
+    sound: "ENTITY_ILLUSIONER_AMBIENT"
+    title: "&#555555Ilusionista"
+    subtitle: "&8Un maestro del engaño."
+    rewards: ["eco give %player% 200"]
+  VEX:
+    sound: "ENTITY_VEX_AMBIENT"
+    title: "&#AAAAFFÁnima"
+    subtitle: "&7Pequeña pero mortal."
+    rewards: ["eco give %player% 30"]
+
+  # --- MOBS DEL NETHER ---
+  PIGLIN:
+    sound: "ENTITY_PIGLIN_AMBIENT"
+    title: "&#FFAA00Piglin"
+    subtitle: "&6Amante del oro."
+    rewards: ["eco give %player% 50"]
+  PIGLIN_BRUTE:
+    sound: "ENTITY_PIGLIN_BRUTE_AMBIENT"
+    title: "&#FFAA00Piglin Bruto"
+    subtitle: "&6Guardián implacable de la bastión."
+    rewards: ["eco give %player% 150"]
+  ZOMBIFIED_PIGLIN:
+    sound: "ENTITY_ZOMBIFIED_PIGLIN_AMBIENT"
+    title: "&#FFAA00Piglin Zombificado"
+    subtitle: "&6Pacífico hasta que lo atacas."
+    rewards: ["eco give %player% 30"]
+  GHAST:
+    sound: "ENTITY_GHAST_WARN"
+    title: "&#FFFFFFGhast"
+    subtitle: "&fEl lamento del Nether."
+    rewards: ["eco give %player% 150"]
+  BLAZE:
+    sound: "ENTITY_BLAZE_AMBIENT"
+    title: "&#FFFF00Blaze"
+    subtitle: "&6Espíritu de fuego de la fortaleza."
+    rewards: ["eco give %player% 100"]
+  MAGMA_CUBE:
+    sound: "ENTITY_MAGMA_CUBE_SQUISH"
+    title: "&#FF5500Cubo de Magma"
+    subtitle: "&cSlime de lava ardiente."
+    rewards: ["eco give %player% 40"]
+  WITHER_SKELETON:
+    sound: "ENTITY_WITHER_SKELETON_AMBIENT"
+    title: "&#555555Esqueleto Wither"
+    subtitle: "&8Portador del efecto de descomposición."
+    rewards: ["eco give %player% 100"]
+  HOGLIN:
+    sound: "ENTITY_HOGLIN_AMBIENT"
+    title: "&#FFAA00Hoglin"
+    subtitle: "&6Bestia salvaje del bosque carmesí."
+    rewards: ["eco give %player% 80"]
+  ZOGLIN:
+    sound: "ENTITY_ZOGLIN_AMBIENT"
+    title: "&#FF5555Zoglin"
+    subtitle: "&cAtaca a todo lo que se mueve."
+    rewards: ["eco give %player% 90"]
+  STRIDER:
+    sound: "ENTITY_STRIDER_AMBIENT"
+    title: "&#FF5555Lavagante"
+    subtitle: "&cCaminante de la lava."
+    rewards: ["eco give %player% 50"]
+
+  # --- MOBS DEL END ---
+  SHULKER:
+    sound: "ENTITY_SHULKER_AMBIENT"
+    title: "&#AA00AAShulker"
+    subtitle: "&5El guardián de las ciudades del End."
+    rewards: ["eco give %player% 150"]
+
+  # --- ALDEANOS Y GOLEMS ---
+  VILLAGER:
+    sound: "ENTITY_VILLAGER_AMBIENT"
+    title: "&#FFFF55¡Aldeano!"
+    subtitle: "&fUn habitante pacífico del mundo."
+    rewards: ["eco give %player% 50"]
+  WANDERING_TRADER:
+    sound: "ENTITY_WANDERING_TRADER_AMBIENT"
+    title: "&#3366FFVendedor Ambulante"
+    subtitle: "&fUn comerciante de tierras lejanas."
+    rewards: ["eco give %player% 100"]
+  ZOMBIE_VILLAGER:
+    sound: "ENTITY_ZOMBIE_VILLAGER_AMBIENT"
+    title: "&#44AA44Aldeano Zombi"
+    subtitle: "&7Aún puede ser curado."
+    rewards: ["eco give %player% 50"]
+  IRON_GOLEM:
+    icon: IRON_BLOCK
+    sound: "ENTITY_IRON_GOLEM_STEP"
+    title: "&#FFFFFFGólem de Hierro"
+    subtitle: "&fEl protector de la aldea."
+    rewards: ["eco give %player% 100"]
+  SNOW_GOLEM:
+    icon: CARVED_PUMPKIN
+    sound: "ENTITY_SNOW_GOLEM_AMBIENT"
+    title: "&#FFFFFFGólem de Nieve"
+    subtitle: "&fHecho de pura nieve."
+    rewards: ["eco give %player% 20"]
+
+  # --- ANIMALES PASIVOS Y NEUTRALES ---
+  COW:
+    sound: "ENTITY_COW_AMBIENT"
+    title: "&#996633Vaca"
+    subtitle: "&fFuente de cuero y leche."
+    rewards: ["eco give %player% 10"]
+  SHEEP:
+    sound: "ENTITY_SHEEP_AMBIENT"
+    title: "&#FFFFFFOveja"
+    subtitle: "&fProductora de lana."
+    rewards: ["eco give %player% 10"]
+  PIG:
+    sound: "ENTITY_PIG_AMBIENT"
+    title: "&#FFCCCCCerdo"
+    subtitle: "&fIdeal para transporte y comida."
+    rewards: ["eco give %player% 10"]
+  CHICKEN:
+    sound: "ENTITY_CHICKEN_AMBIENT"
+    title: "&#FFFFFFGallina"
+    subtitle: "&fProductora de huevos y plumas."
+    rewards: ["eco give %player% 10"]
+  HORSE:
+    sound: "ENTITY_HORSE_AMBIENT"
+    title: "&#996633Caballo"
+    subtitle: "&fTu fiel corcel."
+    rewards: ["eco give %player% 30"]
+  DONKEY:
+    sound: "ENTITY_DONKEY_AMBIENT"
+    title: "&#996633Burro"
+    subtitle: "&fExcelente para cargar cofres."
+    rewards: ["eco give %player% 30"]
+  MULE:
+    sound: "ENTITY_MULE_AMBIENT"
+    title: "&#996633Mula"
+    subtitle: "&fFuerte y resistente."
+    rewards: ["eco give %player% 30"]
+  SKELETON_HORSE:
+    sound: "ENTITY_SKELETON_HORSE_AMBIENT"
+    title: "&#FFFFFFCaballo Esqueleto"
+    subtitle: "&fMontura de la tormenta."
+    rewards: ["eco give %player% 200"]
+  ZOMBIE_HORSE:
+    sound: "ENTITY_ZOMBIE_HORSE_AMBIENT"
+    title: "&#44AA44Caballo Zombi"
+    subtitle: "&2Una montura no muerta."
+    rewards: ["eco give %player% 200"]
+  LLAMA:
+    sound: "ENTITY_LLAMA_AMBIENT"
+    title: "&#FFFFFFLlama"
+    subtitle: "&fCuidado que no te escupa."
+    rewards: ["eco give %player% 20"]
+  TRADER_LLAMA:
+    sound: "ENTITY_LLAMA_AMBIENT"
+    title: "&#3366FFLlama de Comerciante"
+    subtitle: "&9Acompañante del vendedor ambulante."
+    rewards: ["eco give %player% 20"]
+  WOLF:
+    sound: "ENTITY_WOLF_AMBIENT"
+    title: "&#FFFFFFLobo"
+    subtitle: "&fEl mejor amigo del jugador."
+    rewards: ["eco give %player% 50"]
+  CAT:
+    sound: "ENTITY_CAT_AMBIENT"
+    title: "&#FFFFFFGato"
+    subtitle: "&fAsusta a los creepers."
+    rewards: ["eco give %player% 30"]
+  OCELOT:
+    sound: "ENTITY_OCELOT_AMBIENT"
+    title: "&#FFFF55Ocelote"
+    subtitle: "&eGato salvaje de la jungla."
+    rewards: ["eco give %player% 50"]
+  PARROT:
+    sound: "ENTITY_PARROT_AMBIENT"
+    title: "&#55FF55Loro"
+    subtitle: "&aImita los sonidos a tu alrededor."
+    rewards: ["eco give %player% 50"]
+  BAT:
+    sound: "ENTITY_BAT_AMBIENT"
+    title: "&#555555Murciélago"
+    subtitle: "&8Habitante de las cuevas oscuras."
+    rewards: ["eco give %player% 10"]
+  RABBIT:
+    sound: "ENTITY_RABBIT_AMBIENT"
+    title: "&#FFFFFFConejo"
+    subtitle: "&fRápido y escurridizo."
+    rewards: ["eco give %player% 20"]
+  POLAR_BEAR:
+    sound: "ENTITY_POLAR_BEAR_AMBIENT"
+    title: "&#FFFFFFOso Polar"
+    subtitle: "&fGuardián de los glaciares."
+    rewards: ["eco give %player% 50"]
+  FOX:
+    sound: "ENTITY_FOX_AMBIENT"
+    title: "&#FFAA00Zorro"
+    subtitle: "&6Ladrón de bayas dulces."
+    rewards: ["eco give %player% 40"]
+  PANDA:
+    sound: "ENTITY_PANDA_AMBIENT"
+    title: "&#FFFFFFPanda"
+    subtitle: "&fAmante del bambú."
+    rewards: ["eco give %player% 50"]
+  TURTLE:
+    sound: "ENTITY_TURTLE_AMBIENT_LAND"
+    title: "&#55FF55Tortuga"
+    subtitle: "&aGuardián de los océanos."
+    rewards: ["eco give %player% 50"]
+  BEE:
+    sound: "ENTITY_BEE_LOOP"
+    title: "&#FFFF55Abeja"
+    subtitle: "&eProductora de dulce miel."
+    rewards: ["eco give %player% 25"]
+  GOAT:
+    sound: "ENTITY_GOAT_AMBIENT"
+    title: "&#FFFFFFCabra"
+    subtitle: "&f¡Cuidado con su embestida!"
+    rewards: ["eco give %player% 40"]
+  FROG:
+    sound: "ENTITY_FROG_AMBIENT"
+    title: "&#FF5500Rana"
+    subtitle: "&6Salta por los pantanos."
+    rewards: ["eco give %player% 30"]
+  TADPOLE:
+    sound: "ENTITY_TADPOLE_FLOP"
+    title: "&#55FF55Renacuajo"
+    subtitle: "&aUna futura rana."
+    rewards: ["eco give %player% 15"]
+  CAMEL:
+    sound: "ENTITY_CAMEL_AMBIENT"
+    title: "&#FFAA00Camello"
+    subtitle: "&6Montura para dos en el desierto."
+    rewards: ["eco give %player% 60"]
+  SNIFFER:
+    sound: "ENTITY_SNIFFER_HAPPY"
+    title: "&#AA00AASniffer"
+    subtitle: "&5Criatura prehistórica desenterrada."
+    rewards: ["eco give %player% 200"]
+  ARMADILLO:
+    sound: "ENTITY_ARMADILLO_AMBIENT"
+    title: "&#996633Armadillo"
+    subtitle: "&6Provee escamas para tu lobo."
+    rewards: ["eco give %player% 50"]
+  ALLAY:
+    sound: "ENTITY_ALLAY_AMBIENT_WITH_ITEM"
+    title: "&#55FFFFAllay"
+    subtitle: "&bTu pequeño ayudante musical."
+    rewards: ["eco give %player% 100"]
+
+  # --- VIDA ACUÁTICA ---
+  SQUID:
+    sound: "ENTITY_SQUID_AMBIENT"
+    title: "&#5555FFCalamar"
+    subtitle: "&9Productor de tinta."
+    rewards: ["eco give %player% 15"]
+  GLOW_SQUID:
+    sound: "ENTITY_GLOW_SQUID_AMBIENT"
+    title: "&#55FFFFCalamar Brillante"
+    subtitle: "&bIlumina las profundidades."
+    rewards: ["eco give %player% 30"]
+  DOLPHIN:
+    sound: "ENTITY_DOLPHIN_AMBIENT"
+    title: "&#55FFFFDelfín"
+    subtitle: "&bGuía hacia tesoros hundidos."
+    rewards: ["eco give %player% 50"]
+  COD:
+    sound: "ENTITY_COD_FLOP"
+    title: "&#AAAAAABacalao"
+    subtitle: "&7El pez más común."
+    rewards: ["eco give %player% 10"]
+  SALMON:
+    sound: "ENTITY_SALMON_FLOP"
+    title: "&#FF5555Salmón"
+    subtitle: "&cNada contra la corriente."
+    rewards: ["eco give %player% 10"]
+  PUFFERFISH:
+    sound: "ENTITY_PUFFER_FISH_AMBIENT"
+    title: "&#FFFF55Pez Globo"
+    subtitle: "&e¡No te acerques demasiado!"
+    rewards: ["eco give %player% 20"]
+  TROPICAL_FISH:
+    sound: "ENTITY_TROPICAL_FISH_AMBIENT"
+    title: "&#FFAA00Pez Tropical"
+    subtitle: "&6Hermosos colores en el arrecife."
+    rewards: ["eco give %player% 15"]
+  AXOLOTL:
+    sound: "ENTITY_AXOLOTL_IDLE_AIR"
+    title: "&#FF55FFAjolote"
+    subtitle: "&dEl depredador más tierno."
+    rewards: ["eco give %player% 100"]
+  MOOSHROOM:
+    sound: "ENTITY_COW_AMBIENT"
+    title: "&#FF5555Champiñaca"
+    subtitle: "&cVaca infectada de hongos."
+    rewards: ["eco give %player% 150"]

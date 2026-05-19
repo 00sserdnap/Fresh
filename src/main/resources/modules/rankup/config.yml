@@ -1,42 +1,7 @@
+# ====================================================================================================
+#                                 ETHERIUM - RANKUP CONFIG
+# ====================================================================================================
 settings:
-  menu:
-    title: "&8Menu | RankUp"
-    type: "CHEST"
-    rows: 3
-    items:
-      rankup_button:
-        slot: 13
-        material: "EMERALD"
-        name_max: "&a&lRango Máximo Alcanzado"
-        name: "&a&lRango #%next_rank%"
-        lore:
-          - "&7¡Sube de rango y gana premios!"
-          - ""
-          - "&aREQUISITOS:"
-          # Aquí el plugin inyectará automáticamente los requisitos y el progreso
-          - "%requirements%"
-          - ""
-          - "&aRECOMPENSAS:"
-          - "%rewards%"
-          - ""
-          - "&e¡Click para intentar subir de rango!"
-
-ranks:
-  1: # Para pasar al rango 1 (desde 0)
-    requirements:
-      money: 5000
-      playtime_hours: 1
-      player_kills: 5
-      blocks_mine:
-        STONE: 100
-        DIAMOND_ORE: 10
-      blocks_place:
-        OAK_PLANKS: 50
-      mob_kills:
-        ZOMBIE: 25
-        SKELETON: 15
-    rewards_lore:
-      - "Multiplicador +0.3"
-      - "Generador +1"
-    commands:
-      - "lp user %player% parent add rango1"
+  enabled: false
+  # Prefijo visual por defecto para un usuario que no tiene ningún rango comprado (Nivel 0)
+  default_rank_prefix: "&8[&7Sin Rango&8]"

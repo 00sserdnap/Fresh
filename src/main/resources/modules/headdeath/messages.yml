@@ -1,0 +1,29 @@
+# ==========================================================
+# Etherium - HeadDeath Messages
+# ==========================================================
+
+prefix: "&8[&4&l☠&8] &f"
+
+protected: "&cTumba protegida. Espera &f{remaining}s&c."
+no-break: "&c¡Usa click derecho para abrir la tumba!"
+opened: "&aRevisando la tumba de &e{victim}&a..."
+emptied: "&eLa tumba ha sido vaciada. Desaparecerá pronto."
+error-generate: "&cError al generar tumba. Tus ítems cayeron al suelo."
+
+commands:
+  no-permission: "&cNo tienes permisos para administrar las DeathCoins."
+  player-only: "&cEste comando solo puede ser usado por jugadores."
+  invalid-player: "&cEl jugador no está en línea."
+  invalid-number: "&cLa cantidad debe ser un número entero positivo."
+  usage: "&cUso correcto: /deathcoins <give|take|set> <jugador> <cantidad>"
+  balance: "&fTienes &6{coins} &fDeathCoins."
+  give: "&aHas añadido &6{amount} &aDeathCoins a &e{player}&a."
+  give-receiver: "&aHas recibido &6{amount} &aDeathCoins."
+  take: "&cHas quitado &6{amount} &cDeathCoins a &e{player}&c."
+  set: "&aHas establecido las DeathCoins de &e{player} &aen &6{amount}&a."
+
+gui:
+  no-permission: "&cNo tienes el permiso necesario para usar este cosmético."
+  equipped: "&aHas equipado: &f{cosmetic}"
+  bought: "&aHas comprado y equipado: &f{cosmetic}"
+  no-coins: "&cNo tienes suficientes DeathCoins para comprar esto. Cuesta {price}."

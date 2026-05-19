@@ -1,0 +1,38 @@
+# +-----------------------------------------------------------------------+
+# |                    TEXTOS DEL PANEL DE ESTADO                         |
+# +-----------------------------------------------------------------------+
+
+embed:
+  fields:
+    status:
+      name: "📡 Estado"
+      online: "`🟢 En línea`"
+      offline: "`🔴 Fuera de línea`"
+
+    players:
+      name: "👥 Jugadores"
+      format: "`%online% / %max%`"
+      offline: "`0 / 0`"
+
+    restart:
+      name: "⏰ Sig. Reinicio"
+      format: "`en %hours% hrs, %minutes% mins`"
+      offline: "`Desconocido`"
+
+    uptime:
+      name: "⏱️ Uptime"
+      format: "`%hours% hrs, %minutes% mins`"
+      offline: "`0 hrs, 0 mins`"
+
+    connect:
+      name: "🎮 Conectar desde Minecraft"
+      format: "```%ip%```"
+      offline: "```Servidor en mantenimiento```"
+
+  footer:
+    text: "AlmaMC Status • Actualizado cada minuto"
+
+logs:
+  channel-not-found: "&c[Discord] No se pudo encontrar el canal de Discord. Revisa el channel-id."
+  message-not-found: "&e[Discord] Mensaje de estado no encontrado (¿Lo borraron?). Creando uno nuevo..."
+  panel-created: "&a[Discord] ¡Panel de estado creado exitosamente! ID guardada: %id%"

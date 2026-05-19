@@ -1,0 +1,36 @@
+prefix: "&8[&x&3&4&E&B&5&0&lCargador&8] &r"
+
+# --------------------------
+# Mensajes de Jugador
+# --------------------------
+type-not-found: "&c¡El tipo de cargador que intentas colocar no existe o está corrupto!"
+limit-reached: "&cHas alcanzado tu límite máximo de cargadores (&e{max}&c)."
+placed: "&a¡Cargador instalado con éxito! Tienes &e{current}&a/&e{max} &aactivos."
+not-owner: "&cNo tienes permisos. Este sistema pertenece a &e{owner}&c."
+
+# Acciones del panel
+turned-on: "&a¡El motor de carga se ha puesto en marcha!"
+turned-off: "&cHas detenido el motor de carga. Ya no consumirá energía."
+picked-up: "&eHas desmantelado el cargador. Se ha devuelto a tu inventario."
+
+# Renombrar
+rename-prompt: "&ePor favor, escribe el nuevo nombre en el chat (Escribe '&ccancelar&e' para abortar)."
+rename-cancelled: "&cHas cancelado el proceso de re-etiquetado."
+rename-done: "&a¡Sistema re-etiquetado correctamente!"
+
+# Combustible y Energía
+no-fuel: "&c¡Fallo de encendido! El tanque de energía está completamente vacío."
+is-permanent: "&eEste modelo es de &aEnergía Infinita&e, no requiere recargas manuales."
+already-full: "&cEl tanque de energía ya se encuentra a su máxima capacidad."
+recharged: "&a¡Inyección de energía completada! Nivel actual: &b{fuel} min&a."
+auto-off-fuel: "&c&l¡ATENCIÓN! &eUno de tus cargadores se ha apagado por falta de combustible."
+temp-expired: "&c&l¡AVISO! &eUno de tus cargadores temporales ha expirado y se ha auto-destruido."
+
+# --------------------------
+# Mensajes de Administrador
+# --------------------------
+no-permission: "&cNo tienes los permisos necesarios (&ekeepchunk.admin&c)."
+admin:
+  invalid-args: "&cUso incorrecto. Escribe /ethloadchunk para ver los subcomandos."
+  player-not-found: "&cEl jugador especificado no se encuentra en línea."
+  give-success: "&aHas entregado &e{amount}x {item} &aal jugador &e{player}&a."

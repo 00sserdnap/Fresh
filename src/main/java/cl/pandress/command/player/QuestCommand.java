@@ -1,25 +1,32 @@
 package cl.pandress.command.player;
 
+import cl.pandress.Etherium;
 import cl.pandress.modules.quests.menus.QuestMenu;
 import cl.pandress.utils.ChatUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 public class QuestCommand implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        
-        // Verificamos que sea un jugador y no la consola
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(ChatUtils.colorize("&cEste comando solo puede ser usado por jugadores dentro del servidor."));
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Solo jugadores pueden usar este comando.");
             return true;
         }
 
-        // Abrimos el menú de Misiones Diarias
+        Player player = (Player) sender;
+        
+        // --- VERIFICACIÓN DE MÓDULO APAGADO ---
+        boolean isEnabled = Etherium.getInstance().getManagerHandler().getQuestManager().getConfig().getBoolean("settings.enabled", true);
+        
+        if (!isEnabled) {
+            player.sendMessage(ChatUtils.colorize("&cEl sistema de misiones diarias está desactivado actualmente."));
+            return true;
+        }
+
         QuestMenu.open(player);
         return true;
     }

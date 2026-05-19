@@ -1,37 +1,137 @@
-name: Fresh
+name: Etherium
 version: 1.0
-main: cl.pandress.Fresh
+main: cl.pandress.Etherium
 api-version: '1.21'
-softdepend: [aCore, PlaceholderAPI, Vault]
+softdepend: [PlaceholderAPI, Vault]
 
 commands:
   misionesadmin:
     description: Comando administrativo para testear el sistema de misiones.
-    permission: fresh.admin
-    permission-message: §cNo tienes permiso para usar este comando.
-  fresh:
-    description: Comando administrativo de Fresh
-    permission: fresh.admin
-    usage: /fresh reload <module>
+    permission: etherium.quest.admin
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
+  etherium:
+    description: Panel de administración principal del plugin Etherium.
+    aliases:
+      - eth
+    usage: /eth reload [módulo]
+    permission: etherium.admin
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
   misiones:
-    description: Abre el menú de misiones diarias
-    aliases: [ quests, m, racha ]
+    description: Abre el menú de misiones diarias.
+    permission: etherium.misiones
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
   rankup:
-    description: Abre el menú de RankUp
-    aliases: [rango, ranks, rankup]
-    permission: fresh.admin
+    description: Abre el menú de RankUp para ascender de rango.
+    permission: etherium.rankup
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
   tempfly:
-    description: Otorga fly temporal a un jugador.
-    permission: fresh.admin.tempfly
-    permission-message: §cNo tienes permiso.
+    description: Otorga vuelo temporal a un jugador.
+    usage: /tempfly <jugador> <segundos>
+    permission: etherium.tempfly.admin
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
   battlepass:
     description: Abre el Pase de Batalla.
-    aliases: [pase, bp]
-    permission: fresh.battlepass
+    aliases:
+      - pase
+      - bp
+    permission: etherium.battlepass
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
+  ethloadchunk:
+    description: Administración de Cargadores de Chunks.
+    usage: /ethloadchunk <add|remove|list>
+    permission: etherium.keepchunk.admin
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
+  ethspawners:
+    description: Gestión de spawners personalizados.
+    usage: /ethspawners <give|list|remove>
+    permission: etherium.customspawner.admin
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+
+  ethtools:
+    description: Gestión de herramientas de área.
+    usage: /ethtools <give|menu>
+    permission: etherium.tools
+    permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
+  descubrimientos:
+    description: Abre el menú de tus biomas y estructuras descubiertas.
+  ethhopperlinks:
+    description: Comando administrador del modulo de tolvas
+    aliases: [hopperlinks, hl]
+    permission: etherium.hopperlinks.admin
+  ethdragon:
+    description: Controla el evento custom del Ender Dragon.
+    permission: etherium.admin.dragon
+  deathcoins:
+    description: Administra las DeathCoins de los jugadores
+    usage: /deathcoins <give|take|set> <jugador> <cantidad>
+    permission: etherium.headdeath.admin
+  deathmenu:
+    description: Abre el menú para comprar y equipar cosméticos de muerte
+    aliases: [tumbas]
+
+
 permissions:
-  fresh.admin:
-    description: Permite recargar los módulos del plugin
+  # ── Admin ────────────────────────────────────────────────
+  etherium.admin:
+    description: Acceso completo al panel administrativo de Etherium.
     default: op
-  fresh.player:
-    description: Permisos básicos para jugadores.
+
+  etherium.quest.admin:
+    description: Permite administrar y testear el sistema de misiones.
+    default: op
+
+  etherium.keepchunk.admin:
+    description: Permite gestionar los cargadores de chunks.
+    default: op
+
+  etherium.customspawner.admin:
+    description: Permite gestionar spawners personalizados.
+    default: op
+
+  etherium.tempfly.admin:
+    description: Permite otorgar vuelo temporal a jugadores.
+    default: op
+
+  # ── Jugadores ─────────────────────────────────────────────
+  etherium.misiones:
+    description: Permite acceder al menú de misiones diarias.
     default: true
+
+  etherium.rankup:
+    description: Permite acceder al menú de RankUp.
+    default: true
+
+  etherium.battlepass:
+    description: Permite acceder al Pase de Batalla.
+    default: true
+
+  etherium.tools:
+    description: Permite usar el menú de herramientas de área.
+    default: true
+
+  # ── Grupos ───────────────────────────────────────────────
+  etherium.admin.*:
+    description: Agrupa todos los permisos administrativos de Etherium.
+    default: op
+    children:
+      etherium.admin: true
+      etherium.quest.admin: true
+      etherium.keepchunk.admin: true
+      etherium.customspawner.admin: true
+      etherium.tempfly.admin: true
+
+  etherium.player.*:
+    description: Agrupa todos los permisos básicos para jugadores.
+    default: true
+    children:
+      etherium.misiones: true
+      etherium.rankup: true
+      etherium.battlepass: true
+      etherium.tools: true

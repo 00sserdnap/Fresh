@@ -1,0 +1,13 @@
+prefix: "&#FFD700[Descubrimientos] &8» &f"
+
+discovery:
+  biome: "&a¡Has descubierto un nuevo bioma: &#00FF00%name%&a!"
+  structure: "&e¡Has encontrado una estructura ancestral: &#FFA500%name%&e!"
+  cave: "&b¡Te has adentrado en una nueva cueva: &#00FFFF%name%&b!"
+
+menu:
+  no-permission: "&cNo tienes permisos para ver el sistema de descubrimientos."
+  already-discovered: "&7Ya has registrado esta zona en tu bitácora el %date%."
+
+admin:
+  reloaded: "&aEl módulo de descubrimientos ha sido recargado correctamente."

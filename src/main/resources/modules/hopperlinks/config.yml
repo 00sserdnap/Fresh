@@ -1,0 +1,86 @@
+# ======================================================
+# Etherium Core - Sistema de Tolvas Inalámbricas (Anti-Lag)
+# ======================================================
+
+settings:
+  enabled: true
+  use-permission: "eth.hopperlinks.use"
+  allowed-worlds:
+    - "world"
+    - "world_nether"
+    - "world_the_end"
+  # Cada cuántos ticks se mueven los ítems (20 ticks = 1 segundo)
+  transfer-interval-ticks: 20
+
+  # Límite por defecto de CUÁNTAS TOLVAS FÍSICAS puede poner un usuario en el mundo.
+  # (Puedes dar el permiso 'eth.hopper.place.100' para cambiar este límite)
+  default-hopper-place-limit: 20
+
+  # Límite por defecto de tolvas que puede VINCULAR un usuario a cofres.
+  # (Permiso: 'eth.hopperlink.limit.50')
+  default-hopper-link-limit: 10
+
+  # Límite por defecto de CUÁNTOS VÍNCULOS (Cofres receptores) puede tener activos.
+  # (Permiso: 'eth.hopperlink.maxlinks.3')
+  default-active-links-limit: 5
+
+  # Distancia máxima permitida entre una tolva y su cofre vinculado.
+  max-link-distance: 50.0
+
+wand:
+  material: BLAZE_ROD
+  name: "&e⚡ Varita de Conexión"
+  lore:
+    - "&8ʜᴇʀʀᴀᴍɪᴇɴᴛᴀ ᴛᴇᴄɴᴏʟᴏɢɪᴄᴀ."
+    - ""
+    - "&e► Click Derecho en Tolvas &fpara seleccionar."
+    - "&e► Click Derecho en Cofre &fpara vincular."
+    - "&e► Click Derecho al Aire &fpara abrir el menú."
+    - ""
+    - "&c(Shift + Click para limpiar selección)"
+  glow: true
+
+# ======================================================
+# SISTEMA DE MEJORAS GLOBAL DE LA VARITA
+# ======================================================
+upgrades:
+  level_1:
+    cost: 0
+    items-per-transfer: 1
+    name: "&7Nivel 1"
+  level_2:
+    cost: 5000
+    items-per-transfer: 2
+    name: "&aNivel 2"
+  level_3:
+    cost: 15000
+    items-per-transfer: 4
+    name: "&aNivel 3"
+  level_4:
+    cost: 35000
+    items-per-transfer: 8
+    name: "&eNivel 4"
+  level_5:
+    cost: 75000
+    items-per-transfer: 12
+    name: "&eNivel 5"
+  level_6:
+    cost: 150000
+    items-per-transfer: 16
+    name: "&6Nivel 6"
+  level_7:
+    cost: 300000
+    items-per-transfer: 24
+    name: "&6Nivel 7"
+  level_8:
+    cost: 600000
+    items-per-transfer: 32
+    name: "&cNivel 8"
+  level_9:
+    cost: 1200000
+    items-per-transfer: 48
+    name: "&cNivel 9"
+  level_10:
+    cost: 2500000
+    items-per-transfer: 64
+    name: "&4&lNivel 10 (MAX)"
