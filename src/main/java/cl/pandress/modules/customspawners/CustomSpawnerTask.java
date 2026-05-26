@@ -21,9 +21,7 @@ public class CustomSpawnerTask extends BukkitRunnable {
 
     private final CustomSpawnerManager manager;
 
-    // --- OPTIMIZACIÓN: Cache de configuración ---
-    // Antes se leían del FileConfiguration en cada tick (muy costoso).
-    // Ahora se leen una vez al arrancar y se pueden refrescar si hace falta.
+    // Cache de configuración — leídos una vez, nunca en el tick loop.
     private int maxNearby;
     private int minDelay;
     private int maxDelay;
@@ -34,14 +32,10 @@ public class CustomSpawnerTask extends BukkitRunnable {
         reloadConfigCache();
     }
 
-    /**
-     * Refresca los valores cacheados desde la config.
-     * Llamar esto si el servidor hace /reload o si implementas un comando de recarga.
-     */
     public void reloadConfigCache() {
-        this.maxNearby   = manager.getConfig().getInt("settings.max-nearby-entities", 10);
-        this.minDelay    = manager.getConfig().getInt("settings.min-delay-seconds", 10) * 1000;
-        this.maxDelay    = manager.getConfig().getInt("settings.max-delay-seconds", 25) * 1000;
+        this.maxNearby    = manager.getConfig().getInt("settings.max-nearby-entities", 10);
+        this.minDelay     = manager.getConfig().getInt("settings.min-delay-seconds", 10) * 1000;
+        this.maxDelay     = manager.getConfig().getInt("settings.max-delay-seconds", 25) * 1000;
         this.mobsPerSpawn = manager.getConfig().getInt("settings.mobs-per-spawn", 3);
     }
 
@@ -49,43 +43,61 @@ public class CustomSpawnerTask extends BukkitRunnable {
     public void run() {
         long now = System.currentTimeMillis();
 
-        KeepChunkManager keepChunkManager = Etherium.getInstance().getManagerHandler().getKeepChunkManager();
+        KeepChunkManager keepChunkManager = Etherium.getInstance()
+                .getManagerHandler().getKeepChunkManager();
 
         for (CustomSpawnerData spawner : manager.getActiveSpawners().values()) {
-            Location loc = spawner.getLocation();
-            World world = loc.getWorld();
+            Location loc   = spawner.getLocation();
+            World    world = loc.getWorld();
             if (world == null) continue;
 
             boolean canSpawn = false;
 
+            // ── Check 1: algún loader de KeepChunk cubre este spawner ──────────
+            // FIX: antes se llamaba loc.getChunk().getX() y
+            //      loader.getLocation().getChunk().getX() en cada iteración.
+            // Ambas llamadas pueden forzar ServerChunkCache.syncLoad() si el
+            // chunk no está en memoria, bloqueando el server thread.
+            //
+            // Ahora usamos spawner.getChunkX() / loader.getChunkX() que son
+            // enteros precalculados con blockX >> 4 — aritmética pura, O(1),
+            // sin tocar el mundo ni el chunk system.
             if (keepChunkManager != null) {
-                int spawnerChunkX = loc.getChunk().getX();
-                int spawnerChunkZ = loc.getChunk().getZ();
+                int spawnerCX = spawner.getChunkX();
+                int spawnerCZ = spawner.getChunkZ();
 
                 for (KeepChunkData loader : keepChunkManager.getActiveLoaders().values()) {
-                    if (loader.isActive() && loader.getLocation().getWorld().equals(world)) {
-                        KeepChunkType type = keepChunkManager.getType(loader.getTypeId());
-                        if (type != null) {
-                            int radius = type.getRadius();
-                            int loaderChunkX = loader.getLocation().getChunk().getX();
-                            int loaderChunkZ = loader.getLocation().getChunk().getZ();
+                    if (!loader.isActive()) continue;
+                    if (!loader.getLocation().getWorld().equals(world)) continue;
 
-                            if (Math.abs(loaderChunkX - spawnerChunkX) <= radius &&
-                                Math.abs(loaderChunkZ - spawnerChunkZ) <= radius) {
-                                canSpawn = true;
-                                break;
-                            }
-                        }
+                    KeepChunkType type = keepChunkManager.getType(loader.getTypeId());
+                    if (type == null) continue;
+
+                    int radius = type.getRadius();
+
+                    // FIX: loader.getChunkX() / getChunkZ() en lugar de
+                    //      loader.getLocation().getChunk().getX() / getZ()
+                    if (Math.abs(loader.getChunkX() - spawnerCX) <= radius &&
+                        Math.abs(loader.getChunkZ() - spawnerCZ) <= radius) {
+                        canSpawn = true;
+                        break;
                     }
                 }
             }
 
-            // Segundo check: si el chunk está marcado como force-loaded (por KeepChunk) puede spawnear
-            if (!canSpawn && loc.getChunk().isForceLoaded()) {
-                canSpawn = true;
+            // ── Check 2: el chunk está force-loaded ───────────────────────────
+            // FIX: isForceLoaded() también llama getChunk() internamente en
+            //      algunas versiones de Paper/CraftBukkit, que puede derivar
+            //      en syncLoad. Lo reemplazamos verificando primero isChunkLoaded()
+            //      que solo mira si está en memoria sin cargarlo.
+            // Si ya está en memoria, getChunkAt() es O(1) desde el cache interno.
+            if (!canSpawn && world.isChunkLoaded(spawner.getChunkX(), spawner.getChunkZ())) {
+                if (world.getChunkAt(spawner.getChunkX(), spawner.getChunkZ()).isForceLoaded()) {
+                    canSpawn = true;
+                }
             }
 
-            // Fallback: jugador dentro de 64 bloques (distanceSquared 4096)
+            // ── Check 3 (fallback): jugador dentro de 64 bloques ─────────────
             if (!canSpawn) {
                 for (Player p : world.getPlayers()) {
                     if (p.getGameMode() != GameMode.SPECTATOR &&
@@ -96,13 +108,15 @@ public class CustomSpawnerTask extends BukkitRunnable {
                 }
             }
 
+            // Las partículas solo si hay razón para spawnear
             if (!canSpawn) continue;
 
-            world.spawnParticle(Particle.FLAME, loc.clone().add(0.5, 0.5, 0.5), 2, 0.2, 0.2, 0.2, 0.02);
+            world.spawnParticle(Particle.FLAME,
+                    loc.clone().add(0.5, 0.5, 0.5), 2, 0.2, 0.2, 0.2, 0.02);
 
             if (now < spawner.getNextSpawnTime()) continue;
 
-            // Radio 16: suficiente para contar todos los mobs que spawneó este spawner en el área
+            // ── Contar mobs cercanos ──────────────────────────────────────────
             Collection<Entity> nearby = world.getNearbyEntities(loc, 16, 16, 16,
                     entity -> entity.getType() == spawner.getEntityType());
 
@@ -111,6 +125,7 @@ public class CustomSpawnerTask extends BukkitRunnable {
                 continue;
             }
 
+            // ── Spawnear mobs ─────────────────────────────────────────────────
             int spawned = 0;
             for (int i = 0; i < mobsPerSpawn; i++) {
                 int blockOffsetX = ThreadLocalRandom.current().nextInt(-1, 2);
@@ -131,12 +146,11 @@ public class CustomSpawnerTask extends BukkitRunnable {
 
                 if (spawnLoc.getBlock().isPassable() &&
                     spawnLoc.clone().add(0, 1, 0).getBlock().isPassable()) {
+
                     Entity entity = world.spawnEntity(spawnLoc, spawner.getEntityType());
-                    // Evitar despawn natural cuando no hay jugadores cerca
-                    // (necesario para que funcionen con el cargador de chunks)
                     entity.setPersistent(true);
-                    if (entity instanceof Mob) {
-                        ((Mob) entity).setRemoveWhenFarAway(false);
+                    if (entity instanceof Mob mob) {
+                        mob.setRemoveWhenFarAway(false);
                     }
                     spawned++;
                 }

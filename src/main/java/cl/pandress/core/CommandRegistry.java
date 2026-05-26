@@ -2,6 +2,7 @@ package cl.pandress.core;
 
 import cl.pandress.Etherium;
 import cl.pandress.command.admin.*;
+import cl.pandress.command.player.DeathMenuCommand;
 import cl.pandress.command.player.*;
 import cl.pandress.modules.customspawners.menus.CustomSpawnerMenu;
 import cl.pandress.utils.ChatUtils;

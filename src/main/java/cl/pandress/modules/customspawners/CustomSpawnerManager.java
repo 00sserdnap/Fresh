@@ -52,18 +52,22 @@ public class CustomSpawnerManager {
 
     private final Map<Location, CustomSpawnerData> activeSpawners = new HashMap<>();
 
-    // --- OPTIMIZACIÓN: Dirty flag para evitar guardados innecesarios ---
+    // --- Dirty flag para evitar guardados innecesarios ---
     private final AtomicBoolean dirty = new AtomicBoolean(false);
-    private boolean saveInProgress = false;
+
+    // FIX: volatile para visibilidad entre hilos.
+    // Antes era un boolean normal, lo que podía causar que dos hilos
+    // leyeran saveInProgress = false al mismo tiempo y lanzaran
+    // dos guardados concurrentes sobre el mismo archivo.
+    private volatile boolean saveInProgress = false;
 
     public CustomSpawnerManager(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.typeKey = new NamespacedKey(plugin, NBT_SPAWNER_TYPE);
-
+        this.typeKey   = new NamespacedKey(plugin, NBT_SPAWNER_TYPE);
         this.keyAction = new NamespacedKey(plugin, "cs_action");
-        this.keyPage = new NamespacedKey(plugin, "cs_page");
-        this.keyOwner = new NamespacedKey(plugin, "cs_owner");
-        this.keyLoc = new NamespacedKey(plugin, "cs_loc");
+        this.keyPage   = new NamespacedKey(plugin, "cs_page");
+        this.keyOwner  = new NamespacedKey(plugin, "cs_owner");
+        this.keyLoc    = new NamespacedKey(plugin, "cs_loc");
 
         loadConfig();
         loadMessages();
@@ -72,32 +76,66 @@ public class CustomSpawnerManager {
 
         new CustomSpawnerTask(this).runTaskTimer(plugin, 20L, 20L);
 
-        // --- OPTIMIZACIÓN: Guardado periódico asíncrono cada 5 minutos ---
-        // Reemplaza el guardado síncrono en cada evento por un ciclo periódico
+        // Guardado periódico cada 5 minutos.
+        // FIX: el snapshot se saca en el hilo principal (runTask) para que
+        // leer activeSpawners sea siempre thread-safe, y luego la escritura
+        // al disco se hace en un hilo async (runTaskAsynchronously).
+        // Antes todo el bloque corría en el hilo async, lo que significaba
+        // leer activeSpawners fuera del hilo principal → posible ConcurrentModificationException.
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             if (dirty.compareAndSet(true, false)) {
-                saveSpawnerDataAsync();
+                // Estamos en hilo async: lanzar snapshot en el hilo principal
+                // y desde ahí despachar la escritura async.
+                Bukkit.getScheduler().runTask(plugin, this::snapshotAndSaveAsync);
             }
         }, 6000L, 6000L); // 6000 ticks = 5 minutos
     }
 
-    // --- OPTIMIZACIÓN: Guardado asíncrono real ---
-    // El hilo principal prepara una copia de los datos y el hilo async escribe el archivo
+    // =========================================================
+    //  GUARDADO — API pública
+    // =========================================================
+
+    /**
+     * Marca los datos como pendientes de guardar.
+     * El ciclo periódico (cada 5 min) los escribirá al disco.
+     * Coste: flip de un AtomicBoolean → O(1), cero I/O.
+     */
     public void saveSpawnerData() {
-        dirty.set(true); // Marca como pendiente; el ciclo periódico lo guardará
+        dirty.set(true);
     }
 
-    // Llamado forzoso al apagar el servidor (síncrono, está bien en onDisable)
+    /**
+     * Guardado forzoso SÍNCRONO en el hilo que llama.
+     * Usar ÚNICAMENTE desde onDisable / ManagerHandler.shutdown(),
+     * donde bloquear el hilo principal está permitido.
+     *
+     * FIX CRÍTICO: ManagerHandler.shutdown() debe llamar a este método,
+     * NO a saveSpawnerData(), porque en el shutdown el scheduler ya está
+     * cancelado y dirty = true jamás se procesa.
+     */
     public void saveSpawnerDataSync() {
         writeDataToFile();
     }
 
-    private void saveSpawnerDataAsync() {
+    // =========================================================
+    //  GUARDADO — implementación interna
+    // =========================================================
+
+    /**
+     * Paso 1 (hilo principal): construye un snapshot inmutable de activeSpawners.
+     * Paso 2 (hilo async):     escribe el snapshot al disco.
+     *
+     * Separar estos dos pasos garantiza que:
+     *  - activeSpawners siempre se lee desde el hilo principal (thread-safe).
+     *  - La escritura al disco no bloquea el hilo principal.
+     */
+    private void snapshotAndSaveAsync() {
+        // Guardia: si ya hay un guardado en curso no lanzamos otro.
         if (saveInProgress) return;
         saveInProgress = true;
 
-        // 1. Crear snapshot en el hilo principal
-        final Map<String, Object[]> snapshot = new HashMap<>();
+        // Snapshot tomado en el hilo principal → seguro leer activeSpawners aquí.
+        final Map<String, Object[]> snapshot = new HashMap<>(activeSpawners.size());
         for (CustomSpawnerData spawner : activeSpawners.values()) {
             snapshot.put(spawner.getId().toString(), new Object[]{
                 spawner.getLocation(),
@@ -107,36 +145,41 @@ public class CustomSpawnerManager {
             });
         }
 
-        // 2. Escribir en disco en hilo async
-        FileConfiguration tempData = new YamlConfiguration();
-        for (Map.Entry<String, Object[]> entry : snapshot.entrySet()) {
-            String path = "spawners." + entry.getKey();
-            Object[] values = entry.getValue();
-            tempData.set(path + ".location", values[0]);
-            tempData.set(path + ".type", values[1]);
-            if (values[2] != null) {
-                tempData.set(path + ".ownerId", values[2]);
-                tempData.set(path + ".ownerName", values[3]);
+        // Escritura al disco en hilo async → no bloquea el servidor.
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try {
+                FileConfiguration tempData = new YamlConfiguration();
+                for (Map.Entry<String, Object[]> entry : snapshot.entrySet()) {
+                    String path = "spawners." + entry.getKey();
+                    Object[] values = entry.getValue();
+                    tempData.set(path + ".location", values[0]);
+                    tempData.set(path + ".type",     values[1]);
+                    if (values[2] != null) {
+                        tempData.set(path + ".ownerId",   values[2]);
+                        tempData.set(path + ".ownerName", values[3]);
+                    }
+                }
+                tempData.save(dataFile);
+            } catch (IOException e) {
+                plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
+            } finally {
+                saveInProgress = false;
             }
-        }
-
-        try {
-            tempData.save(dataFile);
-        } catch (IOException e) {
-            plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
-        } finally {
-            saveInProgress = false;
-        }
+        });
     }
 
+    /**
+     * Escribe activeSpawners directamente al archivo data.yml.
+     * Solo para uso en onDisable (hilo principal, scheduler cancelado).
+     */
     private void writeDataToFile() {
         data.set("spawners", null);
         for (CustomSpawnerData spawner : activeSpawners.values()) {
             String path = "spawners." + spawner.getId().toString();
             data.set(path + ".location", spawner.getLocation());
-            data.set(path + ".type", spawner.getEntityType().name());
+            data.set(path + ".type",     spawner.getEntityType().name());
             if (spawner.getOwnerId() != null) {
-                data.set(path + ".ownerId", spawner.getOwnerId().toString());
+                data.set(path + ".ownerId",   spawner.getOwnerId().toString());
                 data.set(path + ".ownerName", spawner.getOwnerName());
             }
         }
@@ -146,6 +189,10 @@ public class CustomSpawnerManager {
             plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
         }
     }
+
+    // =========================================================
+    //  SPAWNERS — API
+    // =========================================================
 
     public void addSpawner(Location loc, EntityType type, UUID ownerId, String ownerName) {
         CustomSpawnerData spawner = new CustomSpawnerData(UUID.randomUUID(), loc, type, ownerId, ownerName);
@@ -158,6 +205,10 @@ public class CustomSpawnerManager {
             saveSpawnerData();
         }
     }
+
+    // =========================================================
+    //  CARGA DE CONFIGURACIÓN (sin cambios)
+    // =========================================================
 
     private void loadConfig() {
         File configFile = new File(plugin.getDataFolder(), "modules/customspawners/config.yml");
@@ -192,22 +243,22 @@ public class CustomSpawnerManager {
         }
         messages = YamlConfiguration.loadConfiguration(msgFile);
 
-        messages.addDefault("prefix", "&8[&eSpawners&8] ");
-        messages.addDefault("placed", "&a¡Spawner de {type} colocado!");
-        messages.addDefault("error", "&cError al configurar el Spawner: {error}");
-        messages.addDefault("picked-up", "&eSpawner recogido.");
-        messages.addDefault("give", "&aHas dado {amount} Spawners de {type} a {player}.");
-        messages.addDefault("receive", "&aHas recibido {amount} Spawners de {type}.");
-        messages.addDefault("no-permission", "&cNo tienes permisos.");
-        messages.addDefault("invalid-player", "&cJugador no encontrado.");
-        messages.addDefault("invalid-type", "&cTipo de entidad inválido.");
-        messages.addDefault("invalid-number", "&cLa cantidad debe ser un número válido.");
-        messages.addDefault("usage-give", "&eUso: /ethspawners give <jugador> <tipo> [cantidad]");
-        messages.addDefault("usage-menu", "&eUso: /ethspawners menu");
-        messages.addDefault("player-only", "&cSolo jugadores pueden abrir el menú.");
-        messages.addDefault("tp-success", "&a¡Teletransportado con éxito al spawner!");
-        messages.addDefault("removed-success", "&c¡Spawner eliminado permanentemente!");
-        messages.addDefault("error-loc", "&cError al gestionar la ubicación.");
+        messages.addDefault("prefix",          "&8[&eSpawners&8] ");
+        messages.addDefault("placed",           "&a¡Spawner de {type} colocado!");
+        messages.addDefault("error",            "&cError al configurar el Spawner: {error}");
+        messages.addDefault("picked-up",        "&eSpawner recogido.");
+        messages.addDefault("give",             "&aHas dado {amount} Spawners de {type} a {player}.");
+        messages.addDefault("receive",          "&aHas recibido {amount} Spawners de {type}.");
+        messages.addDefault("no-permission",    "&cNo tienes permisos.");
+        messages.addDefault("invalid-player",   "&cJugador no encontrado.");
+        messages.addDefault("invalid-type",     "&cTipo de entidad inválido.");
+        messages.addDefault("invalid-number",   "&cLa cantidad debe ser un número válido.");
+        messages.addDefault("usage-give",       "&eUso: /ethspawners give <jugador> <tipo> [cantidad]");
+        messages.addDefault("usage-menu",       "&eUso: /ethspawners menu");
+        messages.addDefault("player-only",      "&cSolo jugadores pueden abrir el menú.");
+        messages.addDefault("tp-success",       "&a¡Teletransportado con éxito al spawner!");
+        messages.addDefault("removed-success",  "&c¡Spawner eliminado permanentemente!");
+        messages.addDefault("error-loc",        "&cError al gestionar la ubicación.");
 
         messages.options().copyDefaults(true);
         try { messages.save(msgFile); } catch (IOException ignored) {}
@@ -281,6 +332,10 @@ public class CustomSpawnerManager {
         try { menuPlayerSpawners.save(fPlayerSpawners); } catch (IOException ignored) {}
     }
 
+    // =========================================================
+    //  CARGA DE DATOS (sin cambios)
+    // =========================================================
+
     private void loadData() {
         dataFile = new File(plugin.getDataFolder(), "modules/customspawners/data.yml");
         if (!dataFile.exists()) {
@@ -311,23 +366,26 @@ public class CustomSpawnerManager {
         }
     }
 
+    // =========================================================
+    //  MENSAJES Y GETTERS (sin cambios)
+    // =========================================================
+
     public String getMessage(String path) {
         String prefix = messages.getString("prefix", "&8[&eSpawners&8] ");
         String msg = messages.getString(path, "&cMensaje no encontrado: " + path);
         return ChatColor.translateAlternateColorCodes('&', prefix + msg);
     }
 
-    public CustomSpawnerData getSpawnerAt(Location loc) { return activeSpawners.get(loc); }
-    public Map<Location, CustomSpawnerData> getActiveSpawners() { return activeSpawners; }
-
-    public FileConfiguration getConfig() { return config; }
-    public FileConfiguration getMessages() { return messages; }
-    public FileConfiguration getMenuMain() { return menuMain; }
-    public FileConfiguration getMenuGive() { return menuGive; }
-    public FileConfiguration getMenuPlayerList() { return menuPlayerList; }
-    public FileConfiguration getMenuPlayerSpawners() { return menuPlayerSpawners; }
-    public NamespacedKey getTypeKey() { return typeKey; }
-    public JavaPlugin getPlugin() { return plugin; }
+    public CustomSpawnerData getSpawnerAt(Location loc)              { return activeSpawners.get(loc); }
+    public Map<Location, CustomSpawnerData> getActiveSpawners()      { return activeSpawners; }
+    public FileConfiguration getConfig()                             { return config; }
+    public FileConfiguration getMessages()                           { return messages; }
+    public FileConfiguration getMenuMain()                           { return menuMain; }
+    public FileConfiguration getMenuGive()                           { return menuGive; }
+    public FileConfiguration getMenuPlayerList()                     { return menuPlayerList; }
+    public FileConfiguration getMenuPlayerSpawners()                 { return menuPlayerSpawners; }
+    public NamespacedKey getTypeKey()                                { return typeKey; }
+    public JavaPlugin getPlugin()                                    { return plugin; }
 
     public ItemStack createSpawnerItem(EntityType type) {
         ItemStack item = new ItemStack(Material.SPAWNER);
@@ -336,7 +394,8 @@ public class CustomSpawnerManager {
         meta.getPersistentDataContainer().set(typeKey, PersistentDataType.STRING, type.name());
 
         String nameFormat = config.getString("item.name", "&eSpawner Custom &7({type})");
-        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', nameFormat.replace("{type}", type.name())));
+        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&',
+                nameFormat.replace("{type}", type.name())));
 
         List<String> configLore = config.getStringList("item.lore");
         List<String> finalLore = new ArrayList<>();
@@ -345,12 +404,9 @@ public class CustomSpawnerManager {
         }
         meta.setLore(finalLore);
 
-        // Agregamos la flag solo si existe en tu versión, si no, se ignora silenciosamente
         try {
             meta.addItemFlags(ItemFlag.valueOf("HIDE_ADDITIONAL_TOOLTIP"));
-        } catch (Exception ignored) {
-            // No hacemos nada, la versión es antigua y no requiere flag adicional
-        }
+        } catch (Exception ignored) {}
 
         item.setItemMeta(meta);
         return item;
