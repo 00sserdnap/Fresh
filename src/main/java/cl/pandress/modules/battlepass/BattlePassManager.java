@@ -205,7 +205,7 @@ public class BattlePassManager {
 
     public int getXp(UUID uuid) { return playerXp.getOrDefault(uuid, 0); }
     public int getLevel(UUID uuid) { return playerLevel.getOrDefault(uuid, 1); }
-    public boolean hasPremium(Player player) { return player.hasPermission("eth.battlepass"); }
+    public boolean hasPremium(Player player) { return player.hasPermission("etherium.battlepass.premium"); }
     public int getMissionProgress(UUID uuid, String missionKey) {
         return missionProgress.getOrDefault(uuid, Collections.emptyMap()).getOrDefault(missionKey, 0);
     }

@@ -39,9 +39,7 @@ commands:
     aliases:
       - pase
       - bp
-    permission: etherium.battlepass
     permission-message: "§7[§c🪓§7] §cNo tienes permiso para usar este comando."
-
   ethloadchunk:
     description: Administración de Cargadores de Chunks.
     usage: /ethloadchunk <add|remove|list>
@@ -75,8 +73,14 @@ commands:
   deathmenu:
     description: Abre el menú para comprar y equipar cosméticos de muerte
     aliases: [tumbas]
-
-
+  spawn:
+    description: Te lleva al spawn principal del servidor.
+    usage: /spawn
+  setspawn:
+    description: Establece el punto de spawn principal.
+    usage: /setspawn
+    permission: etherium.admin.setspawn
+    permission-message: No tienes permisos para ejecutar este comando.
 permissions:
   # ── Admin ────────────────────────────────────────────────
   etherium.admin:
@@ -108,10 +112,9 @@ permissions:
     description: Permite acceder al menú de RankUp.
     default: true
 
-  etherium.battlepass:
-    description: Permite acceder al Pase de Batalla.
-    default: true
-
+  etherium.battlepass.premium:
+    description: Permite al jugador reclamar la fila de recompensas Premium del Pase de Batalla.
+    default: false
   etherium.tools:
     description: Permite usar el menú de herramientas de área.
     default: true

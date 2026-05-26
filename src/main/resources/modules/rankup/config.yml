@@ -1,7 +1,128 @@
-# ====================================================================================================
-#                                 ETHERIUM - RANKUP CONFIG
-# ====================================================================================================
+# ==========================================================
+#                  ETHERIUM - RANKUP CONFIG
+# ==========================================================
+# ¿CÓMO FUNCIONA?
+# Este archivo controla todo el menú visual de /rankup y los requisitos
+# para pasar de un rango a otro. El jugador siempre empieza en el rango 0 
+# (incluso si no está en este archivo).
+# El sistema leerá el rango actual del jugador y buscará el "siguiente" 
+# (si es 0, buscará el 1; si es 1, buscará el 2, y así sucesivamente).
+# Si no encuentra el siguiente número, dirá "Rango Máximo Alcanzado".
+# ==========================================================
+
 settings:
-  enabled: false
-  # Prefijo visual por defecto para un usuario que no tiene ningún rango comprado (Nivel 0)
-  default_rank_prefix: "&8[&7Sin Rango&8]"
+  default_prefix: "&e/rankup"
+  enabled: true
+  menu:
+    title: "&8Menú | Subir de Rango"
+    type: "CHEST"
+    rows: 3
+    items:
+      fillers:
+        enabled: true
+        material: "GRAY_STAINED_GLASS_PANE"
+        name: " "
+        slots:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 8
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+          - 11
+          - 13
+          - 15
+          - 16
+          - 17
+          - 18
+          - 19
+          - 20
+          - 21
+          - 22
+          - 23
+          - 24
+          - 25
+          - 26
+      rankup_button:
+        slot: 12
+        material: "EMERALD"
+        name: "&a&lRango #%next_rank%"
+        name_max: "&c&lRango Máximo Alcanzado"
+        lore:
+          - "&8ʀᴀɴᴋᴜᴘ"
+          - ""
+          - " &7¿Crees tener los requisitos"
+          - " &7para poder desbloquear niveles?"
+          - ""
+          - "&aRequisitos"
+          - "&6&6&6%requirements%"
+          - ""
+          - "&a&lRecompensas"
+          - "%rewards%"
+          - ""
+      top_button:
+        slot: 14
+        material: "BELL"
+        name: "&6&lTop Rangos"
+        lore_header:
+          - "&7Lista de los jugadores con mayor"
+          - "&7nivel dentro del servidor."
+          - ""
+        lore_format: " &8| &eRango #%pos%: &f%player% &7(%rank%)"
+        lore_footer:
+          - ""
+          - "&eEste menú muestra los mejores jugadores."
+
+# ==========================================================
+#                      SECCIÓN DE RANGOS
+# ==========================================================
+# ¿QUÉ ES LO QUE TENGO DISPONIBLE PARA REQUISITOS?
+# Puedes mezclar y usar cualquiera de estos:
+# - money: Dinero del plugin de economía (Vault).
+# - playtime_hours: Horas que el jugador lleva en el server.
+# - player_kills: Asesinatos de otros jugadores (PvP).
+# - blocks_mine: Bloques rotos (Ej: STONE, COAL_ORE).
+# - blocks_place: Bloques colocados (Ej: OAK_PLANKS).
+# - mob_kills: Monstruos matados (Ej: ZOMBIE, SKELETON).
+#
+# MUY IMPORTANTE: Usa SIEMPRE mayúsculas en los nombres de bloques y mobs.
+#    requirements:
+#     money: 10000.0
+#      playtime_hours: 5
+#      player_kills: 5
+#      blocks_mine:
+#        STONE: 500
+#        DIAMOND_ORE: 10
+#      blocks_place:
+#        OAK_PLANKS: 100
+#      mob_kills:
+#        ZOMBIE: 50
+#        SKELETON: 25
+# ==========================================================
+
+ranks:
+  1:
+    prefix: "&8[&f1 🪓&8]"
+    rewards_lore:
+      - "&7Prefijo personalizado"
+      - "&a+$2,500 de recompensa"
+    requirements:
+      money: 10000.0
+    commands:
+      - "eco give %player% 2500"
+
+  2:
+    prefix: "&8[&f2 🪓&8]"
+    rewards_lore:
+      - "&7Prefijo personalizado"
+      - "&a+$6,250 de recompensa"
+    requirements:
+      money: 25000.0
+    commands:
+      - "eco give %player% 6250"

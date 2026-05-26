@@ -1,3 +1,43 @@
-modules:
-  tempfly:
-    enabled: true
+# ==================================
+# Configuración del Spawn
+# Puedes editarlo aquí o usar /setspawn in-game
+# ==================================
+spawn:
+  delay: 5 # Tiempo de espera en segundos
+  cooldown: 60 # Segundos que debe esperar para volver a usar /spawn
+  world: spawn
+  x: 0.49366659455632556
+  y: 65.0
+  z: -5.108150860427635
+  yaw: 179.81322
+  pitch: -0.9035358
+  messages:
+    not-player: '&8[&c&l!&8] &fSolo los jugadores pueden ejecutar este comando.'
+    no-permission: '&8[&c&l!&8] &fNo tienes permisos para usar este comando.'
+    spawn-not-set: '&8[&e&l!&8] &fEl punto de Spawn aún no ha sido configurado. Avisa a un administrador.'
+    set-success: '&8[&e&l!&8] &f¡El punto de aparición &e(Spawn) &fha sido establecido en tu ubicación!'
+    already-teleporting: '&8[&e&l!&8] &fYa tienes un teletransporte en curso.'
+    teleport-start: '&8[&e&l!&8] &fSerás teletransportado al spawn. &e¡No te muevas!'
+    teleport-cancel: '&8[&c&l!&8] &cTeletransporte cancelado por movimiento.'
+    teleport-cancel-actionbar: '&c¡Teletransporte cancelado!'
+    teleport-success: '&8[&e&l!&8] &fHas sido teletransportado al Spawn.'
+    teleport-success-actionbar: '&e¡Has llegado al Spawn!'
+    teleport-actionbar: '&fTeletransportando en &e&n%time%&f segundos...'
+    cooldown-active: "&8[&e&l!&8] &fDebes esperar &e%time% &fsegundos para volver a ir al Spawn."
+# ==================================# ==================================# ==================================
+# ==================================# ==================================# ==================================
+# ==================================# ==================================# ==================================
+tempfly:
+  disabled-worlds:
+    - spawnnuevo
+    - dungeons
+dragon-event:
+  world: event_end
+  x: 0.3945676230728074
+  y: 71.25719633890954
+  z: -0.24107673300356286
+  yaw: -179.13281
+  pitch: 59.796646
+  interval: 2592000
+  duration: 1800
+  target-timestamp: 1781709707968

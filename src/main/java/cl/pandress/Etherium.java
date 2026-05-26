@@ -5,9 +5,14 @@ import cl.pandress.command.admin.*;
 import cl.pandress.command.player.DiscoveryCommand;
 import cl.pandress.command.player.QuestCommand;
 import cl.pandress.command.player.BattlePassCommand;
+import cl.pandress.command.player.SpawnCommand;
+// ---> COMANDOS RANKUP <---
+import cl.pandress.command.player.RankupCommand;
 
+import cl.pandress.modules.essentials.SpawnManager;
+import cl.pandress.command.admin.SetSpawnCommand;
 // Listeners y Menús
-import cl.pandress.modules.discord.ServerStatusTask;
+
 import cl.pandress.modules.quests.menus.QuestMenuListener;
 import cl.pandress.modules.quests.QuestListener;
 import cl.pandress.modules.battlepass.BattlePassListener;
@@ -22,6 +27,13 @@ import cl.pandress.modules.discoveries.menus.DiscoveryMenuListener;
 import cl.pandress.modules.headdeath.gui.CosmeticsGUI;
 import cl.pandress.modules.headdeath.gui.CosmeticsGUIListener;
 import cl.pandress.modules.headdeath.placeholders.HeadDeathPlaceholder;
+
+// --- RANKUP SYSTEM ---
+import cl.pandress.modules.rankup.RankManager;
+import cl.pandress.modules.rankup.RankListener;
+import cl.pandress.modules.rankup.menus.RankMenuListener;
+import cl.pandress.modules.rankup.menus.RankTopMenuListener;
+import cl.pandress.modules.rankup.placeholderapi.RankPlaceholder;
 
 // Cargadores de Chunks (KeepChunk)
 import cl.pandress.modules.keepchunk.KeepChunkManager;
@@ -49,12 +61,10 @@ import cl.pandress.command.admin.DragonEventCommand;
 // Managers
 import cl.pandress.modules.quests.QuestManager;
 import cl.pandress.modules.battlepass.BattlePassManager;
-import cl.pandress.modules.discord.DiscordManager;
 import cl.pandress.modules.areatools.AreaToolManager;
 import cl.pandress.modules.headdeath.HeadDeathManager;
 
 import cl.pandress.modules.battlepass.placeholderapi.BattlePassPlaceholder;
-import cl.pandress.modules.discord.placeholderapi.DiscordPlaceholder;
 
 // Utilidades, APIs y Vault
 import cl.pandress.utils.ChatUtils;
@@ -89,6 +99,7 @@ public class Etherium extends JavaPlugin {
             log("&aConectado exitosamente con Vault (Economía).");
         }
 
+        // El ManagerHandler se inicializa después de Vault para que RankManager pueda acceder a él.
         this.managerHandler = new ManagerHandler();
         this.spawnerMenuHandler = new CustomSpawnerMenu(managerHandler.getCustomSpawnerManager());
         
@@ -96,7 +107,6 @@ public class Etherium extends JavaPlugin {
 
         registerCommands();
         registerEvents();
-        setupDiscord();
         setupPlaceholders();
 
         loadDragonSchedule();
@@ -134,11 +144,11 @@ public class Etherium extends JavaPlugin {
             if (managerHandler.getDragonEventManager() != null) {
                 managerHandler.getDragonEventManager().cleanup();
             }
+            
             managerHandler.getQuestManager().shutdown();
             managerHandler.getBattlePassManager().shutdown();
         }
 
-        shutdownDiscord();
         log("&8[&eEtherium&8] &cPlugin Etherium desactivado.");
     }
 
@@ -193,11 +203,17 @@ public class Etherium extends JavaPlugin {
             getCommand("eth").setExecutor(EthCmd);
             getCommand("eth").setTabCompleter(EthCmd);
         }
-
+        if (getCommand("setspawn") != null) getCommand("setspawn").setExecutor(new SetSpawnCommand(managerHandler.getSpawnManager()));
+        if (getCommand("spawn") != null) getCommand("spawn").setExecutor(new SpawnCommand(managerHandler.getSpawnManager()));
         if (getCommand("misiones") != null) getCommand("misiones").setExecutor(new QuestCommand());
         if (getCommand("battlepass") != null) getCommand("battlepass").setExecutor(new BattlePassCommand());
         if (getCommand("misionesadmin") != null) getCommand("misionesadmin").setExecutor(new QuestAdminCommand());
         if (getCommand("tempfly") != null) getCommand("tempfly").setExecutor(new TempFlyCommand());
+
+        // ---> REGISTRO COMANDO RANKUP <---
+        if (getCommand("rankup") != null) {
+            getCommand("rankup").setExecutor(new RankupCommand());
+        }
 
         if (getCommand("ethtools") != null) {
             AreaToolCommand areaToolCommand = new AreaToolCommand(managerHandler.getAreaToolManager());
@@ -280,6 +296,11 @@ public class Etherium extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CustomSpawnerListener(managerHandler.getCustomSpawnerManager()), this);
         Bukkit.getPluginManager().registerEvents(spawnerMenuHandler, this);
 
+        // ---> REGISTRO LISTENERS RANKUP <---
+        Bukkit.getPluginManager().registerEvents(new RankListener(), this);
+        Bukkit.getPluginManager().registerEvents(new RankMenuListener(), this);
+        Bukkit.getPluginManager().registerEvents(new RankTopMenuListener(), this);
+
         if (managerHandler.getDiscoveryManager().isEnabled()) {
             Bukkit.getPluginManager().registerEvents(new DiscoveryMenuListener(managerHandler.getDiscoveryManager()), this);
         }
@@ -294,85 +315,20 @@ public class Etherium extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(dragonListener, this);
     }
 
-    private void setupDiscord() {
-        boolean isEnabled = managerHandler.getDiscordManager().getConfig().getBoolean("discord.enabled", true);
-        if (!isEnabled) {
-            log("&eMódulo de Discord desactivado desde la configuración.");
-            return;
-        }
 
-        String token = managerHandler.getDiscordManager().getConfig().getString("discord.token", "");
-        if (token == null || token.isEmpty() || token.equals("AQUI_PEGA_EL_TOKEN_DE_TU_BOT")) {
-            log("&eDiscord desactivado (Token inválido o vacío).");
-            return;
-        }
-
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            try {
-                jda = JDABuilder.createDefault(token)
-                        .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
-                        .build();
-
-                jda.awaitReady();
-
-                ServerStatusTask statusTask = new ServerStatusTask(this, jda);
-                statusTask.runTaskTimerAsynchronously(this, 100L, 1200L);
-
-                log("&9Bot de Discord conectado. Sistemas activos.");
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                log("&cDiscord init interrumpido: " + e.getMessage());
-            } catch (Exception e) {
-                log("&cError al iniciar el bot de Discord: " + e.getMessage());
-            }
-        });
-    }
 
     private void setupPlaceholders() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             Bukkit.getScheduler().runTaskLater(this, () -> {
                 new BattlePassPlaceholder().register();
-                new DiscordPlaceholder(this).register();
                 new DragonPlaceholders(this, managerHandler.getDragonScheduleManager()).register();
-                
                 new HeadDeathPlaceholder(this).register();
+                
+                // ---> REGISTRO PLACEHOLDER RANKUP <---
+                new RankPlaceholder().register();
                 
                 log("&aMódulo interno de Placeholders anclado correctamente a PlaceholderAPI.");
             }, 1L);
-        }
-    }
-
-    private void shutdownDiscord() {
-        if (jda == null) return;
-        log("&9Actualizando el estado de Discord a Offline...");
-
-        try {
-            String channelId = managerHandler.getDiscordManager().getConfig().getString("status-monitor.channel-id", "");
-            String messageId = managerHandler.getDiscordManager().getConfig().getString("status-monitor.message-id", "");
-
-            if (channelId != null && !channelId.isEmpty() && messageId != null && !messageId.isEmpty()) {
-                TextChannel channel = jda.getTextChannelById(channelId);
-                if (channel != null) {
-                    ServerStatusTask tempTask = new ServerStatusTask(this, jda);
-                    channel.editMessageEmbedsById(messageId, tempTask.buildStatusEmbed(false).build())
-                            .queue(
-                                    success -> log("&9Estado de Discord actualizado a Offline."),
-                                    error -> log("&cNo se pudo actualizar el embed de Discord: " + error.getMessage())
-                            );
-                }
-            }
-        } catch (Exception e) {
-            log("&cError apagando Discord: " + e.getMessage());
-        }
-
-        try {
-            jda.shutdown();
-            if (!jda.awaitShutdown(java.time.Duration.ofSeconds(2))) {
-                jda.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            jda.shutdownNow();
         }
     }
 
@@ -389,7 +345,6 @@ public class Etherium extends JavaPlugin {
     public class ManagerHandler {
         private final QuestManager questManager;
         private final BattlePassManager battlePassManager;
-        private final DiscordManager discordManager;
         private final AreaToolManager areaToolManager;
         private final HeadDeathManager headDeathManager;
         private final KeepChunkManager keepChunkManager;
@@ -398,11 +353,14 @@ public class Etherium extends JavaPlugin {
         private final HopperLinkManager hopperLinkManager;
         private final DragonEventManager dragonEventManager;
         private final DragonScheduleManager dragonScheduleManager;
+        private final SpawnManager spawnManager;
+        
+        // ---> NUEVO MANAGER RANKUP <---
+        private final RankManager rankManager;
 
         public ManagerHandler() {
             this.questManager = new QuestManager();
             this.battlePassManager = new BattlePassManager();
-            this.discordManager = new DiscordManager();
             this.areaToolManager = new AreaToolManager(Etherium.this);
             this.headDeathManager = new HeadDeathManager(Etherium.this);
             this.keepChunkManager = new KeepChunkManager(Etherium.this);
@@ -411,11 +369,14 @@ public class Etherium extends JavaPlugin {
             this.hopperLinkManager = new HopperLinkManager(Etherium.this);
             this.dragonEventManager = new DragonEventManager(Etherium.this);
             this.dragonScheduleManager = new DragonScheduleManager(Etherium.this, this.dragonEventManager);
+            this.spawnManager = new SpawnManager(Etherium.this);
+            
+            // ---> INICIALIZACIÓN RANKMANAGER <---
+            this.rankManager = new RankManager();
         }
 
         public QuestManager getQuestManager() { return questManager; }
         public BattlePassManager getBattlePassManager() { return battlePassManager; }
-        public DiscordManager getDiscordManager() { return discordManager; }
         public AreaToolManager getAreaToolManager() { return areaToolManager; }
         public HeadDeathManager getHeadDeathManager() { return headDeathManager; }
         public KeepChunkManager getKeepChunkManager() { return keepChunkManager; }
@@ -424,5 +385,9 @@ public class Etherium extends JavaPlugin {
         public HopperLinkManager getHopperLinkManager() { return hopperLinkManager; }
         public DragonEventManager getDragonEventManager() { return dragonEventManager; }
         public DragonScheduleManager getDragonScheduleManager() { return dragonScheduleManager; }
+        public SpawnManager getSpawnManager() { return spawnManager; }
+        
+        // ---> GETTER RANKMANAGER <---
+        public RankManager getRankManager() { return rankManager; }
     }
 }

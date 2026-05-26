@@ -38,10 +38,6 @@ public class ETHReloadCommand implements CommandExecutor, TabCompleter {
                         plugin.getManagerHandler().getBattlePassManager().reloadConfig();
                         sender.sendMessage(ChatUtils.colorize("&cⓘ &fConfiguración de BattlePass recargada."));
                         return true;
-                    case "discord":
-                        plugin.getManagerHandler().getDiscordManager().reloadConfig();
-                        sender.sendMessage(ChatUtils.colorize("&cⓘ &fConfiguración de Discord recargada."));
-                        return true;
                     case "headdeath":
                     case "cosmetics":
                         plugin.getManagerHandler().getHeadDeathManager().reloadConfig();
