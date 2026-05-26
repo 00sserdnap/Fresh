@@ -49,34 +49,39 @@ public class CustomSpawnerTask extends BukkitRunnable {
         for (CustomSpawnerData spawner : manager.getActiveSpawners().values()) {
             Location loc   = spawner.getLocation();
             World    world = loc.getWorld();
+
+            // Si el mundo todavía no está listo (puede pasar justo al arrancar
+            // el server antes de que todos los mundos terminen de registrarse),
+            // simplemente saltamos este tick para este spawner.
             if (world == null) continue;
 
             boolean canSpawn = false;
 
-            // ── Check 1: algún loader de KeepChunk cubre este spawner ──────────
-            // FIX: antes se llamaba loc.getChunk().getX() y
-            //      loader.getLocation().getChunk().getX() en cada iteración.
-            // Ambas llamadas pueden forzar ServerChunkCache.syncLoad() si el
-            // chunk no está en memoria, bloqueando el server thread.
-            //
-            // Ahora usamos spawner.getChunkX() / loader.getChunkX() que son
-            // enteros precalculados con blockX >> 4 — aritmética pura, O(1),
-            // sin tocar el mundo ni el chunk system.
+            // ── Check 1: algún loader de KeepChunk cubre este spawner ────────
+            // FIX: usamos spawner.getChunkX() / loader.getChunkX() que son
+            // enteros precalculados con blockX >> 4 (lazy, primera llamada).
+            // Antes se llamaba loc.getChunk().getX() en cada tick, lo que
+            // podía forzar ServerChunkCache.syncLoad() → bloqueo del server thread.
             if (keepChunkManager != null) {
                 int spawnerCX = spawner.getChunkX();
                 int spawnerCZ = spawner.getChunkZ();
 
                 for (KeepChunkData loader : keepChunkManager.getActiveLoaders().values()) {
                     if (!loader.isActive()) continue;
-                    if (!loader.getLocation().getWorld().equals(world)) continue;
+
+                    // Comparar mundo por nombre para evitar problemas de instancias
+                    // cuando el mundo se recarga o hay múltiples referencias.
+                    Location loaderLoc = loader.getLocation();
+                    if (loaderLoc.getWorld() == null) continue;
+                    if (!loaderLoc.getWorld().getName().equals(world.getName())) continue;
 
                     KeepChunkType type = keepChunkManager.getType(loader.getTypeId());
                     if (type == null) continue;
 
                     int radius = type.getRadius();
 
-                    // FIX: loader.getChunkX() / getChunkZ() en lugar de
-                    //      loader.getLocation().getChunk().getX() / getZ()
+                    // loader.getChunkX() / getChunkZ() — enteros cacheados,
+                    // sin getChunk(), sin syncLoad.
                     if (Math.abs(loader.getChunkX() - spawnerCX) <= radius &&
                         Math.abs(loader.getChunkZ() - spawnerCZ) <= radius) {
                         canSpawn = true;
@@ -85,14 +90,16 @@ public class CustomSpawnerTask extends BukkitRunnable {
                 }
             }
 
-            // ── Check 2: el chunk está force-loaded ───────────────────────────
-            // FIX: isForceLoaded() también llama getChunk() internamente en
-            //      algunas versiones de Paper/CraftBukkit, que puede derivar
-            //      en syncLoad. Lo reemplazamos verificando primero isChunkLoaded()
-            //      que solo mira si está en memoria sin cargarlo.
-            // Si ya está en memoria, getChunkAt() es O(1) desde el cache interno.
-            if (!canSpawn && world.isChunkLoaded(spawner.getChunkX(), spawner.getChunkZ())) {
-                if (world.getChunkAt(spawner.getChunkX(), spawner.getChunkZ()).isForceLoaded()) {
+            // ── Check 2: el chunk está force-loaded ──────────────────────────
+            // Restauramos la lógica original (isForceLoaded) pero la protegemos
+            // con isChunkLoaded() primero para evitar que getChunkAt() dispare
+            // un syncLoad cuando el chunk NO está en memoria.
+            // Si el chunk ya está cargado (porque KeepChunk lo forzó u otro
+            // motivo), getChunkAt() lo obtiene del cache interno en O(1).
+            if (!canSpawn) {
+                int cx = spawner.getChunkX();
+                int cz = spawner.getChunkZ();
+                if (world.isChunkLoaded(cx, cz) && world.getChunkAt(cx, cz).isForceLoaded()) {
                     canSpawn = true;
                 }
             }
@@ -108,7 +115,7 @@ public class CustomSpawnerTask extends BukkitRunnable {
                 }
             }
 
-            // Las partículas solo si hay razón para spawnear
+            // Partículas solo cuando hay razón para spawnear
             if (!canSpawn) continue;
 
             world.spawnParticle(Particle.FLAME,
