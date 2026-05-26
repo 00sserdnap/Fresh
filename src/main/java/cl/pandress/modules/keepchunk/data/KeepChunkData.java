@@ -1,10 +1,14 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package cl.pandress.modules.keepchunk.data;
 
-import org.bukkit.Location;
 import java.util.UUID;
+import org.bukkit.Location;
 
 public class KeepChunkData {
-
     private final UUID id;
     private final UUID owner;
     private String typeId;
@@ -16,65 +20,79 @@ public class KeepChunkData {
     private long activeSince;
     private boolean isTemporary;
 
-    // FIX: igual que CustomSpawnerData — lazy init para evitar NPE
-    // cuando loadData() reconstruye los loaders desde YAML y el mundo
-    // todavía puede no estar completamente registrado.
-    private Integer chunkX = null;
-    private Integer chunkZ = null;
-
-    public KeepChunkData(UUID id, UUID owner, String typeId, Location location,
-                          int fuel, boolean isTemporary) {
-        this.id            = id;
-        this.owner         = owner;
-        this.typeId        = typeId;
-        this.location      = location;
-        this.fuel          = fuel;
-        this.isTemporary   = isTemporary;
-        this.active        = false;
+    public KeepChunkData(UUID id, UUID owner, String typeId, Location location, int fuel, boolean isTemporary) {
+        this.id = id;
+        this.owner = owner;
+        this.typeId = typeId;
+        this.location = location;
+        this.fuel = fuel;
+        this.isTemporary = isTemporary;
+        this.active = false;
         this.showParticles = true;
-        this.activeSince   = 0;
+        this.activeSince = 0L;
     }
 
-    /**
-     * Coordenada X del chunk donde está este loader.
-     * Calculado con blockX >> 4 la primera vez y cacheado.
-     * Sin llamadas a getChunk(), sin syncLoad.
-     */
-    public int getChunkX() {
-        if (chunkX == null) chunkX = location.getBlockX() >> 4;
-        return chunkX;
+    public UUID getId() {
+        return this.id;
     }
 
-    /**
-     * Coordenada Z del chunk donde está este loader.
-     * Calculado con blockZ >> 4 la primera vez y cacheado.
-     * Sin llamadas a getChunk(), sin syncLoad.
-     */
-    public int getChunkZ() {
-        if (chunkZ == null) chunkZ = location.getBlockZ() >> 4;
-        return chunkZ;
+    public UUID getOwner() {
+        return this.owner;
     }
 
-    public UUID getId()                           { return id; }
-    public UUID getOwner()                        { return owner; }
-    public String getTypeId()                     { return typeId; }
-    public Location getLocation()                 { return location; }
+    public String getTypeId() {
+        return this.typeId;
+    }
 
-    public int getFuel()                          { return fuel; }
-    public void setFuel(int fuel)                 { this.fuel = Math.max(0, fuel); }
+    public Location getLocation() {
+        return this.location;
+    }
 
-    public boolean isActive()                     { return active; }
-    public void setActive(boolean active)         { this.active = active; }
+    public int getFuel() {
+        return this.fuel;
+    }
 
-    public String getCustomName()                 { return customName; }
-    public void setCustomName(String name)        { this.customName = name; }
+    public void setFuel(int fuel) {
+        this.fuel = Math.max(0, fuel);
+    }
 
-    public boolean isShowParticles()                        { return showParticles; }
-    public void setShowParticles(boolean showParticles)     { this.showParticles = showParticles; }
+    public boolean isActive() {
+        return this.active;
+    }
 
-    public long getActiveSince()                  { return activeSince; }
-    public void setActiveSince(long t)            { this.activeSince = t; }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-    public boolean isTemporary()                  { return isTemporary; }
-    public void setTemporary(boolean t)           { this.isTemporary = t; }
+    public String getCustomName() {
+        return this.customName;
+    }
+
+    public void setCustomName(String name) {
+        this.customName = name;
+    }
+
+    public boolean isShowParticles() {
+        return this.showParticles;
+    }
+
+    public void setShowParticles(boolean showParticles) {
+        this.showParticles = showParticles;
+    }
+
+    public long getActiveSince() {
+        return this.activeSince;
+    }
+
+    public void setActiveSince(long activeSince) {
+        this.activeSince = activeSince;
+    }
+
+    public boolean isTemporary() {
+        return this.isTemporary;
+    }
+
+    public void setTemporary(boolean temporary) {
+        this.isTemporary = temporary;
+    }
 }

@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package cl.pandress.modules.customspawners;
 
 import cl.pandress.modules.customspawners.data.CustomSpawnerData;
@@ -19,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 public class CustomSpawnerListener implements Listener {
-
     private final CustomSpawnerManager manager;
 
     public CustomSpawnerListener(CustomSpawnerManager manager) {
@@ -29,66 +33,64 @@ public class CustomSpawnerListener implements Listener {
     @EventHandler
     public void onSpawnerPlace(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
-        if (item.getType() != Material.SPAWNER || !item.hasItemMeta()) return;
+        if (item.getType() == Material.SPAWNER && item.hasItemMeta()) {
+            String typeStr = (String)item.getItemMeta().getPersistentDataContainer().get(this.manager.getTypeKey(), PersistentDataType.STRING);
+            if (typeStr != null) {
+                try {
+                    EntityType type = EntityType.valueOf(typeStr);
+                    Block block = event.getBlockPlaced();
+                    Player player = event.getPlayer();
+                    this.manager.addSpawner(block.getLocation(), type, player.getUniqueId(), player.getName());
+                    if (block.getState() instanceof CreatureSpawner) {
+                        CreatureSpawner spawner = (CreatureSpawner)block.getState();
+                        spawner.setSpawnedType(type);
+                        spawner.setSpawnCount(1);
+                        spawner.setRequiredPlayerRange(16);
+                        spawner.setMaxNearbyEntities(0);
+                        spawner.setMaxSpawnDelay(30000);
+                        spawner.setMinSpawnDelay(30000);
+                        spawner.update(true, false);
+                    }
 
-        String typeStr = item.getItemMeta().getPersistentDataContainer().get(manager.getTypeKey(), PersistentDataType.STRING);
-        if (typeStr != null) {
-            try {
-                EntityType type = EntityType.valueOf(typeStr);
-                Block block = event.getBlockPlaced();
-                Player player = event.getPlayer();
-                
-                manager.addSpawner(block.getLocation(), type, player.getUniqueId(), player.getName());
-                
-                if (block.getState() instanceof CreatureSpawner) {
-                    CreatureSpawner spawner = (CreatureSpawner) block.getState();
-                    spawner.setSpawnedType(type);
-                    spawner.setSpawnCount(1);
-                    spawner.setRequiredPlayerRange(16);
-                    spawner.setMaxNearbyEntities(0);
-                    spawner.setMaxSpawnDelay(30000);
-                    spawner.setMinSpawnDelay(30000);
-                    spawner.update(true, false); 
+                    String msg = this.manager.getMessage("placed").replace("{type}", type.name());
+                    event.getPlayer().sendMessage(msg);
+                } catch (IllegalArgumentException e) {
+                    String errorMsg = this.manager.getMessage("error").replace("{error}", e.getMessage());
+                    event.getPlayer().sendMessage(errorMsg);
                 }
-                
-                String msg = manager.getMessage("placed").replace("{type}", type.name());
-                event.getPlayer().sendMessage(msg);
-                
-            } catch (IllegalArgumentException e) {
-                String errorMsg = manager.getMessage("error").replace("{error}", e.getMessage());
-                event.getPlayer().sendMessage(errorMsg);
             }
+
         }
     }
 
     @EventHandler
     public void onSpawnerBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
-        if (block.getType() != Material.SPAWNER) return;
+        if (block.getType() == Material.SPAWNER) {
+            Location loc = block.getLocation();
+            CustomSpawnerData spawner = this.manager.getSpawnerAt(loc);
+            if (spawner != null) {
+                Player player = event.getPlayer();
+                this.manager.removeSpawner(loc);
+                if (player.getGameMode() != GameMode.CREATIVE) {
+                    ItemStack drop = this.manager.createSpawnerItem(spawner.getEntityType());
+                    loc.getWorld().dropItemNaturally(loc, drop);
+                }
 
-        Location loc = block.getLocation();
-        CustomSpawnerData spawner = manager.getSpawnerAt(loc);
-        
-        if (spawner != null) {
-            Player player = event.getPlayer();
-            manager.removeSpawner(loc);
-
-            if (player.getGameMode() != GameMode.CREATIVE) {
-                ItemStack drop = manager.createSpawnerItem(spawner.getEntityType());
-                loc.getWorld().dropItemNaturally(loc, drop);
+                event.setExpToDrop(0);
+                player.sendMessage(this.manager.getMessage("picked-up"));
             }
-            
-            event.setExpToDrop(0); 
-            player.sendMessage(manager.getMessage("picked-up"));
+
         }
     }
 
     @EventHandler
     public void onVanillaSpawn(SpawnerSpawnEvent event) {
         Location loc = event.getSpawner().getLocation();
-        if (manager.getSpawnerAt(loc) != null) {
+        if (this.manager.getSpawnerAt(loc) != null) {
             event.setCancelled(true);
         }
+
     }
 
     @EventHandler
@@ -97,12 +99,11 @@ public class CustomSpawnerListener implements Listener {
             Block block = event.getClickedBlock();
             if (block != null && block.getType() == Material.SPAWNER) {
                 ItemStack item = event.getItem();
-                if (item != null && item.getType().name().endsWith("_SPAWN_EGG")) {
-                    if (manager.getSpawnerAt(block.getLocation()) != null) {
-                        event.setCancelled(true);
-                    }
+                if (item != null && item.getType().name().endsWith("_SPAWN_EGG") && this.manager.getSpawnerAt(block.getLocation()) != null) {
+                    event.setCancelled(true);
                 }
             }
         }
+
     }
 }
