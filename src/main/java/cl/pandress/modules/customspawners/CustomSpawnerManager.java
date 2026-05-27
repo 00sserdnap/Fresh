@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package cl.pandress.modules.customspawners;
 
 import cl.pandress.modules.customspawners.data.CustomSpawnerData;
@@ -20,16 +15,22 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CustomSpawnerManager {
+public class CustomSpawnerManager implements Listener {
     public static final String NBT_SPAWNER_TYPE = "eth_spawner_type";
     private final JavaPlugin plugin;
     private FileConfiguration config;
@@ -45,7 +46,7 @@ public class CustomSpawnerManager {
     public final NamespacedKey keyPage;
     public final NamespacedKey keyOwner;
     public final NamespacedKey keyLoc;
-    private final Map<Location, CustomSpawnerData> activeSpawners = new HashMap();
+    private final Map<Location, CustomSpawnerData> activeSpawners = new HashMap<>();
     private final AtomicBoolean dirty = new AtomicBoolean(false);
     private boolean saveInProgress = false;
 
@@ -60,60 +61,142 @@ public class CustomSpawnerManager {
         this.loadMessages();
         this.loadMenus();
         this.loadData();
+
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         (new CustomSpawnerTask(this)).runTaskTimer(plugin, 20L, 20L);
+
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+            this.resolveNullWorlds();
+            this.reapplyAllSpawnerBlocks();
+            plugin.getLogger().info("[CustomSpawners] Inicialización completada. Spawners activos: " + activeSpawners.size());
+        }, 60L);
+
         Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             if (this.dirty.compareAndSet(true, false)) {
                 this.saveSpawnerDataAsync();
             }
-
         }, 6000L, 6000L);
     }
 
-    public void saveSpawnerData() {
-        this.dirty.set(true);
+    private void resolveNullWorlds() {
+        FileConfiguration freshData = YamlConfiguration.loadConfiguration(this.dataFile);
+        if (!freshData.contains("spawners")) return;
+
+        Map<Location, CustomSpawnerData> resolved = new HashMap<>();
+        for (Map.Entry<Location, CustomSpawnerData> entry : activeSpawners.entrySet()) {
+            CustomSpawnerData spawner = entry.getValue();
+            Location loc = spawner.getLocation();
+
+            if (loc.getWorld() == null) {
+                Location freshLoc = freshData.getLocation("spawners." + spawner.getId().toString() + ".location");
+                if (freshLoc != null && freshLoc.getWorld() != null) {
+                    CustomSpawnerData fixedSpawner = new CustomSpawnerData(
+                            spawner.getId(), freshLoc, spawner.getEntityType(),
+                            spawner.getOwnerId(), spawner.getOwnerName()
+                    );
+                    resolved.put(freshLoc, fixedSpawner);
+                } else {
+                    resolved.put(loc, spawner);
+                }
+            } else {
+                resolved.put(loc, spawner);
+            }
+        }
+        activeSpawners.clear();
+        activeSpawners.putAll(resolved);
     }
 
-    public void saveSpawnerDataSync() {
-        this.writeDataToFile();
+    public void applySpawnerBlock(Location loc, EntityType type) {
+        Block block = loc.getBlock();
+        if (block.getType() != Material.SPAWNER) return;
+        if (!(block.getState() instanceof CreatureSpawner cs)) return;
+
+        cs.setSpawnedType(type);
+        
+        // VALORES 100% VANILLA - Esto asegura que el cliente renderice el giro y el fuego
+        cs.setSpawnCount(4);
+        cs.setRequiredPlayerRange(16);
+        cs.setMaxNearbyEntities(6);
+        cs.setMinSpawnDelay(200);
+        cs.setMaxSpawnDelay(800);
+        if (cs.getDelay() <= 0) {
+            cs.setDelay(400); // Darle empujón visual si está atascado
+        }
+        cs.update(true, false);
     }
+
+    private void reapplyAllSpawnerBlocks() {
+        for (CustomSpawnerData spawner : activeSpawners.values()) {
+            Location loc = spawner.getLocation();
+            if (loc.getWorld() == null) continue;
+            if (!loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) continue;
+            if (loc.getBlock().getType() != Material.SPAWNER) continue;
+            applySpawnerBlock(loc, spawner.getEntityType());
+        }
+    }
+
+    @EventHandler
+    public void onChunkLoad(ChunkLoadEvent event) {
+        int cx = event.getChunk().getX();
+        int cz = event.getChunk().getZ();
+        World eventWorld = event.getWorld();
+
+        for (CustomSpawnerData spawner : activeSpawners.values()) {
+            Location loc = spawner.getLocation();
+            if (loc.getWorld() == null || !loc.getWorld().equals(eventWorld)) continue;
+
+            if ((loc.getBlockX() >> 4) == cx && (loc.getBlockZ() >> 4) == cz) {
+                Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    if (loc.getBlock().getType() == Material.SPAWNER) {
+                        applySpawnerBlock(loc, spawner.getEntityType());
+                    }
+                }, 10L);
+            }
+        }
+    }
+
+    public void saveSpawnerData() { this.dirty.set(true); }
+    public void saveSpawnerDataSync() { this.writeDataToFile(); }
 
     private void saveSpawnerDataAsync() {
         if (!this.saveInProgress) {
             this.saveInProgress = true;
-            Map<String, Object[]> snapshot = new HashMap();
+            Map<String, Object[]> snapshot = new HashMap<>();
 
-            for(CustomSpawnerData spawner : this.activeSpawners.values()) {
-                snapshot.put(spawner.getId().toString(), new Object[]{spawner.getLocation(), spawner.getEntityType().name(), spawner.getOwnerId() != null ? spawner.getOwnerId().toString() : null, spawner.getOwnerName()});
+            for (CustomSpawnerData spawner : this.activeSpawners.values()) {
+                snapshot.put(spawner.getId().toString(), new Object[]{
+                        spawner.getLocation().clone(),
+                        spawner.getEntityType().name(),
+                        spawner.getOwnerId() != null ? spawner.getOwnerId().toString() : null,
+                        spawner.getOwnerName()
+                });
             }
 
-            FileConfiguration tempData = new YamlConfiguration();
-
-            for(Map.Entry<String, Object[]> entry : snapshot.entrySet()) {
-                String path = "spawners." + (String)entry.getKey();
-                Object[] values = entry.getValue();
-                tempData.set(path + ".location", values[0]);
-                tempData.set(path + ".type", values[1]);
-                if (values[2] != null) {
-                    tempData.set(path + ".ownerId", values[2]);
-                    tempData.set(path + ".ownerName", values[3]);
+            Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
+                try {
+                    FileConfiguration tempData = new YamlConfiguration();
+                    for (Map.Entry<String, Object[]> entry : snapshot.entrySet()) {
+                        String path = "spawners." + entry.getKey();
+                        Object[] values = entry.getValue();
+                        tempData.set(path + ".location", values[0]);
+                        tempData.set(path + ".type", values[1]);
+                        if (values[2] != null) {
+                            tempData.set(path + ".ownerId", values[2]);
+                            tempData.set(path + ".ownerName", values[3]);
+                        }
+                    }
+                    tempData.save(this.dataFile);
+                } catch (IOException e) {
+                } finally {
+                    this.saveInProgress = false;
                 }
-            }
-
-            try {
-                tempData.save(this.dataFile);
-            } catch (IOException e) {
-                this.plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
-            } finally {
-                this.saveInProgress = false;
-            }
-
+            });
         }
     }
 
     private void writeDataToFile() {
-        this.data.set("spawners", (Object)null);
-
-        for(CustomSpawnerData spawner : this.activeSpawners.values()) {
+        this.data.set("spawners", null);
+        for (CustomSpawnerData spawner : this.activeSpawners.values()) {
             String path = "spawners." + spawner.getId().toString();
             this.data.set(path + ".location", spawner.getLocation());
             this.data.set(path + ".type", spawner.getEntityType().name());
@@ -122,38 +205,26 @@ public class CustomSpawnerManager {
                 this.data.set(path + ".ownerName", spawner.getOwnerName());
             }
         }
-
-        try {
-            this.data.save(this.dataFile);
-        } catch (IOException e) {
-            this.plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
-        }
-
+        try { this.data.save(this.dataFile); } catch (IOException ignored) {}
     }
 
     public void addSpawner(Location loc, EntityType type, UUID ownerId, String ownerName) {
         CustomSpawnerData spawner = new CustomSpawnerData(UUID.randomUUID(), loc, type, ownerId, ownerName);
         this.activeSpawners.put(loc, spawner);
+        applySpawnerBlock(loc, type);
         this.saveSpawnerData();
     }
 
     public void removeSpawner(Location loc) {
-        if (this.activeSpawners.remove(loc) != null) {
-            this.saveSpawnerData();
-        }
-
+        if (this.activeSpawners.remove(loc) != null) this.saveSpawnerData();
     }
 
     private void loadConfig() {
         File configFile = new File(this.plugin.getDataFolder(), "modules/customspawners/config.yml");
         configFile.getParentFile().mkdirs();
         if (!configFile.exists()) {
-            try {
-                configFile.createNewFile();
-            } catch (IOException var4) {
-            }
+            try { configFile.createNewFile(); } catch (IOException ignored) {}
         }
-
         this.config = YamlConfiguration.loadConfiguration(configFile);
         this.config.addDefault("settings.max-nearby-entities", 10);
         this.config.addDefault("settings.min-delay-seconds", 10);
@@ -164,23 +235,14 @@ public class CustomSpawnerManager {
         this.config.addDefault("webhook.enabled", false);
         this.config.addDefault("webhook.url", "TU_WEBHOOK_AQUI");
         this.config.options().copyDefaults(true);
-
-        try {
-            this.config.save(configFile);
-        } catch (IOException var3) {
-        }
-
+        try { this.config.save(configFile); } catch (IOException ignored) {}
     }
 
     private void loadMessages() {
         File msgFile = new File(this.plugin.getDataFolder(), "modules/customspawners/messages.yml");
         if (!msgFile.exists()) {
-            try {
-                msgFile.createNewFile();
-            } catch (IOException var4) {
-            }
+            try { msgFile.createNewFile(); } catch (IOException ignored) {}
         }
-
         this.messages = YamlConfiguration.loadConfiguration(msgFile);
         this.messages.addDefault("prefix", "&8[&eSpawners&8] ");
         this.messages.addDefault("placed", "&a¡Spawner de {type} colocado!");
@@ -199,20 +261,12 @@ public class CustomSpawnerManager {
         this.messages.addDefault("removed-success", "&c¡Spawner eliminado permanentemente!");
         this.messages.addDefault("error-loc", "&cError al gestionar la ubicación.");
         this.messages.options().copyDefaults(true);
-
-        try {
-            this.messages.save(msgFile);
-        } catch (IOException var3) {
-        }
-
+        try { this.messages.save(msgFile); } catch (IOException ignored) {}
     }
 
     private void loadMenus() {
         File menusFolder = new File(this.plugin.getDataFolder(), "modules/customspawners/menus");
-        if (!menusFolder.exists()) {
-            menusFolder.mkdirs();
-        }
-
+        if (!menusFolder.exists()) { menusFolder.mkdirs(); }
         File fMain = new File(menusFolder, "main.yml");
         this.menuMain = YamlConfiguration.loadConfiguration(fMain);
         this.menuMain.addDefault("title", "&8Menú de Spawners");
@@ -231,11 +285,7 @@ public class CustomSpawnerManager {
         this.menuMain.addDefault("items.list.lore", Arrays.asList("&7Mira la lista de jugadores con spawners", "&7y gestiona sus ubicaciones."));
         this.menuMain.addDefault("background.material", "BLACK_STAINED_GLASS_PANE");
         this.menuMain.options().copyDefaults(true);
-
-        try {
-            this.menuMain.save(fMain);
-        } catch (IOException var10) {
-        }
+        try { this.menuMain.save(fMain); } catch (IOException ignored) {}
 
         File fGive = new File(menusFolder, "give.yml");
         this.menuGive = YamlConfiguration.loadConfiguration(fGive);
@@ -247,11 +297,7 @@ public class CustomSpawnerManager {
         this.menuGive.addDefault("back-button.material", "BARRIER");
         this.menuGive.addDefault("back-button.name", "&cVolver");
         this.menuGive.options().copyDefaults(true);
-
-        try {
-            this.menuGive.save(fGive);
-        } catch (IOException var9) {
-        }
+        try { this.menuGive.save(fGive); } catch (IOException ignored) {}
 
         File fPlayerList = new File(menusFolder, "player_list.yml");
         this.menuPlayerList = YamlConfiguration.loadConfiguration(fPlayerList);
@@ -264,11 +310,7 @@ public class CustomSpawnerManager {
         this.menuPlayerList.addDefault("navigation.next.name", "&ePágina Siguiente ({page})");
         this.menuPlayerList.addDefault("navigation.next.lore", Arrays.asList("&7Restantes: &f{left}"));
         this.menuPlayerList.options().copyDefaults(true);
-
-        try {
-            this.menuPlayerList.save(fPlayerList);
-        } catch (IOException var8) {
-        }
+        try { this.menuPlayerList.save(fPlayerList); } catch (IOException ignored) {}
 
         File fPlayerSpawners = new File(menusFolder, "player_spawners.yml");
         this.menuPlayerSpawners = YamlConfiguration.loadConfiguration(fPlayerSpawners);
@@ -282,26 +324,17 @@ public class CustomSpawnerManager {
         this.menuPlayerSpawners.addDefault("navigation.next.name", "&ePágina Siguiente ({page})");
         this.menuPlayerSpawners.addDefault("navigation.next.lore", Arrays.asList("&7Restantes: &f{left}"));
         this.menuPlayerSpawners.options().copyDefaults(true);
-
-        try {
-            this.menuPlayerSpawners.save(fPlayerSpawners);
-        } catch (IOException var7) {
-        }
-
+        try { this.menuPlayerSpawners.save(fPlayerSpawners); } catch (IOException ignored) {}
     }
 
     private void loadData() {
         this.dataFile = new File(this.plugin.getDataFolder(), "modules/customspawners/data.yml");
         if (!this.dataFile.exists()) {
-            try {
-                this.dataFile.createNewFile();
-            } catch (IOException var10) {
-            }
+            try { this.dataFile.createNewFile(); } catch (IOException ignored) {}
         }
-
         this.data = YamlConfiguration.loadConfiguration(this.dataFile);
         if (this.data.contains("spawners")) {
-            for(String key : this.data.getConfigurationSection("spawners").getKeys(false)) {
+            for (String key : this.data.getConfigurationSection("spawners").getKeys(false)) {
                 try {
                     UUID id = UUID.fromString(key);
                     Location loc = this.data.getLocation("spawners." + key + ".location");
@@ -312,15 +345,11 @@ public class CustomSpawnerManager {
                         ownerId = UUID.fromString(this.data.getString("spawners." + key + ".ownerId"));
                         ownerName = this.data.getString("spawners." + key + ".ownerName");
                     }
-
                     CustomSpawnerData spawner = new CustomSpawnerData(id, loc, type, ownerId, ownerName);
                     this.activeSpawners.put(loc, spawner);
-                } catch (Exception var9) {
-                    this.plugin.getLogger().warning("[CustomSpawners] Error cargando spawner: " + key);
-                }
+                } catch (Exception e) {}
             }
         }
-
     }
 
     public String getMessage(String path) {
@@ -328,46 +357,16 @@ public class CustomSpawnerManager {
         String msg = this.messages.getString(path, "&cMensaje no encontrado: " + path);
         return ChatColor.translateAlternateColorCodes('&', prefix + msg);
     }
-
-    public CustomSpawnerData getSpawnerAt(Location loc) {
-        return (CustomSpawnerData)this.activeSpawners.get(loc);
-    }
-
-    public Map<Location, CustomSpawnerData> getActiveSpawners() {
-        return this.activeSpawners;
-    }
-
-    public FileConfiguration getConfig() {
-        return this.config;
-    }
-
-    public FileConfiguration getMessages() {
-        return this.messages;
-    }
-
-    public FileConfiguration getMenuMain() {
-        return this.menuMain;
-    }
-
-    public FileConfiguration getMenuGive() {
-        return this.menuGive;
-    }
-
-    public FileConfiguration getMenuPlayerList() {
-        return this.menuPlayerList;
-    }
-
-    public FileConfiguration getMenuPlayerSpawners() {
-        return this.menuPlayerSpawners;
-    }
-
-    public NamespacedKey getTypeKey() {
-        return this.typeKey;
-    }
-
-    public JavaPlugin getPlugin() {
-        return this.plugin;
-    }
+    public CustomSpawnerData getSpawnerAt(Location loc) { return this.activeSpawners.get(loc); }
+    public Map<Location, CustomSpawnerData> getActiveSpawners() { return this.activeSpawners; }
+    public FileConfiguration getConfig() { return this.config; }
+    public FileConfiguration getMessages() { return this.messages; }
+    public FileConfiguration getMenuMain() { return this.menuMain; }
+    public FileConfiguration getMenuGive() { return this.menuGive; }
+    public FileConfiguration getMenuPlayerList() { return this.menuPlayerList; }
+    public FileConfiguration getMenuPlayerSpawners() { return this.menuPlayerSpawners; }
+    public NamespacedKey getTypeKey() { return this.typeKey; }
+    public JavaPlugin getPlugin() { return this.plugin; }
 
     public ItemStack createSpawnerItem(EntityType type) {
         ItemStack item = new ItemStack(Material.SPAWNER);
@@ -376,19 +375,12 @@ public class CustomSpawnerManager {
         String nameFormat = this.config.getString("item.name", "&eSpawner Custom &7({type})");
         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', nameFormat.replace("{type}", type.name())));
         List<String> configLore = this.config.getStringList("item.lore");
-        List<String> finalLore = new ArrayList();
-
-        for(String line : configLore) {
+        List<String> finalLore = new ArrayList<>();
+        for (String line : configLore) {
             finalLore.add(ChatColor.translateAlternateColorCodes('&', line));
         }
-
         meta.setLore(finalLore);
-
-        try {
-            meta.addItemFlags(new ItemFlag[]{ItemFlag.valueOf("HIDE_ADDITIONAL_TOOLTIP")});
-        } catch (Exception var9) {
-        }
-
+        try { meta.addItemFlags(new ItemFlag[]{ItemFlag.valueOf("HIDE_ADDITIONAL_TOOLTIP")}); } catch (Exception ignored) {}
         item.setItemMeta(meta);
         return item;
     }

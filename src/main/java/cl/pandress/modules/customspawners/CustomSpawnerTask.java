@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package cl.pandress.modules.customspawners;
 
 import cl.pandress.Etherium;
@@ -42,89 +37,105 @@ public class CustomSpawnerTask extends BukkitRunnable {
 
     public void run() {
         long now = System.currentTimeMillis();
-        KeepChunkManager keepChunkManager = Etherium.getInstance().getManagerHandler().getKeepChunkManager();
+        KeepChunkManager keepChunkManager = null;
 
-        for(CustomSpawnerData spawner : this.manager.getActiveSpawners().values()) {
+        try {
+            keepChunkManager = Etherium.getInstance().getManagerHandler().getKeepChunkManager();
+        } catch (Exception ignored) {
+            // Si el manager no está listo, no pasa nada.
+        }
+
+        for (CustomSpawnerData spawner : this.manager.getActiveSpawners().values()) {
             Location loc = spawner.getLocation();
             World world = loc.getWorld();
-            if (world != null) {
-                boolean canSpawn = false;
-                if (keepChunkManager != null) {
-                    int spawnerChunkX = loc.getChunk().getX();
-                    int spawnerChunkZ = loc.getChunk().getZ();
 
-                    for(KeepChunkData loader : keepChunkManager.getActiveLoaders().values()) {
-                        if (loader.isActive() && loader.getLocation().getWorld().equals(world)) {
-                            KeepChunkType type = keepChunkManager.getType(loader.getTypeId());
-                            if (type != null) {
-                                int radius = type.getRadius();
-                                int loaderChunkX = loader.getLocation().getChunk().getX();
-                                int loaderChunkZ = loader.getLocation().getChunk().getZ();
-                                if (Math.abs(loaderChunkX - spawnerChunkX) <= radius && Math.abs(loaderChunkZ - spawnerChunkZ) <= radius) {
-                                    canSpawn = true;
-                                    break;
+            if (world == null) continue;
+
+            boolean canSpawn = false;
+
+            // 1. COMPROBAR SI HAY JUGADOR CERCA (Dentro de 64 bloques)
+            for (Player p : world.getPlayers()) {
+                if (p.getGameMode() != GameMode.SPECTATOR && p.getLocation().distanceSquared(loc) <= 4096.0) {
+                    canSpawn = true;
+                    break;
+                }
+            }
+
+            // 2. COMPROBAR SI EL CARGADOR DE CHUNKS LO ESTÁ CUBRIENDO (Solo si no hay jugador)
+            if (!canSpawn && keepChunkManager != null) {
+                int spawnerChunkX = loc.getBlockX() >> 4;
+                int spawnerChunkZ = loc.getBlockZ() >> 4;
+
+                for (KeepChunkData loader : keepChunkManager.getActiveLoaders().values()) {
+                    if (!loader.isActive()) continue; // Si está desactivado, saltamos.
+
+                    World loaderWorld = loader.getLocation().getWorld();
+                    if (loaderWorld == null || !loaderWorld.equals(world)) continue;
+
+                    KeepChunkType type = keepChunkManager.getType(loader.getTypeId());
+                    if (type == null) continue;
+
+                    int radius = type.getRadius();
+                    int loaderChunkX = loader.getLocation().getBlockX() >> 4;
+                    int loaderChunkZ = loader.getLocation().getBlockZ() >> 4;
+
+                    // Comprobación matemática (no carga chunks accidentalmente)
+                    if (Math.abs(loaderChunkX - spawnerChunkX) <= radius && Math.abs(loaderChunkZ - spawnerChunkZ) <= radius) {
+                        canSpawn = true;
+                        break;
+                    }
+                }
+            }
+
+            // 3. GENERAR EL MOB (Solo si pasó alguna de las pruebas anteriores)
+            if (canSpawn) {
+                // Última comprobación de seguridad: asegurarse de que el juego tiene el chunk cargado
+                if (!world.isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) continue;
+
+                // Partículas indicando que la tarea está intentando funcionar en este spawner
+                world.spawnParticle(Particle.FLAME, loc.clone().add(0.5, 0.5, 0.5), 2, 0.2, 0.2, 0.2, 0.02);
+
+                if (now >= spawner.getNextSpawnTime()) {
+                    Collection<Entity> nearby = world.getNearbyEntities(
+                            loc, 16.0, 16.0, 16.0,
+                            (entity) -> entity.getType() == spawner.getEntityType()
+                    );
+
+                    if (nearby.size() >= this.maxNearby) {
+                        spawner.setNextSpawnTime(now + 5000L);
+                    } else {
+                        int spawnsToAttempt = Math.max(1, this.mobsPerSpawn);
+
+                        for (int i = 0; i < spawnsToAttempt; i++) {
+                            int blockOffsetX = ThreadLocalRandom.current().nextInt(-1, 2);
+                            int blockOffsetZ = ThreadLocalRandom.current().nextInt(-1, 2);
+
+                            if (blockOffsetX == 0 && blockOffsetZ == 0) {
+                                if (ThreadLocalRandom.current().nextBoolean()) {
+                                    blockOffsetX = ThreadLocalRandom.current().nextBoolean() ? 1 : -1;
+                                } else {
+                                    blockOffsetZ = ThreadLocalRandom.current().nextBoolean() ? 1 : -1;
                                 }
                             }
-                        }
-                    }
-                }
 
-                if (!canSpawn && loc.getChunk().isForceLoaded()) {
-                    canSpawn = true;
-                }
+                            Location spawnLoc = new Location(world, loc.getBlockX() + blockOffsetX + 0.5, loc.getBlockY() + 1.0, loc.getBlockZ() + blockOffsetZ + 0.5);
 
-                if (!canSpawn) {
-                    for(Player p : world.getPlayers()) {
-                        if (p.getGameMode() != GameMode.SPECTATOR && p.getLocation().distanceSquared(loc) <= (double)4096.0F) {
-                            canSpawn = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (canSpawn) {
-                    world.spawnParticle(Particle.FLAME, loc.clone().add((double)0.5F, (double)0.5F, (double)0.5F), 2, 0.2, 0.2, 0.2, 0.02);
-                    if (now >= spawner.getNextSpawnTime()) {
-                        Collection<Entity> nearby = world.getNearbyEntities(loc, (double)16.0F, (double)16.0F, (double)16.0F, (entityx) -> entityx.getType() == spawner.getEntityType());
-                        if (nearby.size() >= this.maxNearby) {
-                            spawner.setNextSpawnTime(now + 5000L);
-                        } else {
-                            int spawned = 0;
-
-                            for(int i = 0; i < this.mobsPerSpawn; ++i) {
-                                int blockOffsetX = ThreadLocalRandom.current().nextInt(-1, 2);
-                                int blockOffsetZ = ThreadLocalRandom.current().nextInt(-1, 2);
-                                if (blockOffsetX == 0 && blockOffsetZ == 0) {
-                                    if (ThreadLocalRandom.current().nextBoolean()) {
-                                        blockOffsetX = ThreadLocalRandom.current().nextBoolean() ? 1 : -1;
-                                    } else {
-                                        blockOffsetZ = ThreadLocalRandom.current().nextBoolean() ? 1 : -1;
-                                    }
-                                }
-
-                                double exactX = (double)blockOffsetX + 0.2 + ThreadLocalRandom.current().nextDouble() * 0.6;
-                                double exactZ = (double)blockOffsetZ + 0.2 + ThreadLocalRandom.current().nextDouble() * 0.6;
-                                Location spawnLoc = loc.clone().add(exactX, (double)1.0F, exactZ);
-                                if (spawnLoc.getBlock().isPassable() && spawnLoc.clone().add((double)0.0F, (double)1.0F, (double)0.0F).getBlock().isPassable()) {
-                                    Entity entity = world.spawnEntity(spawnLoc, spawner.getEntityType());
+                            if (spawnLoc.getBlock().isPassable() && spawnLoc.clone().add(0.0, 1.0, 0.0).getBlock().isPassable()) {
+                                Entity entity = world.spawnEntity(spawnLoc, spawner.getEntityType());
+                                if (entity != null) {
                                     entity.setPersistent(true);
                                     if (entity instanceof Mob) {
-                                        ((Mob)entity).setRemoveWhenFarAway(false);
+                                        ((Mob) entity).setRemoveWhenFarAway(false);
                                     }
-
-                                    ++spawned;
                                 }
                             }
-
-                            if (spawned > 0) {
-                                long nextDelay = ThreadLocalRandom.current().nextLong((long)this.minDelay, (long)this.maxDelay + 1L);
-                                spawner.setNextSpawnTime(now + nextDelay);
-                            }
                         }
+
+                        long nextDelay = ThreadLocalRandom.current().nextLong((long) this.minDelay, (long) this.maxDelay + 1L);
+                        spawner.setNextSpawnTime(now + nextDelay);
                     }
                 }
             }
         }
-
     }
 }

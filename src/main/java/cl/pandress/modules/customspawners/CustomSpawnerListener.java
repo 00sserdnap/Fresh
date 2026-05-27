@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package cl.pandress.modules.customspawners;
 
 import cl.pandress.modules.customspawners.data.CustomSpawnerData;
@@ -23,6 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class CustomSpawnerListener implements Listener {
     private final CustomSpawnerManager manager;
 
@@ -40,17 +37,8 @@ public class CustomSpawnerListener implements Listener {
                     EntityType type = EntityType.valueOf(typeStr);
                     Block block = event.getBlockPlaced();
                     Player player = event.getPlayer();
+                    
                     this.manager.addSpawner(block.getLocation(), type, player.getUniqueId(), player.getName());
-                    if (block.getState() instanceof CreatureSpawner) {
-                        CreatureSpawner spawner = (CreatureSpawner)block.getState();
-                        spawner.setSpawnedType(type);
-                        spawner.setSpawnCount(1);
-                        spawner.setRequiredPlayerRange(16);
-                        spawner.setMaxNearbyEntities(0);
-                        spawner.setMaxSpawnDelay(30000);
-                        spawner.setMinSpawnDelay(30000);
-                        spawner.update(true, false);
-                    }
 
                     String msg = this.manager.getMessage("placed").replace("{type}", type.name());
                     event.getPlayer().sendMessage(msg);
@@ -59,7 +47,6 @@ public class CustomSpawnerListener implements Listener {
                     event.getPlayer().sendMessage(errorMsg);
                 }
             }
-
         }
     }
 
@@ -80,7 +67,6 @@ public class CustomSpawnerListener implements Listener {
                 event.setExpToDrop(0);
                 player.sendMessage(this.manager.getMessage("picked-up"));
             }
-
         }
     }
 
@@ -88,9 +74,15 @@ public class CustomSpawnerListener implements Listener {
     public void onVanillaSpawn(SpawnerSpawnEvent event) {
         Location loc = event.getSpawner().getLocation();
         if (this.manager.getSpawnerAt(loc) != null) {
+            // Cancelar el spawn vanilla SIEMPRE
             event.setCancelled(true);
+            
+            // CRÍTICO: Reiniciar el delay visual inmediatamente
+            // Esto asegura que el cliente NUNCA vea apagarse el spawner
+            CreatureSpawner cs = event.getSpawner();
+            cs.setDelay(ThreadLocalRandom.current().nextInt(200, 800));
+            cs.update(false, false);
         }
-
     }
 
     @EventHandler
@@ -104,6 +96,5 @@ public class CustomSpawnerListener implements Listener {
                 }
             }
         }
-
     }
 }

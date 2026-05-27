@@ -135,12 +135,28 @@ public class KeepChunkManager {
 
                     activeLoaders.put(id, loaderData);
 
-                    if (loadedTypes.containsKey(typeId) && active) toggleChunks(loaderData, true);
+                    // FIX: Delay de 20 ticks (1 segundo) para que el mundo
+                    // esté completamente listo antes de forzar los chunks.
+                    // Sin esto, al reiniciar el mundo puede ser null y
+                    // setChunkForceLoaded no hace nada.
+                    if (loadedTypes.containsKey(typeId) && active) {
+                        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                            if (loaderData.getLocation().getWorld() != null) {
+                                toggleChunks(loaderData, true);
+                                plugin.getLogger().info("[KeepChunk] Chunks forzados para loader: " + id + " (owner: " + loaderData.getCustomName() + ")");
+                            } else {
+                                plugin.getLogger().warning("[KeepChunk] Mundo null para loader: " + id + " - chunks NO forzados");
+                            }
+                        }, 20L);
+                    }
+
                 } catch (Exception e) {
                     plugin.getLogger().warning("[KeepChunk] Error cargando loader: " + key);
                 }
             }
         }
+
+        plugin.getLogger().info("[KeepChunk] Cargados " + activeLoaders.size() + " loaders desde data.yml");
     }
 
     public void saveLoaderData() {
@@ -214,7 +230,7 @@ public class KeepChunkManager {
             meta.setEnchantmentGlintOverride(true);
             meta.getPersistentDataContainer().set(chunkIdKey, PersistentDataType.STRING, type.getId());
             meta.getPersistentDataContainer().set(fuelKey, PersistentDataType.INTEGER, finalFuel);
-            
+
             if (isTemporary) {
                 meta.getPersistentDataContainer().set(tempKey, PersistentDataType.BYTE, (byte) 1);
             }
@@ -289,7 +305,7 @@ public class KeepChunkManager {
 
         KeepChunkData loaderData = new KeepChunkData(loaderId, actualOwner, typeId, loc, fuel, isTemporary);
         loaderData.setCustomName(displayName);
-        loaderData.setActive(true); // Se activa al colocarlo
+        loaderData.setActive(true);
         loaderData.setActiveSince(System.currentTimeMillis());
 
         activeLoaders.put(loaderId, loaderData);
@@ -337,7 +353,6 @@ public class KeepChunkManager {
                 KeepChunkType type = loadedTypes.get(loader.getTypeId());
                 if (type == null) continue;
 
-                // Solo apagar si NO es temporal y el dueño está offline mucho tiempo
                 if (!loader.isTemporary()) {
                     Player ownerPlayer = Bukkit.getPlayer(loader.getOwner());
                     if (ownerPlayer == null) {
@@ -352,7 +367,6 @@ public class KeepChunkManager {
                     }
                 }
 
-                // Lógica de consumo de combustible
                 if (!type.isPermanent() || loader.isTemporary()) {
                     loader.setFuel(loader.getFuel() - 1);
                     needsSave = true;
@@ -373,11 +387,11 @@ public class KeepChunkManager {
 
             if (!toRemove.isEmpty()) {
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    for(UUID id : toRemove) {
+                    for (UUID id : toRemove) {
                         KeepChunkData data = activeLoaders.get(id);
-                        if(data != null) {
-                            for(org.bukkit.entity.Entity e : data.getLocation().getWorld().getNearbyEntities(data.getLocation(), 1, 2, 1)) {
-                                if(e instanceof Villager && e.getPersistentDataContainer().has(getChunkIdKey(), PersistentDataType.STRING)) {
+                        if (data != null) {
+                            for (org.bukkit.entity.Entity e : data.getLocation().getWorld().getNearbyEntities(data.getLocation(), 1, 2, 1)) {
+                                if (e instanceof Villager && e.getPersistentDataContainer().has(getChunkIdKey(), PersistentDataType.STRING)) {
                                     e.remove();
                                 }
                             }
@@ -390,7 +404,7 @@ public class KeepChunkManager {
             }
 
             if (needsSave) saveLoaderData();
-        }, 1200L, 1200L); // 1 minuto
+        }, 1200L, 1200L);
     }
 
     private void startDiscordTask() {
