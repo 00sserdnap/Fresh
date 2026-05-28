@@ -6,6 +6,7 @@ import cl.pandress.utils.ChatUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -104,6 +105,9 @@ public class SpawnCommand implements CommandExecutor {
                     player.sendMessage(ChatUtils.colorize(config.getString("spawn.messages.teleport-success", "&aLlegaste al Spawn.")));
                     sendActionBar(player, config.getString("spawn.messages.teleport-success-actionbar", "&a¡Llegaste!"));
                     
+                    // NUEVO: Sonido al teletransportarse con éxito
+                    player.playSound(player.getLocation(), Sound.ENTITY_ENDERMAN_TELEPORT, 1.0f, 1.0f);
+                    
                     // Aplicar el cooldown solo si el TP fue exitoso
                     if (cooldownTime > 0) {
                         cooldowns.put(playerId, System.currentTimeMillis() + (cooldownTime * 1000L));
@@ -117,6 +121,10 @@ public class SpawnCommand implements CommandExecutor {
                 String abMsg = config.getString("spawn.messages.teleport-actionbar", "&eEn &c%time% &esegundos...")
                                      .replace("%time%", String.valueOf(timeLeft));
                 sendActionBar(player, abMsg);
+                
+                // NUEVO: Sonido de cuenta regresiva (tic) cada segundo
+                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                
                 timeLeft--;
             }
         };

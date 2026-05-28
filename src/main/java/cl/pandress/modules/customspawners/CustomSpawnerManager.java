@@ -57,16 +57,19 @@ public class CustomSpawnerManager implements Listener {
         this.keyPage = new NamespacedKey(plugin, "cs_page");
         this.keyOwner = new NamespacedKey(plugin, "cs_owner");
         this.keyLoc = new NamespacedKey(plugin, "cs_loc");
+        
         this.loadConfig();
         this.loadMessages();
         this.loadMenus();
-        this.loadData();
-
+        
         Bukkit.getPluginManager().registerEvents(this, plugin);
         (new CustomSpawnerTask(this)).runTaskTimer(plugin, 20L, 20L);
 
+        // SOLUCIÓN DEFINITIVA: Esperamos 3 segundos (60 ticks) DESPUÉS de que el server
+        // arranque para leer el data.yml. Esto asegura que Multiverse o cualquier otro
+        // generador de mundos ya haya cargado los mundos y no haya mundos "null".
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            this.resolveNullWorlds();
+            this.loadData();
             this.reapplyAllSpawnerBlocks();
             plugin.getLogger().info("[CustomSpawners] Inicialización completada. Spawners activos: " + activeSpawners.size());
         }, 60L);
@@ -78,34 +81,6 @@ public class CustomSpawnerManager implements Listener {
         }, 6000L, 6000L);
     }
 
-    private void resolveNullWorlds() {
-        FileConfiguration freshData = YamlConfiguration.loadConfiguration(this.dataFile);
-        if (!freshData.contains("spawners")) return;
-
-        Map<Location, CustomSpawnerData> resolved = new HashMap<>();
-        for (Map.Entry<Location, CustomSpawnerData> entry : activeSpawners.entrySet()) {
-            CustomSpawnerData spawner = entry.getValue();
-            Location loc = spawner.getLocation();
-
-            if (loc.getWorld() == null) {
-                Location freshLoc = freshData.getLocation("spawners." + spawner.getId().toString() + ".location");
-                if (freshLoc != null && freshLoc.getWorld() != null) {
-                    CustomSpawnerData fixedSpawner = new CustomSpawnerData(
-                            spawner.getId(), freshLoc, spawner.getEntityType(),
-                            spawner.getOwnerId(), spawner.getOwnerName()
-                    );
-                    resolved.put(freshLoc, fixedSpawner);
-                } else {
-                    resolved.put(loc, spawner);
-                }
-            } else {
-                resolved.put(loc, spawner);
-            }
-        }
-        activeSpawners.clear();
-        activeSpawners.putAll(resolved);
-    }
-
     public void applySpawnerBlock(Location loc, EntityType type) {
         Block block = loc.getBlock();
         if (block.getType() != Material.SPAWNER) return;
@@ -113,25 +88,34 @@ public class CustomSpawnerManager implements Listener {
 
         cs.setSpawnedType(type);
         
-        // VALORES 100% VANILLA - Esto asegura que el cliente renderice el giro y el fuego
-        cs.setSpawnCount(4);
-        cs.setRequiredPlayerRange(16);
-        cs.setMaxNearbyEntities(6);
+        // TRUCO VISUAL: Mantener estos valores permite que se vea el fuego y que el mob gire
+        cs.setRequiredPlayerRange(32);
         cs.setMinSpawnDelay(200);
         cs.setMaxSpawnDelay(800);
         if (cs.getDelay() <= 0) {
-            cs.setDelay(400); // Darle empujón visual si está atascado
+            cs.setDelay(400); // Darle empuje a la animación
         }
+        
+        // BLOQUEO VANILLA: Al poner esto en 0, el juego nunca soltará un mob por su cuenta,
+        // cediéndole el control total a nuestro CustomSpawnerTask.
+        cs.setSpawnCount(0);
+        cs.setMaxNearbyEntities(0);
+        
         cs.update(true, false);
     }
 
     private void reapplyAllSpawnerBlocks() {
+        int count = 0;
         for (CustomSpawnerData spawner : activeSpawners.values()) {
             Location loc = spawner.getLocation();
             if (loc.getWorld() == null) continue;
             if (!loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) continue;
             if (loc.getBlock().getType() != Material.SPAWNER) continue;
             applySpawnerBlock(loc, spawner.getEntityType());
+            count++;
+        }
+        if (count > 0) {
+            plugin.getLogger().info("[CustomSpawners] Reconfigurados " + count + " bloques spawner visualmente.");
         }
     }
 
@@ -145,18 +129,26 @@ public class CustomSpawnerManager implements Listener {
             Location loc = spawner.getLocation();
             if (loc.getWorld() == null || !loc.getWorld().equals(eventWorld)) continue;
 
-            if ((loc.getBlockX() >> 4) == cx && (loc.getBlockZ() >> 4) == cz) {
+            int scx = loc.getBlockX() >> 4;
+            int scz = loc.getBlockZ() >> 4;
+
+            if (scx == cx && scz == cz) {
                 Bukkit.getScheduler().runTaskLater(plugin, () -> {
                     if (loc.getBlock().getType() == Material.SPAWNER) {
                         applySpawnerBlock(loc, spawner.getEntityType());
                     }
-                }, 10L);
+                }, 5L);
             }
         }
     }
 
-    public void saveSpawnerData() { this.dirty.set(true); }
-    public void saveSpawnerDataSync() { this.writeDataToFile(); }
+    public void saveSpawnerData() {
+        this.dirty.set(true);
+    }
+
+    public void saveSpawnerDataSync() {
+        this.writeDataToFile();
+    }
 
     private void saveSpawnerDataAsync() {
         if (!this.saveInProgress) {
@@ -187,6 +179,7 @@ public class CustomSpawnerManager implements Listener {
                     }
                     tempData.save(this.dataFile);
                 } catch (IOException e) {
+                    this.plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
                 } finally {
                     this.saveInProgress = false;
                 }
@@ -205,7 +198,11 @@ public class CustomSpawnerManager implements Listener {
                 this.data.set(path + ".ownerName", spawner.getOwnerName());
             }
         }
-        try { this.data.save(this.dataFile); } catch (IOException ignored) {}
+        try {
+            this.data.save(this.dataFile);
+        } catch (IOException e) {
+            this.plugin.getLogger().warning("[CustomSpawners] Error al guardar datos: " + e.getMessage());
+        }
     }
 
     public void addSpawner(Location loc, EntityType type, UUID ownerId, String ownerName) {
@@ -216,7 +213,9 @@ public class CustomSpawnerManager implements Listener {
     }
 
     public void removeSpawner(Location loc) {
-        if (this.activeSpawners.remove(loc) != null) this.saveSpawnerData();
+        if (this.activeSpawners.remove(loc) != null) {
+            this.saveSpawnerData();
+        }
     }
 
     private void loadConfig() {
@@ -267,6 +266,7 @@ public class CustomSpawnerManager implements Listener {
     private void loadMenus() {
         File menusFolder = new File(this.plugin.getDataFolder(), "modules/customspawners/menus");
         if (!menusFolder.exists()) { menusFolder.mkdirs(); }
+
         File fMain = new File(menusFolder, "main.yml");
         this.menuMain = YamlConfiguration.loadConfiguration(fMain);
         this.menuMain.addDefault("title", "&8Menú de Spawners");
@@ -338,6 +338,13 @@ public class CustomSpawnerManager implements Listener {
                 try {
                     UUID id = UUID.fromString(key);
                     Location loc = this.data.getLocation("spawners." + key + ".location");
+                    
+                    // Si el mundo sigue siendo null incluso después de la carga retrasada, lo evitamos
+                    if (loc == null || loc.getWorld() == null) {
+                        this.plugin.getLogger().warning("[CustomSpawners] Mundo no cargado para spawner: " + key);
+                        continue; 
+                    }
+                    
                     EntityType type = EntityType.valueOf(this.data.getString("spawners." + key + ".type"));
                     UUID ownerId = null;
                     String ownerName = "Desconocido";
@@ -345,9 +352,12 @@ public class CustomSpawnerManager implements Listener {
                         ownerId = UUID.fromString(this.data.getString("spawners." + key + ".ownerId"));
                         ownerName = this.data.getString("spawners." + key + ".ownerName");
                     }
+
                     CustomSpawnerData spawner = new CustomSpawnerData(id, loc, type, ownerId, ownerName);
                     this.activeSpawners.put(loc, spawner);
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    this.plugin.getLogger().warning("[CustomSpawners] Error cargando spawner: " + key);
+                }
             }
         }
     }

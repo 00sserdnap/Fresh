@@ -38,6 +38,7 @@ public class CustomSpawnerListener implements Listener {
                     Block block = event.getBlockPlaced();
                     Player player = event.getPlayer();
                     
+                    // Llama a la gestión, la cual aplica internamente los visuales correctos
                     this.manager.addSpawner(block.getLocation(), type, player.getUniqueId(), player.getName());
 
                     String msg = this.manager.getMessage("placed").replace("{type}", type.name());
@@ -74,11 +75,9 @@ public class CustomSpawnerListener implements Listener {
     public void onVanillaSpawn(SpawnerSpawnEvent event) {
         Location loc = event.getSpawner().getLocation();
         if (this.manager.getSpawnerAt(loc) != null) {
-            // Cancelar el spawn vanilla SIEMPRE
-            event.setCancelled(true);
+            event.setCancelled(true); // Cancela el spawn Vanilla
             
-            // CRÍTICO: Reiniciar el delay visual inmediatamente
-            // Esto asegura que el cliente NUNCA vea apagarse el spawner
+            // Empuja visualmente la animación para que nunca se apague el fuego
             CreatureSpawner cs = event.getSpawner();
             cs.setDelay(ThreadLocalRandom.current().nextInt(200, 800));
             cs.update(false, false);

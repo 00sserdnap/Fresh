@@ -42,18 +42,21 @@ public class CustomSpawnerTask extends BukkitRunnable {
         try {
             keepChunkManager = Etherium.getInstance().getManagerHandler().getKeepChunkManager();
         } catch (Exception ignored) {
-            // Si el manager no está listo, no pasa nada.
+            // KeepChunkManager aún no inicializado
         }
 
         for (CustomSpawnerData spawner : this.manager.getActiveSpawners().values()) {
             Location loc = spawner.getLocation();
             World world = loc.getWorld();
 
+            // Seguro saltar si es nulo, porque CustomSpawnerManager ya corrigió la carga
             if (world == null) continue;
 
             boolean canSpawn = false;
+            int bX = loc.getBlockX();
+            int bZ = loc.getBlockZ();
 
-            // 1. COMPROBAR SI HAY JUGADOR CERCA (Dentro de 64 bloques)
+            // ═══ CHECK 1: jugador cercano (Comportamiento natural 64 bloques) ═══
             for (Player p : world.getPlayers()) {
                 if (p.getGameMode() != GameMode.SPECTATOR && p.getLocation().distanceSquared(loc) <= 4096.0) {
                     canSpawn = true;
@@ -61,25 +64,26 @@ public class CustomSpawnerTask extends BukkitRunnable {
                 }
             }
 
-            // 2. COMPROBAR SI EL CARGADOR DE CHUNKS LO ESTÁ CUBRIENDO (Solo si no hay jugador)
+            // ═══ CHECK 2: Cargador de Chunks de Etherium ═══
             if (!canSpawn && keepChunkManager != null) {
-                int spawnerChunkX = loc.getBlockX() >> 4;
-                int spawnerChunkZ = loc.getBlockZ() >> 4;
+                int spawnerChunkX = bX >> 4;
+                int spawnerChunkZ = bZ >> 4;
 
                 for (KeepChunkData loader : keepChunkManager.getActiveLoaders().values()) {
-                    if (!loader.isActive()) continue; // Si está desactivado, saltamos.
+                    if (!loader.isActive()) continue;
 
-                    World loaderWorld = loader.getLocation().getWorld();
+                    Location loaderLoc = loader.getLocation();
+                    World loaderWorld = loaderLoc.getWorld();
                     if (loaderWorld == null || !loaderWorld.equals(world)) continue;
 
                     KeepChunkType type = keepChunkManager.getType(loader.getTypeId());
                     if (type == null) continue;
 
                     int radius = type.getRadius();
-                    int loaderChunkX = loader.getLocation().getBlockX() >> 4;
-                    int loaderChunkZ = loader.getLocation().getBlockZ() >> 4;
+                    int loaderChunkX = loaderLoc.getBlockX() >> 4;
+                    int loaderChunkZ = loaderLoc.getBlockZ() >> 4;
 
-                    // Comprobación matemática (no carga chunks accidentalmente)
+                    // Si el spawner está dentro del radio del cargador activo
                     if (Math.abs(loaderChunkX - spawnerChunkX) <= radius && Math.abs(loaderChunkZ - spawnerChunkZ) <= radius) {
                         canSpawn = true;
                         break;
@@ -87,12 +91,12 @@ public class CustomSpawnerTask extends BukkitRunnable {
                 }
             }
 
-            // 3. GENERAR EL MOB (Solo si pasó alguna de las pruebas anteriores)
+            // ═══ SPAWN LÓGICA ═══
             if (canSpawn) {
-                // Última comprobación de seguridad: asegurarse de que el juego tiene el chunk cargado
-                if (!world.isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) continue;
+                // Previene errores: NUNCA intentamos spawnear si el chunk está descargado por Minecraft
+                if (!world.isChunkLoaded(bX >> 4, bZ >> 4)) continue;
 
-                // Partículas indicando que la tarea está intentando funcionar en este spawner
+                // Partículas indicando que el spawner está activo
                 world.spawnParticle(Particle.FLAME, loc.clone().add(0.5, 0.5, 0.5), 2, 0.2, 0.2, 0.2, 0.02);
 
                 if (now >= spawner.getNextSpawnTime()) {
@@ -104,9 +108,9 @@ public class CustomSpawnerTask extends BukkitRunnable {
                     if (nearby.size() >= this.maxNearby) {
                         spawner.setNextSpawnTime(now + 5000L);
                     } else {
-                        int spawnsToAttempt = Math.max(1, this.mobsPerSpawn);
+                        int spawned = 0;
 
-                        for (int i = 0; i < spawnsToAttempt; i++) {
+                        for (int i = 0; i < this.mobsPerSpawn; i++) {
                             int blockOffsetX = ThreadLocalRandom.current().nextInt(-1, 2);
                             int blockOffsetZ = ThreadLocalRandom.current().nextInt(-1, 2);
 
@@ -118,7 +122,9 @@ public class CustomSpawnerTask extends BukkitRunnable {
                                 }
                             }
 
-                            Location spawnLoc = new Location(world, loc.getBlockX() + blockOffsetX + 0.5, loc.getBlockY() + 1.0, loc.getBlockZ() + blockOffsetZ + 0.5);
+                            double exactX = blockOffsetX + 0.2 + ThreadLocalRandom.current().nextDouble() * 0.6;
+                            double exactZ = blockOffsetZ + 0.2 + ThreadLocalRandom.current().nextDouble() * 0.6;
+                            Location spawnLoc = loc.clone().add(exactX, 1.0, exactZ);
 
                             if (spawnLoc.getBlock().isPassable() && spawnLoc.clone().add(0.0, 1.0, 0.0).getBlock().isPassable()) {
                                 Entity entity = world.spawnEntity(spawnLoc, spawner.getEntityType());
@@ -127,12 +133,15 @@ public class CustomSpawnerTask extends BukkitRunnable {
                                     if (entity instanceof Mob) {
                                         ((Mob) entity).setRemoveWhenFarAway(false);
                                     }
+                                    spawned++;
                                 }
                             }
                         }
 
-                        long nextDelay = ThreadLocalRandom.current().nextLong((long) this.minDelay, (long) this.maxDelay + 1L);
-                        spawner.setNextSpawnTime(now + nextDelay);
+                        if (spawned > 0) {
+                            long nextDelay = ThreadLocalRandom.current().nextLong(this.minDelay, (long) this.maxDelay + 1L);
+                            spawner.setNextSpawnTime(now + nextDelay);
+                        }
                     }
                 }
             }
